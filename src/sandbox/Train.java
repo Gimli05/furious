@@ -1,5 +1,117 @@
 package sandbox;
 
-public class Train {
+import java.awt.Color;
+import java.util.ArrayList;
 
+/**
+ * Magába foglal egy mozdonyt és tetszõleges számú vagont. Képes az egyel elõrébb lévõ sínre helyezni a mozdonyát és az összes vagonját. 
+ * Mikor a helyére hivatkozunk, a mozdony helyét értjük alatta. Visitorként képes a síneken és az azokból leszármazó speciális síneken lépkedni. 
+ * Mikor egy sínre szeretne lépni, átad neki egy magára  mutató referenciát. A sín ezután meghívja a vonat visit metódusát, átadva neki magát paraméterként. 
+ * Ezután a vonat már lekérdezheti, hogy hova kell lépnie a következõ körben a sín getNextRail metódusával és a saját tárolt sínjeivel. 
+ * Le tudja szállítani az utasokat a vagonjairól, ha az állomás amire rálép a mozdony, olyan színû mint a legelsõ nem üres vagonnak.
+ */
+public class Train implements Visitor{
+	private Rail nextRail;  /* A következõ sínre mutató pointer. A következõ léptetéskor ezen fog meghívódni a rail accept() függvénye. */
+	
+	private Rail previousRail; /* Ez tárolja, hogy honnan jött a vonat. Ennek segítségével a Railek könnyedén meg tudják mondani, 
+								* hogy a lehetséges útvonalak közül melyik az, amerre tovább kell haladnia a vonatnak. */
+	
+	private Engine engine; /* A mozdony a vonatban. */
+	
+	private ArrayList<Cab> cabins; /* A vonatban található kabinok listája. Mindegyik kabin egy saját színnel rendelkezik, 
+									* melyek a mozdonytól hátrafelé tudnak kiürülni, 
+									* amennyiben az elõttük levõ kabin már üres és a saját színükkel egyezõ színû állomásra értek. */
+	
+	
+	/**
+	 * A vonat konstruktora. Listában megkapja a kabinok színeit.
+	 * Ahány kabin színt kap, annyi kabint fog létrehozni, mindegyik kabint tele tölti utassal.
+	 * @param cabColors	A kabinok színeit tartalmazó lista.
+	 */
+	public Train(ArrayList<Color> cabColors){
+		//TODO: kitölteni.
+	}
+	
+	
+	/**
+	 * Megadja az elsõ nem üres kabin színét. Ennek segítségével amikor egy állomást megvisitel, az állomás le tudja szállíttatni az oda tartozó utasokat. 
+	 * Amennyiben a fekete színnel tér vissza, minden kabinból kiürültek az utasok.
+	 * 
+	 * @return 	Az elsõ nem üres kabin színe.
+	 */
+	public Color getFirstNotEmptyCabColor(){
+		//TODO: kitölteni.
+		return null;
+	}
+	
+	
+	/**
+	 * A mozdonytól hátrafelé nézve legelsõ nem üres kabinból leszállítja az utasokat. 
+	 * A trainStation accept metódusa alatt hívodhat meg, így garantálva van, 
+	 * hogy az adott TrainStationnek a kabinnal megegyezõ a színe (csak akkor hívja meg, ha ez teljesül).
+	 */
+	public void emptyTheFirstNotEmptyCab(){
+		//TODO: kitölteni.
+	}
+	
+	
+	/**
+	 * Ez a függvény adja meg, hogy hova kell legközelebb lépnie. Amikor a TrainCollection végiglép minden vonaton, 
+	 * mindegyik vonatnak lekéri a következõ Railt ahova lépnie kell, amin meghívja a rail accept() függvényét.
+	 * 
+	 * @return A következõ sín, ahova lépnie kell majd a vonatnak.
+	 */
+	public Rail getNextRail(){
+		return nextRail;
+	}
+	
+	
+	/**
+	 * Ezzel lehet beállítani egy adott lépés végével, hogy hova kell legközelebb lépnie a vonatnak.
+	 * 
+	 * @param rail	A k0vetkezõ sín, ahova lépni fog majd a vonat.
+	 */
+	public void setNextRail(Rail rail){
+		previousRail = nextRail;
+		nextRail = rail; /* frissítjük, hogy honnan jöttünk, és elmentjük, hogy hová fogunk menni. */ 
+	}
+
+	
+	/* 
+	 * Az összes a Visitorban található Visit metódus Overrideolása.
+	 * Mindegyik függvény egy bizonyos síntípus meglátogatására szolgál. Bõvebb leírás a Visitorban.
+	 */
+	@Override
+	public void visit(Rail rail) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	@Override
+	public void visit(Switch rail) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	@Override
+	public void visit(TunnelEntrance rail) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	@Override
+	public void visit(Tunnel rail) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	@Override
+	public void visit(TrainStation rail) {
+		// TODO Auto-generated method stub
+		
+	}
 }

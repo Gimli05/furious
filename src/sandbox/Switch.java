@@ -1,5 +1,41 @@
 package sandbox;
 
+/**
+ * Speciális sín, két lehetséges továbbhaladási iránnyal. Összesen 3 másik sínnel szomszédos. 
+ * A felhasználó tudja beállítani, hogy a két lehetséges továbbhaladási irány közül melyik aktív. 
+ * Visitor fogadásánál ezt felhasználva mondja meg, hogy az õsbõl származó (de felülírt) getNextRail metódusa mivel tér vissza.
+ */
 public class Switch extends Rail{
-
+	private Boolean state; /* A váltó állapotát tároló változó. A váltónak két állapota lehet: módosítja az irányt, vagy nem módosítja azt. 
+							* Ha módosítja, akkor true az értéke, ha nem módosítja az irány, akkor false. Ha módosítja az irányt, 
+							* akkor a menetirány szerinti jobb vagy bal oldalra irányítja át a vonatot, ha nem módosítja, akkor egyenesen küldi tovább. */
+	
+	
+	/**
+	 * A váltó konstruktora.
+	 * Alap értelmezetten nem módosít a vonat irányán.
+	 */
+	public Switch(){
+		state = false;
+	}
+	
+	
+	/**
+	 * !!!MIVEL A JAVABAN VAN ALAP SWITCH EZÉRT ÁT KELLET ÍRNOM SWITCHRAIL-RE A FÜGGVÉNYNEVET!!!!
+	 * A váltó irányának megváltoztatására szolgál. A játékos aktiválja a váltót, melyre ez a függvény hívódik meg Ha eddig a state true-volt akkor most false lesz, 
+	 * ha false volt akkor pedig true. Ezzel megvalósul, hogy ha eddig megváltoztatta az irányt a váltó, akkor most pont át fogja engedni egyenesen, ha eddig átengedte, most elkanyarítja.
+	 */
+	public void switchRail(){ /*Eredetileg switch() */
+		if (state == true){
+			state = false;
+		} else {
+			state = true;
+		}
+	}
+	
+	
+	@Override
+	public void accept(Visitor visitor){
+		//TODO: kitölteni.
+	}
 }
