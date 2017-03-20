@@ -29,7 +29,11 @@ public class Train implements Visitor{
 	 * @param cabColors	A kabinok színeit tartalmazó lista.
 	 */
 	public Train(ArrayList<Color> cabColors){
-		//TODO: kitölteni.
+		this.engine=new Engine();
+		this.cabins=new ArrayList<Cab>();
+		for(Color color:cabColors){
+			cabins.add(cabins.size(), new Cab(color)); //Így tartja a sorrendet, mindig a végére szúrunk be.
+		}
 	}
 	
 	
@@ -41,7 +45,11 @@ public class Train implements Visitor{
 	 */
 	public Color getFirstNotEmptyCabColor(){
 		//TODO: kitölteni.
-		return null;
+		//Default fekete
+		for(Cab c:cabins){
+			if(c.isFull())return c.getColor();
+		}
+		return Color.BLACK;
 	}
 	
 	
@@ -51,7 +59,12 @@ public class Train implements Visitor{
 	 * hogy az adott TrainStationnek a kabinnal megegyezõ a színe (csak akkor hívja meg, ha ez teljesül).
 	 */
 	public void emptyTheFirstNotEmptyCab(){
-		//TODO: kitölteni.
+		for(Cab c:cabins){
+			if(c.isFull()){
+				c.emptyCab();
+				return;
+			}
+		}
 	}
 	
 	
@@ -84,34 +97,44 @@ public class Train implements Visitor{
 	@Override
 	public void visit(Rail rail) {
 		// TODO Auto-generated method stub
-		
+		if(!rail.CheckIfOccupied()){
+			this.setNextRail(rail.getNextRail(previousRail));
+		}
 	}
 
 	
 	@Override
 	public void visit(Switch rail) {
 		// TODO Auto-generated method stub
-		
+		if(!rail.CheckIfOccupied()){
+			this.setNextRail(rail.getNextRail(previousRail));
+		}
 	}
 
 	
 	@Override
 	public void visit(TunnelEntrance rail) {
 		// TODO Auto-generated method stub
-		
+		if(!rail.CheckIfOccupied()){
+			this.setNextRail(rail.getNextRail(previousRail));
+		}
 	}
 
 	
 	@Override
 	public void visit(Tunnel rail) {
 		// TODO Auto-generated method stub
-		
+		if(!rail.CheckIfOccupied()){
+			this.setNextRail(rail.getNextRail(previousRail));
+		}
 	}
 
 	
 	@Override
 	public void visit(TrainStation rail) {
 		// TODO Auto-generated method stub
-		
+		if(!rail.CheckIfOccupied()){
+			this.setNextRail(rail.getNextRail(previousRail));
+		}
 	}
 }

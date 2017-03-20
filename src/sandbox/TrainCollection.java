@@ -18,6 +18,11 @@ public class TrainCollection {
 	 */
 	public void moveAllTrains(){
 		//TODO: kitölteni.
+		
+		for(Train train: trains){
+			Rail rail=train.getNextRail();
+			rail.accept(train);
+		}
 	}
 	
 	

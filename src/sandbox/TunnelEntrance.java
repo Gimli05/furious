@@ -1,10 +1,18 @@
 package sandbox;
 
+import java.util.ArrayList;
+
 /**
  * Speciális váltó. Egyszerre csak kettõ lehet aktív. A felhasználó határozza meg, hogy a pályán melyik két alagútszáj legyen aktív. 
  * Ha van két aktív alagútszáj a pályán, akkor váltóként mûködik, aminek a két lehetséges állása van. Az egyik az eddig is létezõ irány, a másik a létrejött alagút felé mutat.
  */
 public class TunnelEntrance extends Switch{
+	public TunnelEntrance(ArrayList<Rail> neighbourRails) {
+		super(neighbourRails);
+		// TODO Auto-generated constructor stub
+	}
+
+
 	private Boolean isActivated; /* Megadja, hogy az adott alagút száj aktiválva van-e. Ha nincs aktiválva, akkor false az értéke, ha aktiválva van, akkor true. 
 								  * Amíg inaktív, addig egyszerû sínként mûködik az alagút száj, és tovább engedi egyenes irányba az érkezõ vonatokat. 
 								  * Amint két alagútszájat aktivál a játékos, a két alagútszájat alagút köti össze. Amikor a felhasználó aktiválja, lefut az activate() függvény, 
@@ -27,9 +35,4 @@ public class TunnelEntrance extends Switch{
 		isActivated = false;
 	}
 	
-	
-	@Override
-	public void accept(Visitor visitor){
-		//TODO: kitölteni.
-	}
 }
