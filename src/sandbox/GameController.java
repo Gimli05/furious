@@ -38,7 +38,7 @@ public class GameController {
 	 * Ezután elindítja a vonatok léptetéséért felelõs szálat.
 	 */
 	public void startNewGame(){
-		//TODO: kitolteni
+		buildFromFile("level.txt");
 	}
 	
 	
@@ -57,7 +57,7 @@ public class GameController {
 		//TODO: kitolteni
 	}
 	
-	private void buildFromFile() throws IOException{
+	private void buildFromFile(String filename) throws IOException{
 		isTheGameRunning=false;
 		railCollection.clear();
 		trainCollection.clear();
@@ -66,7 +66,7 @@ public class GameController {
 		/*Létrehozzuk az olvasót*/
 		String in;
 		String[] line;
-		BufferedReader br = new BufferedReader(new FileReader(new File("level.txt")));
+		BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
 		line=br.readLine().split(";");
 		
 		/*Kiolvassuk a pálya méretét*/
@@ -121,6 +121,7 @@ public class GameController {
 		}
 		
 		/*Profit*/
+		isTheGameRunning=true;
 	}
 	
 	private Rail elementReader(String s){
