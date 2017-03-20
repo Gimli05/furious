@@ -17,6 +17,7 @@ public class TrainCollection {
 	 * vagy adott esetben csak beállítja a következõ lépés helyét a train setNextRail() függvényével.
 	 */
 	public void moveAllTrains(){
+		System.out.println("Class: TrainCollection\t Method: moveAllTrains\t Param: -\t Minden vonat lép.");
 		for(Train train: trains){ /* Minden vonatot a neki következõ sínre léptetünk */
 			Rail rail=train.getNextRail();
 			rail.accept(train);
@@ -33,10 +34,12 @@ public class TrainCollection {
 	 * @param train Az új hozzáadandó vonat referenciája.
 	 */
 	public void addNewTrain(Train train){
+		System.out.println("Class: TrainCollection\t Method: addNewTrain\t Param: train");
 		trains.add(train);
 	}	
 	
 	public void clear(){
+		System.out.println("Class: TrainCollection\t Method: clear\t Param: -");
 		trains.clear();
 	}
 }
