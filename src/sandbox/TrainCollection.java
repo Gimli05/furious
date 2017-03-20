@@ -9,6 +9,9 @@ import java.util.ArrayList;
 public class TrainCollection {
 	private ArrayList<Train> trains; /* Ebben a listában tároljuk a vonatokat. */
 	
+	public TrainCollection (){
+		trains = new ArrayList<Train>();
+	}
 	
 	/**
 	 * Az összes vonatot léptetõ függvény. 
