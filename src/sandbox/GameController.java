@@ -194,10 +194,10 @@ public class GameController {
             return new TrainStation(Color.RED); /* Létrehozunk egy új TrainStation-t, mely piros színû lesz. */
            
         case "2":
-            return new TrainStation(Color.GREEN); /* Létrehozunk egy új TrainStation-t, mely piros színû lesz. */
+            return new TrainStation(Color.GREEN); /* Létrehozunk egy új TrainStation-t, mely zöld színû lesz. */
            
         case "3":
-            return new TrainStation(Color.BLUE); /* Létrehozunk egy új TrainStation-t, mely piros színû lesz. */
+            return new TrainStation(Color.BLUE); /* Létrehozunk egy új TrainStation-t, mely kék színû lesz. */
            
         default:
             return null; /* Ez a lehetõség akkor fut le ha nem ismert betü van a szövegünben, mely ilyenkor egy üres mezö lesz */
