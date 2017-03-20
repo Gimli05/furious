@@ -68,6 +68,41 @@ public class GameController {
 		//TODO: kitolteni
 	}
 	
+	/**
+	 * Ebben a részben egy elöre kitöltött szöveges fájlból ovlasunk majd be karaktereket,
+	 * ami alapján automatikusan felépitjük a pályánkat. A fájl kötött formátumú, ha ezt 
+	 * nem tartjuk a program hibval zárulna.
+	 * A szövegfáj formai követelményei:
+	 * 	* Az elsö sor a pálya szélessége és magassága lesz, ;-vel elválasztva (pl.: 12;7)
+	 *  * Ezután az elementReadeben leírtak alapján töltjük ki afájlunkat
+	 *  * Fontos hogy minden sorban pontosan annyi karakter legyen, amennyit meghatároztunk kezdetben
+	 *  * Nincs ellenörizve, hogy van e belépési pontunk, de az akadálytalan futás érdekében ajánlott.
+	 *  * Az egymás mellett lévö sinek szomszédosnak lesznek véve, így egy legalább egy mezönyi helyet
+	 *    kell hagyni köztük, hogy jól építse fel.
+	 *    pl.: ERRR
+	 *    	   xRxR
+	 *  	   xRRR
+	 * Ha ezeket tartjuk, várhatóan jó eredményt kapunk
+	 * 
+	 * A gyakorlati müködés:
+	 * 	* Kezdetben létrehozunk egy olvasót, amivel soronként végignézzük a fájlt
+	 * 	* Az elsö sorát kiolvassuk és létrehozunk 2 tömböt: tempMap-ot ami konkrét sineket tárol
+	 * 	  és a tempView-t ami a kiolvasott karaktereket.
+	 * 	* A kiolvasott karakterektöl függöen az elementReader visszaadja amegfelelö tipusú Rail-t
+	 *  * Végigolvassuk a fájlt és kitöltüjük a két tömböt
+	 *  
+	 *  * Ezután sorban végigjárjuk a tempView mezöit és ha Rail, akkor megnézzük hogy a 8 szomszédjából melyik létezö Rail
+	 *  * Ha a 8 szomszédos mezön van Rail akkor azt felvesszük az aktuális mezö szomszédai közé
+	 *  * Végül hozzáadjuk a szomszédokat a tempMap megfelelö Rail-jéhez
+	 *  * Ügyelünk arra hogy az ellenörzött 8 mezö ne lógjon le a pályáról
+	 *  
+	 *  * Végül bejárjuk a tempMap-t és az összes létezö Railt hozzáaduk a railCollectionhoz
+	 *  
+	 * Ekkorra minden szomszédosság fel van építve és minden mezö megjelenik a collection-ban.
+	 * A metódus visszatér.
+	 *  
+	 */
+	
 	private void buildFromFile(String filename) throws IOException{
 		System.out.println("Class: GameController\t Method: buildFromFile\t Param: filename\t Betoltes.");
 		isTheGameRunning=false;
@@ -75,23 +110,21 @@ public class GameController {
 		trainCollection.clear();
 		
 		
-		/**Létrehozzuk az olvasót**/
 		String in;
 		String[] line;
 		BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
 		line=br.readLine().split(";");
 		
-		/**Kiolvassuk a pálya méretét**/
 		
-		int x = Integer.parseInt(line[0]);
-		int y = Integer.parseInt(line[1]);
-		Rail[][] tempMap = new Rail[x][y];
-		String[][] tempView = new String[x][y];
+		int width = Integer.parseInt(line[0]);
+		int height = Integer.parseInt(line[1]);
+		Rail[][] tempMap = new Rail[width][height];
+		String[][] tempView = new String[width][height];
 		
 				
-		/** Létrehozzuk a blokosított pályavázlatot**/
-		x=0;
-		y=0;
+
+		int x=0;
+		int y=0;
 		while((in=br.readLine())!=null){
 			line=in.split("");
 			for(String s: line){
@@ -99,41 +132,39 @@ public class GameController {
 				tempView[x][y]=s;
 				x++;
 			}
+			x=0;
 			y++;
 		}
 		
-		/**Összekötjük az elemeket**/
 		
-		for(int i=0;i<x;i++){
-			for(int j=0;j<y;j++){
-				/**Szomszédok átnézése**/
-				ArrayList<Rail> tmp = new ArrayList<Rail>();
-				if(i-1>0 && tempView[i-1][j]!=null) tmp.add(tempMap[i-1][j]); //NY
-				if(i+1<x && tempView[i+1][j]!=null) tmp.add(tempMap[i+1][j]); //K
-				if(j-1>0 && tempView[i][j-1]!=null) tmp.add(tempMap[i][j-1]); //É
-				if(j+1<x && tempView[i][j+1]!=null) tmp.add(tempMap[i][j+1]); //D
+		for(int i=0;i<width;i++){
+			for(int j=0;j<height;j++){	
+				if(tempMap[i][j]!=null){				
+					ArrayList<Rail> tmp = new ArrayList<Rail>();
+					if(i-1>0 && tempView[i-1][j]!=null) tmp.add(tempMap[i-1][j]);
+					if(i+1<width && tempView[i+1][j]!=null) tmp.add(tempMap[i+1][j]);
+					if(j-1>0 && tempView[i][j-1]!=null) tmp.add(tempMap[i][j-1]);
+					if(j+1<height && tempView[i][j+1]!=null) tmp.add(tempMap[i][j+1]);
 				
-				if(i-1>0 && j-1>0 && tempView[i-1][j]!=null) tmp.add(tempMap[i-1][j-1]); //ÉNY
-				if(i+1<x && j-1>0 && tempView[i+1][j]!=null) tmp.add(tempMap[i+1][j-1]); //ÉK
-				if(j-1>0 && j+1<y && tempView[i][j-1]!=null) tmp.add(tempMap[i-1][j+1]); //DNy
-				if(j+1<x && j+1<y && tempView[i][j+1]!=null) tmp.add(tempMap[i+1][j+1]); //DK
-				
-				/**Véglegesítés**/
-				
-				tempMap[i][j].setNeighbourRails(tmp);
+					if(i-1>0 && j-1>0 && tempView[i-1][j-1]!=null) tmp.add(tempMap[i-1][j-1]);
+					if(i+1<width && j-1>0 && tempView[i+1][j-1]!=null) tmp.add(tempMap[i+1][j-1]);
+					if(i-1>0 && j+1<height && tempView[i-1][j+1]!=null) tmp.add(tempMap[i-1][j+1]);
+					if(i+1<width && j+1<height && tempView[i+1][j+1]!=null) tmp.add(tempMap[i+1][j+1]);
+								
+					tempMap[i][j].setNeighbourRails(tmp);
+				}
 			}
 		}
 		
-		/**Bepakoljuk a collectionba**/
 		
-		for(int i=0;i<x;i++){
-			for(int j=0;j<y;j++){
+		for(int i=0;i<width;i++){
+			for(int j=0;j<height;j++){
 				if(tempMap[i][j]!=null)railCollection.add(tempMap[i][j]);
 			}
 		}
-		
-		/**Profit**/
+		System.out.println("Létrehozott pályaelemek száma: "+railCollection.size());
 		isTheGameRunning=true;
+		System.out.println("A játék elindult");
 	}
 	
 	 /**
@@ -169,7 +200,7 @@ public class GameController {
             return new TrainStation(Color.BLUE); /* Létrehozunk egy új TrainStation-t, mely piros színû lesz. */
            
         default:
-            return null; /* Ez a lehetõség soha nem futhat le, mivel mi készítjük a map-ot. */
+            return null; /* Ez a lehetõség akkor fut le ha nem ismert betü van a szövegünben, mely ilyenkor egy üres mezö lesz */
         }
     }
 }
