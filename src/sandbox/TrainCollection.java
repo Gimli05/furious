@@ -35,4 +35,8 @@ public class TrainCollection {
 	public void addNewTrain(Train train){
 		trains.add(train);
 	}	
+	
+	public void clear(){
+		trains.clear();
+	}
 }
