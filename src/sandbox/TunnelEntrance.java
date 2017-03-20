@@ -14,6 +14,10 @@ public class TunnelEntrance extends Switch{
 								  * vagy oldalra is el tudja irányítani a vonatot (bele az alagútba).*/
 	
 	
+	public TunnelEntrance(){
+		isActivated = false;
+	}
+	
 	/**
 	 * Aktiválja az alagút szájat, azaz igazzá teszi az isActivated változót. Innentõl kezdve a játékos a switch() metódus segítségével tudja kiválasztani merre menjen a vonat.
 	 */
