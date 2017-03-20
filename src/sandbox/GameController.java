@@ -26,6 +26,7 @@ public class GameController {
 	 * A GameController konstruktora.
 	 */
 	public GameController(){
+		System.out.println("Class: GameController\t Method: Constructor\t Param: -");
 		isTheGameRunning = false;
 		railCollection=new ArrayList<Rail>();
 		trainCollection = new TrainCollection();
@@ -38,6 +39,7 @@ public class GameController {
 	 * Ezután elindítja a vonatok léptetéséért felelõs szálat.
 	 */
 	public void startNewGame(){
+		System.out.println("Class: GameController\t Method: startNewGame\t Param: -");
 		buildFromFile("level.txt");
 	}
 	
@@ -46,6 +48,7 @@ public class GameController {
 	 * Értesíti a játékost, hogy nyert, és leállítja a játékot.
 	 */
 	public static void winEvent(){
+		System.out.println("Class: GameController\t Method: winEvent\t Param: -\t Gyozelem.");
 		//TODO: kitolteni
 	}
 	
@@ -54,10 +57,12 @@ public class GameController {
 	 * Értesíti a játékost, hogy vesztett, és leállítja a játékot.
 	 */
 	public static void loseEvent(){
+		System.out.println("Class: GameController\t Method: loseEvent\t Param: -\t Veres�g.");
 		//TODO: kitolteni
 	}
 	
 	private void buildFromFile(String filename) throws IOException{
+		System.out.println("Class: GameController\t Method: buildFromFile\t Param: filename\t Bet�lt�s.");
 		isTheGameRunning=false;
 		railCollection.clear();
 		trainCollection.clear();
@@ -133,6 +138,7 @@ public class GameController {
      * @return  A létrehozott sín.
      */
     private Rail elementReader(String mapChar){
+    	System.out.println("Class: GameController\t Method: elementReader\t Param: mapChar\t Dek�dol�s a f�jlb�l.");
         switch(mapChar){
         case "E":
             return new EnterPoint(); /* Létrehozunk egy új enterPointot. */
