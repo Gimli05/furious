@@ -1,5 +1,11 @@
 package sandbox;
 
+import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -21,6 +27,8 @@ public class GameController {
 	 */
 	public GameController(){
 		isTheGameRunning = false;
+		railCollection=new ArrayList<Rail>();
+		trainCollection = new TrainCollection();
 	}
 	
 	
@@ -37,7 +45,7 @@ public class GameController {
 	/**
 	 * Értesíti a játékost, hogy nyert, és leállítja a játékot.
 	 */
-	public void winEvent(){
+	public static void winEvent(){
 		//TODO: kitolteni
 	}
 	
@@ -45,7 +53,94 @@ public class GameController {
 	/**
 	 * Értesíti a játékost, hogy vesztett, és leállítja a játékot.
 	 */
-	public void loseEvent(){
+	public static void loseEvent(){
 		//TODO: kitolteni
+	}
+	
+	private void buildFromFile() throws IOException{
+		isTheGameRunning=false;
+		railCollection.clear();
+		trainCollection.clear();
+		
+		
+		/*Létrehozzuk az olvasót*/
+		String in;
+		String[] line;
+		BufferedReader br = new BufferedReader(new FileReader(new File("level.txt")));
+		line=br.readLine().split(";");
+		
+		/*Kiolvassuk a pálya méretét*/
+		
+		int x = Integer.parseInt(line[0]);
+		int y = Integer.parseInt(line[1]);
+		Rail[][] tempMap = new Rail[x][y];
+		String[][] tempView = new String[x][y];
+		
+				
+		/* Létrehozzuk a blokosított pályavázlatot*/
+		x=0;
+		y=0;
+		while((in=br.readLine())!=null){
+			line=in.split("");
+			for(String s: line){
+				tempMap[x][y] = elementReader(s);
+				tempView[x][y]=s;
+				x++;
+			}
+			y++;
+		}
+		
+		/*Összekötjük az elemeket*/
+		
+		for(int i=0;i<x;i++){
+			for(int j=0;j<y;j++){
+				/*Szomszédok átnézése*/
+				ArrayList<Rail> tmp = new ArrayList<Rail>();
+				if(i-1>0 && tempView[i-1][j]!=null) tmp.add(tempMap[i-1][j]); //NY
+				if(i+1<x && tempView[i+1][j]!=null) tmp.add(tempMap[i+1][j]); //K
+				if(j-1>0 && tempView[i][j-1]!=null) tmp.add(tempMap[i][j-1]); //É
+				if(j+1<x && tempView[i][j+1]!=null) tmp.add(tempMap[i][j+1]); //D
+				
+				if(i-1>0 && j-1>0 && tempView[i-1][j]!=null) tmp.add(tempMap[i-1][j-1]); //ÉNY
+				if(i+1<x && j-1>0 && tempView[i+1][j]!=null) tmp.add(tempMap[i+1][j-1]); //ÉK
+				if(j-1>0 && j+1<y && tempView[i][j-1]!=null) tmp.add(tempMap[i-1][j+1]); //DNy
+				if(j+1<x && j+1<y && tempView[i][j+1]!=null) tmp.add(tempMap[i+1][j+1]); //DK
+				
+				/*Véglegesítés*/
+				
+				tempMap[i][j].setNeighbourRails(tmp);
+			}
+		}
+		
+		/*Bepakoljuk a collectionba*/
+		
+		for(int i=0;i<x;i++){
+			for(int j=0;j<y;j++){
+				if(tempMap[i][j]!=null)railCollection.add(tempMap[i][j]);
+			}
+		}
+		
+		/*Profit*/
+	}
+	
+	private Rail elementReader(String s){
+		switch(s){
+		case "E":
+			return new EnterPoint(new ArrayList<Rail>());
+		case "R":
+			return new Rail(new ArrayList<Rail>());
+		case "S":
+			return new Switch(new ArrayList<Rail>());
+		case "U":
+			return new TunnelEntrance(new ArrayList<Rail>());
+		case "1":
+			return new TrainStation(new ArrayList<Rail>(),Color.RED);
+		case "2":
+			return new TrainStation(new ArrayList<Rail>(),Color.GREEN);
+		case "3":
+			return new TrainStation(new ArrayList<Rail>(), Color.BLUE);
+		default:
+			return null;
+		}
 	}
 }
