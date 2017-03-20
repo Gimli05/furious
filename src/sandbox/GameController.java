@@ -41,7 +41,7 @@ public class GameController {
 	public void startNewGame(int mapNumber){
 		System.out.println("Class: GameController\t Method: startNewGame\t Param: -");
 		
-		String mapName = new String("../../maps/map" + mapNumber + ".txt");
+		String mapName = new String("maps/map" + mapNumber + ".txt");
 		try {
 			buildFromFile(mapName);
 		} catch (IOException e) {
