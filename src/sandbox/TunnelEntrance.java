@@ -18,6 +18,7 @@ public class TunnelEntrance extends Switch{
 	 * Aktiválja az alagút szájat, azaz igazzá teszi az isActivated változót. Innentõl kezdve a játékos a switch() metódus segítségével tudja kiválasztani merre menjen a vonat.
 	 */
 	public void activate(){
+		System.out.println("Class: TunnelEntrance\t Method: Activate\t Param: -\t Aktiválta az alagútszájat");
 		isActivated = true;
 	}
 	
@@ -26,6 +27,7 @@ public class TunnelEntrance extends Switch{
 	 * Deaktiválja az alagút szájat. Deaktiválás után ismételten csak egyenesen haladhat át a vonat az adott sínen.
 	 */
 	public void deActivate(){
+		System.out.println("Class: TunnelEntrance\t Method: Deactivate\t Param: -\t Deaktiválta az alagútszájat");
 		isActivated = false;
 	}
 	

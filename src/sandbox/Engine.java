@@ -11,6 +11,7 @@ public class Engine extends TrainElement{
 	 * Az engine konstruktora. beállítja feketére a mozdony színét.
 	 */
 	public Engine(){
+		System.out.println("Class: Engine\t Method: Constructor\t Param: -");
 		color = Color.BLACK; /* A mozdonynak fekete színe van, így ezt a létrejövetelekor beállítjuk */
 	}
 }
