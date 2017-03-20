@@ -80,6 +80,18 @@ public class Rail {
 	 * Minden léptetés során csökkentjük egyel a számlálót, hiszen már elhaladt egy kabin.
 	 */
 	public void lowerTrainLenghtCounter(){
-		trainLenghtCounter--;
+		if(trainLenghtCounter > 0){ /* Ha még nem nulla a számláló, azaz van még kabin a sínen, akkor csökkentjük egyel, hiszen most haladt tovább */
+			trainLenghtCounter--;
+		}
+	}
+	
+	
+	/**
+	 * A vonat áthaladásakor beállítjuk, hogy milyen hosszú a vonat, ami áthalad rajta, azaz hány léptetés ciklusig fog még folglat lenni az adott sín.
+	 * 
+	 * @param newCounter	A vonat hossza.
+	 */
+	public void setTrainLenghtCounter(int newCounter){
+		trainLenghtCounter = newCounter;
 	}
 }

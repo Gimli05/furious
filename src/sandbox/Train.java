@@ -96,45 +96,81 @@ public class Train implements Visitor{
 	 */
 	@Override
 	public void visit(Rail rail) {
-		// TODO Auto-generated method stub
-		if(!rail.checkIfOccupied()){
-			this.setNextRail(rail.getNextRail(previousRail));
+		if(!rail.checkIfOccupied()){ /* Ellenõrizzük, hogy foglalt-e a sín. */
+			this.setNextRail(rail.getNextRail(previousRail)); /* Ha nem foglalt, akkor lekérjük a következõ sínt, ahova lépnie kell a vonatnak, 
+			   												   * és beállítjuk azt a vonat következõ sínjének. */
+			rail.setTrainLenghtCounter(cabins.size()+1); /* Beállítjuk a sínnek, hogy még hány kabin kell átmenjen rajta. 
+														  * Amíg ez a számláló 0-ra nem csökken, foglalt a sín, így ha egy másik vonat rámegy, akkor ütközés történt.
+														  */
+		} else {
+			GameController.loseEvent(); /* Ha foglalt a sín, akkor a vonat ütközött, ezért meghívjuk a GameController loseEvent-jét, 
+										 * mely során egy Michael Bay Effekt keretében véget ér a játék. */
 		}
 	}
 
 	
 	@Override
 	public void visit(Switch rail) {
-		// TODO Auto-generated method stub
-		if(!rail.checkIfOccupied()){
-			this.setNextRail(rail.getNextRail(previousRail));
+		if(!rail.checkIfOccupied()){ /* Ellenõrizzük, hogy foglalt-e a sín. */
+			this.setNextRail(rail.getNextRail(previousRail)); /* Ha nem foglalt, akkor lekérjük a következõ sínt, ahova lépnie kell a vonatnak, 
+			 												   * és beállítjuk azt a vonat következõ sínjének. */
+			rail.setTrainLenghtCounter(cabins.size()+1); /* Beállítjuk a sínnek, hogy még hány kabin kell átmenjen rajta. 
+														  * Amíg ez a számláló 0-ra nem csökken, foglalt a sín, így ha egy másik vonat rámegy, akkor ütközés történt.
+														  */
+		} else {
+			GameController.loseEvent(); /* Ha foglalt a sín, akkor a vonat ütközött, ezért meghívjuk a GameController loseEvent-jét, 
+										 * mely során egy Michael Bay Effekt keretében véget ér a játék. */
 		}
 	}
 
 	
 	@Override
 	public void visit(TunnelEntrance rail) {
-		// TODO Auto-generated method stub
-		if(!rail.checkIfOccupied()){
-			this.setNextRail(rail.getNextRail(previousRail));
+		if(!rail.checkIfOccupied()){ /* Ellenõrizzük, hogy foglalt-e a sín. */
+			this.setNextRail(rail.getNextRail(previousRail)); /* Ha nem foglalt, akkor lekérjük a következõ sínt, ahova lépnie kell a vonatnak, 
+			 												   * és beállítjuk azt a vonat következõ sínjének. */
+			rail.setTrainLenghtCounter(cabins.size()+1); /* Beállítjuk a sínnek, hogy még hány kabin kell átmenjen rajta. 
+														  * Amíg ez a számláló 0-ra nem csökken, foglalt a sín, így ha egy másik vonat rámegy, akkor ütközés történt.
+														  */
+		} else {
+			GameController.loseEvent(); /* Ha foglalt a sín, akkor a vonat ütközött, ezért meghívjuk a GameController loseEvent-jét, 
+										 * mely során egy Michael Bay Effekt keretében véget ér a játék. */
 		}
 	}
 
 	
 	@Override
 	public void visit(Tunnel rail) {
-		// TODO Auto-generated method stub
-		if(!rail.checkIfOccupied()){
-			this.setNextRail(rail.getNextRail(previousRail));
+		if(!rail.checkIfOccupied()){ /* Ellenõrizzük, hogy foglalt-e a sín. */
+			this.setNextRail(rail.getNextRail(previousRail)); /* Ha nem foglalt, akkor lekérjük a következõ sínt, ahova lépnie kell a vonatnak, 
+			   												   * és beállítjuk azt a vonat következõ sínjének. */
+			rail.setTrainLenghtCounter(cabins.size()+1); /* Beállítjuk a sínnek, hogy még hány kabin kell átmenjen rajta. 
+														  * Amíg ez a számláló 0-ra nem csökken, foglalt a sín, így ha egy másik vonat rámegy, akkor ütközés történt.
+														  */
+		} else {
+			GameController.loseEvent(); /* Ha foglalt a sín, akkor a vonat ütközött, ezért meghívjuk a GameController loseEvent-jét, 
+										 * mely során egy Michael Bay Effekt keretében véget ér a játék. */
 		}
 	}
 
 	
 	@Override
 	public void visit(TrainStation rail) {
-		// TODO Auto-generated method stub
-		if(!rail.checkIfOccupied()){
-			this.setNextRail(rail.getNextRail(previousRail));
+		if(!rail.checkIfOccupied()){ /* Ellenõrizzük, hogy foglalt-e a sín. */
+			this.setNextRail(rail.getNextRail(previousRail)); /* Ha nem foglalt, akkor lekérjük a következõ sínt, ahova lépnie kell a vonatnak, 
+															   * és beállítjuk azt a vonat következõ sínjének. */
+			rail.setTrainLenghtCounter(cabins.size()+1); /* Beállítjuk a sínnek, hogy még hány kabin kell átmenjen rajta. 
+														  * Amíg ez a számláló 0-ra nem csökken, foglalt a sín, így ha egy másik vonat rámegy, akkor ütközés történt.
+														  */
+			Color trainStationColor = rail.getColor(); /* Lekérjük az állomás színét */
+			Color trainColor = this.getFirstNotEmptyCabColor(); /* lekérjük az elsõ nem üres kabin színét */
+			
+			if(trainColor == trainStationColor){ /* Ha az állomás és az elsõ nem üres kabin színe egyezik */
+				this.emptyTheFirstNotEmptyCab(); /* kiürítjük az elsõ nem üres kabint. */
+			}
+		} else {
+			GameController.loseEvent(); /* Ha foglalt a sín, akkor a vonat ütközött, ezért meghívjuk a GameController loseEvent-jét, 
+										 * mely során egy Michael Bay Effekt keretében véget ér a játék. */
 		}
 	}
 }
