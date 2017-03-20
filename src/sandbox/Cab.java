@@ -3,41 +3,44 @@ package sandbox;
 import java.awt.Color;
 
 /**
- * Egyedi színnel rendelkezõ vagon, mely utasokat szállít a számukra megfelelõ (azonos színû) állomásra a megfelelõ sorrendben. 
- * Egy vonatnak tetszõleges számú kabinja lehet. A játék megnyerésének a feltétele ezen vagonok kiürítése. 
- * Mikor a vonat visitel egy állomást (vagyis a mozdony az állomáshoz ér), megnézi, hogy melyik a legelsõ olyan vagon aminek még vannak utasai. 
- * Megnézi, hogy megegyezik-e ennek a vagonnak a színe a színe az állomáséval, és ha igen, akkor kiüríti a vagont (emptyCab).
+ * Egyedi szÃ­nnel rendelkezÅ‘ vagon, mely utasokat szÃ¡llÃ­t a szÃ¡mukra megfelelÅ‘ (azonos szÃ­nÅ±) Ã¡llomÃ¡sra a megfelelÅ‘ sorrendben. 
+ * Egy vonatnak tetszÅ‘leges szÃ¡mÃº kabinja lehet. A jÃ¡tÃ©k megnyerÃ©sÃ©nek a feltÃ©tele ezen vagonok kiÃ¼rÃ­tÃ©se. 
+ * Mikor a vonat visitel egy Ã¡llomÃ¡st (vagyis a mozdony az Ã¡llomÃ¡shoz Ã©r), megnÃ©zi, hogy melyik a legelsÅ‘ olyan vagon aminek mÃ©g vannak utasai. 
+ * MegnÃ©zi, hogy megegyezik-e ennek a vagonnak a szÃ­ne a szÃ­ne az Ã¡llomÃ¡sÃ©val, Ã©s ha igen, akkor kiÃ¼rÃ­ti a vagont (emptyCab).
  */
 public class Cab extends TrainElement{
-	private Boolean hasPassenger;/* Ebben a változóban tároljuk, hogy az adott vagonban vannak-e még utasok. True ha vannak benne utasok, false ha nincsenek. */
+	private Boolean hasPassenger;/* Ebben a vÃ¡ltozÃ³ban tÃ¡roljuk, hogy az adott vagonban vannak-e mÃ©g utasok. True ha vannak benne utasok, false ha nincsenek. */
 	
 	
 	/**
 	 * A kabin konstruktora. 
-	 * @param cabColor	Az adott kabin színe.
+	 * @param cabColor	Az adott kabin szÃ­ne.
 	 */
 	public Cab(Color cabColor){
-		hasPassenger = true; /* Kezdetben minden kabint beállítunk, hogy utassal teli */
-		color = cabColor; /* A kabin színét beállítjuk a megadott színre. */
+		System.out.println("Class: Cab\t Method: Constructor\t Param: cabColor\t");
+		hasPassenger = true; /* Kezdetben minden kabint beÃ¡llÃ­tunk, hogy utassal teli */
+		color = cabColor; /* A kabin szÃ­nÃ©t beÃ¡llÃ­tjuk a megadott szÃ­nre. */
 	}
 	
 	
 	/**
-	 * Megadja, hogy vannak-e utasok az adott vagonban. Amennyiben vannak, úgy true-val amennyiben nincsenek, úgy false-al tér vissza.
+	 * Megadja, hogy vannak-e utasok az adott vagonban. Amennyiben vannak, Ãºgy true-val amennyiben nincsenek, Ãºgy false-al tÃ©r vissza.
 	 * 
 	 * @return	Van-e utas a kabinban.
 	 */
 	public Boolean isFull(){ 
+		System.out.println("Class: Cab\t Method: isFull\t Param: -\t");
 		return hasPassenger; 
 	}
 	
 	
 	/** 
-	 * Kiüríti a kabint. A játék célja, hogy minden utas leugorjon a saját színû állomásán. 
-	 * Ehhez ha egy kabin kiüríthetõ állapotban van - azaz a mozdonytól hátrafelé nézve õ az elsõ kabin ahol még vannak utasok, és a színe megegyezik  az állomás színével - 
-	 * akkor ennek a függvények a meghívásával lehet kiüríteni az utasokat az adott megállónál. 
+	 * KiÃ¼rÃ­ti a kabint. A jÃ¡tÃ©k cÃ©lja, hogy minden utas leugorjon a sajÃ¡t szÃ­nÅ± Ã¡llomÃ¡sÃ¡n. 
+	 * Ehhez ha egy kabin kiÃ¼rÃ­thetÅ‘ Ã¡llapotban van - azaz a mozdonytÃ³l hÃ¡trafelÃ© nÃ©zve Å‘ az elsÅ‘ kabin ahol mÃ©g vannak utasok, Ã©s a szÃ­ne megegyezik  az Ã¡llomÃ¡s szÃ­nÃ©vel - 
+	 * akkor ennek a fÃ¼ggvÃ©nyek a meghÃ­vÃ¡sÃ¡val lehet kiÃ¼rÃ­teni az utasokat az adott megÃ¡llÃ³nÃ¡l. 
 	 */
 	public void emptyCab(){ 
+		System.out.println("Class: Cab\t Method: emptyCab\t Param: -\t");
 		hasPassenger = false;
 	}
 	
