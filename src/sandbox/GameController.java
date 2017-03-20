@@ -9,17 +9,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * A játékmenet vezérléséért felel. Betölti a játékos által kiválasztott pályát fájlból, felépíti a pályához tartozó sín hálózatot és 
- * vezérli melyik EnterPoint-on milyen ütemezéssel hány darab vonat érkezzen meg. Ez az osztály felel a vonatok sebességének meghatározásáért, 
- * és a játék kimenetelének eldöntéséért és ennek lekezeléséért. Felelõs továbbá annak felügyeléséért, hogy csak két alagútszáj lehessen egyszerre aktív.
+ * A jÃ¡tÃ©kmenet vezÃ©rlÃ©sÃ©Ã©rt felel. BetÃ¶lti a jÃ¡tÃ©kos Ã¡ltal kivÃ¡lasztott pÃ¡lyÃ¡t fÃ¡jlbÃ³l, felÃ©pÃ­ti a pÃ¡lyÃ¡hoz tartozÃ³ sÃ­n hÃ¡lÃ³zatot Ã©s 
+ * vezÃ©rli melyik EnterPoint-on milyen Ã¼temezÃ©ssel hÃ¡ny darab vonat Ã©rkezzen meg. Ez az osztÃ¡ly felel a vonatok sebessÃ©gÃ©nek meghatÃ¡rozÃ¡sÃ¡Ã©rt, 
+ * Ã©s a jÃ¡tÃ©k kimenetelÃ©nek eldÃ¶ntÃ©sÃ©Ã©rt Ã©s ennek lekezelÃ©sÃ©Ã©rt. FelelÃµs tovÃ¡bbÃ¡ annak felÃ¼gyelÃ©sÃ©Ã©rt, hogy csak kÃ©t alagÃºtszÃ¡j lehessen egyszerre aktÃ­v.
  */
 public class GameController {
-	private Boolean isTheGameRunning; /* Megadja, hogy éppen folyamatban van-e játék. True, ha igen, false ha nem. */
+	private Boolean isTheGameRunning; /* Megadja, hogy Ã©ppen folyamatban van-e jÃ¡tÃ©k. True, ha igen, false ha nem. */
 	
-	private ArrayList<Rail> railCollection; /* A síneket tároló arraylist. A pálya betöltése után ebben tároljuk el a teljes sínhálózatot */
+	private ArrayList<Rail> railCollection; /* A sÃ­neket tÃ¡rolÃ³ arraylist. A pÃ¡lya betÃ¶ltÃ©se utÃ¡n ebben tÃ¡roljuk el a teljes sÃ­nhÃ¡lÃ³zatot */
 	
-	private TrainCollection trainCollection; /* A vonatokat tároló kollekció. A játék futása során az adott pályához tartozó ütemezés szerint adagoljuk 
-											  * a pályához tartozó hosszúságú vonatokat a tárolóba a tároló addTrain(Train) metódusával.*/
+	private TrainCollection trainCollection; /* A vonatokat tÃ¡rolÃ³ kollekciÃ³. A jÃ¡tÃ©k futÃ¡sa sorÃ¡n az adott pÃ¡lyÃ¡hoz tartozÃ³ Ã¼temezÃ©s szerint adagoljuk 
+											  * a pÃ¡lyÃ¡hoz tartozÃ³ hosszÃºsÃ¡gÃº vonatokat a tÃ¡rolÃ³ba a tÃ¡rolÃ³ addTrain(Train) metÃ³dusÃ¡val.*/
 	
 	
 	/**
@@ -33,9 +33,9 @@ public class GameController {
 	
 	
 	/**
-	 * Új játék indítására szolgáló függvény. Megjeleníti a játékosnak a választható pályák listáját. 
-	 * Miután a játékos kiválasztotta melyik pályán akar játszani, betölti a pályához tartozó sínhálózatot és vonat ütemezést. 
-	 * Ezután elindítja a vonatok léptetéséért felelõs szálat.
+	 * Ãšj jÃ¡tÃ©k indÃ­tÃ¡sÃ¡ra szolgÃ¡lÃ³ fÃ¼ggvÃ©ny. MegjelenÃ­ti a jÃ¡tÃ©kosnak a vÃ¡laszthatÃ³ pÃ¡lyÃ¡k listÃ¡jÃ¡t. 
+	 * MiutÃ¡n a jÃ¡tÃ©kos kivÃ¡lasztotta melyik pÃ¡lyÃ¡n akar jÃ¡tszani, betÃ¶lti a pÃ¡lyÃ¡hoz tartozÃ³ sÃ­nhÃ¡lÃ³zatot Ã©s vonat Ã¼temezÃ©st. 
+	 * EzutÃ¡n elindÃ­tja a vonatok lÃ©ptetÃ©sÃ©Ã©rt felelÃµs szÃ¡lat.
 	 */
 	public void startNewGame(){
 		buildFromFile("level.txt");
@@ -43,7 +43,7 @@ public class GameController {
 	
 	
 	/**
-	 * Értesíti a játékost, hogy nyert, és leállítja a játékot.
+	 * Ã‰rtesÃ­ti a jÃ¡tÃ©kost, hogy nyert, Ã©s leÃ¡llÃ­tja a jÃ¡tÃ©kot.
 	 */
 	public static void winEvent(){
 		//TODO: kitolteni
@@ -51,7 +51,7 @@ public class GameController {
 	
 	
 	/**
-	 * Értesíti a játékost, hogy vesztett, és leállítja a játékot.
+	 * Ã‰rtesÃ­ti a jÃ¡tÃ©kost, hogy vesztett, Ã©s leÃ¡llÃ­tja a jÃ¡tÃ©kot.
 	 */
 	public static void loseEvent(){
 		//TODO: kitolteni
@@ -63,13 +63,13 @@ public class GameController {
 		trainCollection.clear();
 		
 		
-		/*Létrehozzuk az olvasót*/
+		/**LÃ©trehozzuk az olvasÃ³t**/
 		String in;
 		String[] line;
 		BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
 		line=br.readLine().split(";");
 		
-		/*Kiolvassuk a pálya méretét*/
+		/**Kiolvassuk a pÃ¡lya mÃ©retÃ©t**/
 		
 		int x = Integer.parseInt(line[0]);
 		int y = Integer.parseInt(line[1]);
@@ -77,7 +77,7 @@ public class GameController {
 		String[][] tempView = new String[x][y];
 		
 				
-		/* Létrehozzuk a blokosított pályavázlatot*/
+		/** LÃ©trehozzuk a blokosÃ­tott pÃ¡lyavÃ¡zlatot**/
 		x=0;
 		y=0;
 		while((in=br.readLine())!=null){
@@ -90,29 +90,29 @@ public class GameController {
 			y++;
 		}
 		
-		/*Összekötjük az elemeket*/
+		/**Ã–sszekÃ¶tjÃ¼k az elemeket**/
 		
 		for(int i=0;i<x;i++){
 			for(int j=0;j<y;j++){
-				/*Szomszédok átnézése*/
+				/**SzomszÃ©dok Ã¡tnÃ©zÃ©se**/
 				ArrayList<Rail> tmp = new ArrayList<Rail>();
 				if(i-1>0 && tempView[i-1][j]!=null) tmp.add(tempMap[i-1][j]); //NY
 				if(i+1<x && tempView[i+1][j]!=null) tmp.add(tempMap[i+1][j]); //K
-				if(j-1>0 && tempView[i][j-1]!=null) tmp.add(tempMap[i][j-1]); //É
+				if(j-1>0 && tempView[i][j-1]!=null) tmp.add(tempMap[i][j-1]); //Ã‰
 				if(j+1<x && tempView[i][j+1]!=null) tmp.add(tempMap[i][j+1]); //D
 				
-				if(i-1>0 && j-1>0 && tempView[i-1][j]!=null) tmp.add(tempMap[i-1][j-1]); //ÉNY
-				if(i+1<x && j-1>0 && tempView[i+1][j]!=null) tmp.add(tempMap[i+1][j-1]); //ÉK
+				if(i-1>0 && j-1>0 && tempView[i-1][j]!=null) tmp.add(tempMap[i-1][j-1]); //Ã‰NY
+				if(i+1<x && j-1>0 && tempView[i+1][j]!=null) tmp.add(tempMap[i+1][j-1]); //Ã‰K
 				if(j-1>0 && j+1<y && tempView[i][j-1]!=null) tmp.add(tempMap[i-1][j+1]); //DNy
 				if(j+1<x && j+1<y && tempView[i][j+1]!=null) tmp.add(tempMap[i+1][j+1]); //DK
 				
-				/*Véglegesítés*/
+				/**VÃ©glegesÃ­tÃ©s**/
 				
 				tempMap[i][j].setNeighbourRails(tmp);
 			}
 		}
 		
-		/*Bepakoljuk a collectionba*/
+		/**Bepakoljuk a collectionba**/
 		
 		for(int i=0;i<x;i++){
 			for(int j=0;j<y;j++){
@@ -120,28 +120,43 @@ public class GameController {
 			}
 		}
 		
-		/*Profit*/
+		/**Profit**/
 		isTheGameRunning=true;
 	}
 	
-	private Rail elementReader(String s){
-		switch(s){
-		case "E":
-			return new EnterPoint(new ArrayList<Rail>());
-		case "R":
-			return new Rail(new ArrayList<Rail>());
-		case "S":
-			return new Switch(new ArrayList<Rail>());
-		case "U":
-			return new TunnelEntrance(new ArrayList<Rail>());
-		case "1":
-			return new TrainStation(new ArrayList<Rail>(),Color.RED);
-		case "2":
-			return new TrainStation(new ArrayList<Rail>(),Color.GREEN);
-		case "3":
-			return new TrainStation(new ArrayList<Rail>(), Color.BLUE);
-		default:
-			return null;
-		}
-	}
+	 /**
+     * A map-ben minden egyes mezÅ‘ egy betÅ±vel van megadva.
+     * Mindegy egyes betÅ± egy bizonyos cellatÃ­pusnak felel meg.
+     * AlÃ¡bbi fÃ¼ggvÃ©ny a megkapott betÅ±nek megfelelÅ‘ sÃ­ntÃ­pust hoz lÃ©tre, Ã©s visszaadja mely bekerÃ¼l a railCollection-be.
+     *
+     * @param mapChar   A map-ban szereplÅ‘ karakter, mely egy sÃ­ntÃ­pust takar.
+     * @return  A lÃ©trehozott sÃ­n.
+     */
+    private Rail elementReader(String mapChar){
+        switch(mapChar){
+        case "E":
+            return new EnterPoint(); /* LÃ©trehozunk egy Ãºj enterPointot. */
+           
+        case "R":
+            return new Rail(); /* LÃ©trehozunk egy Ãºj Railt. */
+           
+        case "S":
+            return new Switch(); /* LÃ©trehozunk egy Ãºj Switchet. */
+           
+        case "U":
+            return new TunnelEntrance(); /* LÃ©trehozunk egy Ãºj TunnelEntrance-t. */
+           
+        case "1":
+            return new TrainStation(Color.RED); /* LÃ©trehozunk egy Ãºj TrainStation-t, mely piros szÃ­nÅ± lesz. */
+           
+        case "2":
+            return new TrainStation(Color.GREEN); /* LÃ©trehozunk egy Ãºj TrainStation-t, mely piros szÃ­nÅ± lesz. */
+           
+        case "3":
+            return new TrainStation(Color.BLUE); /* LÃ©trehozunk egy Ãºj TrainStation-t, mely piros szÃ­nÅ± lesz. */
+           
+        default:
+            return null; /* Ez a lehetÅ‘sÃ©g soha nem futhat le, mivel mi kÃ©szÃ­tjÃ¼k a map-ot. */
+        }
+    }
 }
