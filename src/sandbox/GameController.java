@@ -203,4 +203,17 @@ public class GameController {
             return null; /* Ez a lehetõség akkor fut le ha nem ismert betü van a szövegünben, mely ilyenkor egy üres mezö lesz */
         }
     }
+    
+    /** Csak a tesztelésre létrehozott metódus
+     * A megadott paraméterû elemet átswitcheli. 
+     * A switch osztályt nem látja a GameController, csak a Railt. Ezek a jövõben eventekkel kommunikálnak majd.
+     * Így az ideiglenes megoldás, egy olyan pálya létrehozása amiben csak egy switch van, ezt aztán beolvassuk, 
+     * Az egyetlen railrõl csinálunk itt egy másolatot, de azt a másolatot, hogy el is érjünk a gamecontrollerbõl
+     * egy switchet, majd ezt átváltjuk.
+     */
+    /*Sorry nem volt jobb ötletem. Ja és Long, nézd, van temp! Ezt a kommentet majd töröljük.*/
+    public void skeletonTesterSwittch(int arrayIndex){
+    	Switch temp = (Switch)railCollection.get(arrayIndex);
+    	temp.switchRail();
+    }
 }
