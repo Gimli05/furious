@@ -1,8 +1,0 @@
-12;7
-ERRRSRRRxxxx
-xxxxRxxRxxxx
-xxxxRxxRxxxx
-xxxxSRRSxxxx
-xxxxRxxRR2RR
-xxxxRxxxxxxR
-xxxxRRRR1RRR
