@@ -18,6 +18,7 @@ public class Switch extends Rail{
 	 * Alap értelmezetten nem módosít a vonat irányán.
 	 */
 	public Switch(){
+		System.out.println("Class: Switch\t Method: Constructor\t Param: -");
 		state = false;
 	}
 
@@ -29,12 +30,14 @@ public class Switch extends Rail{
 	 * ha false volt akkor pedig true. Ezzel megvalósul, hogy ha eddig megváltoztatta az irányt a váltó, akkor most pont át fogja engedni egyenesen, ha eddig átengedte, most elkanyarítja.
 	 */
 	public void switchRail(){ /* Eredetileg switch() */
+		System.out.println("Class: Switch\t Method: switchRail\t Param: -\t Változik a továbbhaladási irány");
 		state = !state;
 	}
 	
 	
 	@Override
 	public Rail getNextRail(Rail trainPreviousRail){
+		System.out.println("Class: Switch\t Method: getNextRail\t Param: Rail trainPreviousRail\t A következő sín.");
 		int counter=state?1:0; /* Ha módosítani akarjuk az irányt, akkor a count 1-lesz, ha nem akarjuk módosítani, akkor nulla */
 		
 		for(Rail oneNeighbourRail:neighbourRails){/* Minden sínt végignézünk. */
