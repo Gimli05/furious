@@ -1,6 +1,7 @@
 package sandbox;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -62,14 +63,14 @@ public class Main {
 						
 						/* Ez a programrész akkor fut le, ha a felhasználó az elsõ pályát választja. Létrejön egy GameController. */
 						GameController gc1 = new GameController();
-						/* TODO Ebben még így nincs benne, hogy az 1. pálya indul. */
+						gc1.startNewGame(1);
 						
 						break;
 						case 2: System.out.println("2. pálya indítása...");
 						
 						/* Ez a programrész akkor fut le, ha a felhasználó a második pályát választja. Létrejön egy GameController. */
 						GameController gc2 = new GameController();
-						/* TODO Ebben még így nincs benne, hogy a 2. pálya indul. Nem jó, ezt GC-n keresztül kellene */
+						gc2.startNewGame(2);
 						
 						break;
 						/* Ez a programrész akkor fut le, ha a felhasználó nem 1-est vagy kettest adott meg bemenetként. 
@@ -90,10 +91,12 @@ public class Main {
 					/* Ez a kódrészlet fut le akkor, ha  a felhasználó futtatja az alagútszáj aktiválása tesztesetet
 					 * úgy, hogy, a pályán a éppen nincs egyetlen alagútszáj se nyitott állapotban.
 					 */
-					TunnelEntrance te1 = new TunnelEntrance();
-					te1.activate();
-					/* TODO Ebbõl még így nem derül ki, hogy már volt-e valahol alagútszáj. Nem jó, ezt GC-n keresztül kellene
-					 * Plusz bullshit ha kerül ide kód*/
+					GameController gc3 = new GameController();
+					gc3.startNewGame(1);
+					/**gc3.ActivateAnyEntrance();					A szekv. diagramunk alapján kb ez történik **/
+					/* Ez azért van, mert a GUI-n lesz majd event generálással ez megoldva, de itt még nincs GUI*/
+					
+					/* TODO Ez inkább placeholder kód fentebb...
 					
 					break;
 					
@@ -121,13 +124,15 @@ public class Main {
 				 * ez szembemenne a feladat specifikációjával. Ugyanitt, nem lehet 0 aktív alagútszáj, ha éppen deaktiválni
 				 * szeretnénk egy alagútszájat, ebben az esetben ugyanis nem lenne mit deaktiválni.
 				 */
-				case 3: System.out.println("Alagótszály deaktiválása. Hány alagútszály van jelenleg nyitva? [1, 2]");
+				case 3: System.out.println("Alagútszály deaktiválása. Hány alagútszály van jelenleg nyitva? [1, 2]");
 				switch (Integer.parseInt(scanner.nextLine()))
 				{
 					case 1: System.out.println("Egyedüli alagútszáj zárása..."); 
 					/* Ez a programrész akkor fut le, amikor egy alagútszájat deaktiválunk úgy, hogy ez volt az egyetlen alagútszáj a pályán.
 					 * Ebben az esetben csak egyszerûen deaktiválódik az alagútszáj.
 					 */
+					
+					
 					/*TODO */
 					break;
 					case 2: System.out.println("Egyik alagútszáj zárása...");
@@ -149,6 +154,7 @@ public class Main {
 				 * A váltóknak két állása van, egy alaphelyzet, amiben a rajta áthaladó
 				 * vonat haladási iránya nem változik meg. A másik az alternatív helyzetben a 
 				 * vonat irányt vált. 
+				 * A tesztesethez használt map-en csak egy váltó van. (map3.txt)
 				 */
 				case 4: System.out.println("Váltó állítás. A váltó eredetileg módosította az irányt? [i/n]");
 				
@@ -158,17 +164,24 @@ public class Main {
 					case 'i': System.out.println("Váltó állítása alaphelyzetbe..."); 
 					
 					/* Ez a kódrészlet akkor fut le ha a váltó alternatív helyzetben volt és mi alaphelyzetbe
-					 * szeretnénk állítani.
+					 * szeretnénk állítani. Ez majd GUI-n eventekkel történik majd a jövõben. Mivel a váltó alaphelyzetbõl indul,
+					 * ehhez elõbb ki kell billenteni az alternatív helyzetbe, majd onnan vissza.
 					 */
-					/*TODO */
+					GameController gc41 = new GameController();
+					gc41.startNewGame(3);
+					gc41.skeletonTesterSwitch(0);
+					gc41.skeletonTesterSwitch(0);
+					
 					break;
 					case 'N':
 					case 'n': System.out.println("Váltó állítása alternatív helyzetbe...");
 					
 					/*Ez a kódrészlet akkor fut le ha a váltó alaphelyzetben volt
-					 * és mi szeretnénk a másik állapotába helyezni.
+					 * és mi szeretnénk a másik állapotába helyezni. Ez majd GUI-n eventekkel történik majd a jövõben.
 					 */
-					/*TODO */
+					GameController gc42 = new GameController();
+					gc42.startNewGame(3);
+					gc42.skeletonTesterSwitch(0);
 					break;
 					/* Ha a felhasználó nem i vagy n bemenetet adott, akkor a
 					 * fenti tesztesetek közül egyik sem fut le. Ehelyett a program visszalép 
@@ -206,6 +219,11 @@ public class Main {
 					case 1: System.out.println("A vonat sínre lép..."); 
 					
 					/*Ez a programrész fut le akkor, ha a vonat egy egyszerû sínre lép. */
+					GameController gc51 = new GameController();
+					gc51.startNewGame(1);
+					
+					
+					
 					/*TODO */
 					break;
 					case 2: System.out.println("A vonat váltóra lép. A váltó alaphelyzetben (i) vagy az elternatív helyzetben (n) van? [i, n]");
