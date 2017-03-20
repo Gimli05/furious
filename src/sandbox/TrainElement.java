@@ -17,6 +17,7 @@ public abstract class TrainElement {
 	 * @return	A Kabin színe.
 	 */
 	public Color getColor(){
+		System.out.println("Class: TrainElement\t Method: getColor\t Param: -\tReturn: color");
 		return color;
 	}
 }
