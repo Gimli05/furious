@@ -35,7 +35,8 @@ public class Cab extends TrainElement{
 	/** 
 	 * Kiüríti a kabint. A játék célja, hogy minden utas leugorjon a saját színû állomásán. 
 	 * Ehhez ha egy kabin kiüríthetõ állapotban van - azaz a mozdonytól hátrafelé nézve õ az elsõ kabin ahol még vannak utasok, és a színe megegyezik  az állomás színével - 
-	 * akkor ennek a függvények a meghívásával lehet kiüríteni az utasokat az adott megállónál. */
+	 * akkor ennek a függvények a meghívásával lehet kiüríteni az utasokat az adott megállónál. 
+	 */
 	public void emptyCab(){ 
 		hasPassenger = false;
 	}

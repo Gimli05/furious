@@ -9,15 +9,16 @@ import java.util.ArrayList;
  * vagy egy leszármazottját, megtudható a getNextrRail metódus segítségével és a vonat previousRail attribútumával együtt, hogy a vonatnak merre kell továbblépnie.
  */
 public class Rail {
-	protected ArrayList<Rail> neighbourRails; /*Egy lista a szomszédos sínekre mutató pointerekrõl, mely az adott sín közvetlen közelében találhatóak. */
+	protected ArrayList<Rail> neighbourRails; /* Egy lista a szomszédos sínekre mutató pointerekrõl, mely az adott sín közvetlen közelében találhatóak. */
+	protected int trainLenghtCounter; /* Ebben tároljuk, hogy hány kabin fog még áthaladni a sínen (mivel a Train entity csak 1 mezõt foglal el konkrétan) */
 	
 	
-	//TODO: konstruktor?
-	public Rail(ArrayList<Rail> neighbours){
-		//MÃ¡soljuk
-		neighbourRails=new ArrayList<Rail>(neighbours);
+	/**
+	 * A Rail konstruktora. Beállítjaa countert 0-ra.
+	 */
+	public Rail(){
+		trainLenghtCounter = 0; /* Létrehozásakor minden sín üres. */
 	}
-	
 	
 	
 	/**
@@ -28,13 +29,12 @@ public class Rail {
 	 * @return	A következõ sín ahova lépni fog a vonat.
 	 */
 	public Rail getNextRail(Rail trainPreviousRail){
-		//TODO: kitölteni
-		for(Rail r:neighbourRails){
-			if(trainPreviousRail!=r){
-				return r;
+		for(Rail oneNeighbourRail:neighbourRails){ /* Végignézzük az összes sínt, és amelyik nem az érkezõ sín, az a következõ sín, mivel csak 2 szomszédja van egy sima sínnek */
+			if(trainPreviousRail!=oneNeighbourRail){
+				return oneNeighbourRail;
 			}
 		}
-		return null;
+		return null; /* Ha nincs hova lépnie, akkor null-t adunk vissza */
 
 	}
 	
@@ -46,13 +46,40 @@ public class Rail {
 	 * @param visitor A látogató, melyet fogadni tud.
 	 */
 	public void accept(Visitor visitor){
-		//TODO: Long talÃ¡n Ã©rti
-				visitor.visit(this);
-
+		visitor.visit(this); /* Elfogadjuk a visitort, és átadjuk magunkat, hogy nézzen meg minket. */
 	}
-	public boolean CheckIfOccupied(){
-		//TODO: Long ezt talÃ¡lta a szekvenciÃ¡ban
-		return false;
+	
+	
+	/**
+	 * Ellenõrzi, hogy van-e még vonat a sínen. 
+	 * Ha van, akkor true-val, ha nincs akkor false-al tér vissza.
+	 * 
+	 * @return	Foglalt-e a sín.
+	 */
+	public boolean checkIfOccupied(){
+		if(trainLenghtCounter == 0){ /* Ha nincs már rajta egyetlen cab-sem akkor false-al tér vissza egyébként true-val. */
+			return false;
+		} else {
+			return true;
+		}
 	}
-
+	
+	
+	/**
+	 * Miután minden Rail-t létrehozutnk, beállítjuk melyik az adott sínnek a szomszédja.
+	 * 
+	 * @param newNeighbourRails	Az adott sín szomszéjdai.
+	 */
+	public void setNeighbourRails(ArrayList<Rail> newNeighbourRails){
+		neighbourRails = newNeighbourRails;
+	}
+	
+	
+	/**
+	 * Csökkenti a trainLenghtCountert
+	 * Minden léptetés során csökkentjük egyel a számlálót, hiszen már elhaladt egy kabin.
+	 */
+	public void lowerTrainLenghtCounter(){
+		trainLenghtCounter--;
+	}
 }

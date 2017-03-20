@@ -17,8 +17,7 @@ public class Switch extends Rail{
 	 * A váltó konstruktora.
 	 * Alap értelmezetten nem módosít a vonat irányán.
 	 */
-	public Switch(ArrayList<Rail> neighbourRails){
-		super(neighbourRails);
+	public Switch(){
 		state = false;
 	}
 
@@ -29,26 +28,25 @@ public class Switch extends Rail{
 	 * A váltó irányának megváltoztatására szolgál. A játékos aktiválja a váltót, melyre ez a függvény hívódik meg Ha eddig a state true-volt akkor most false lesz, 
 	 * ha false volt akkor pedig true. Ezzel megvalósul, hogy ha eddig megváltoztatta az irányt a váltó, akkor most pont át fogja engedni egyenesen, ha eddig átengedte, most elkanyarítja.
 	 */
-	public void switchRail(){ /*Eredetileg switch() */
-		state= !state;
+	public void switchRail(){ /* Eredetileg switch() */
+		state = !state;
 	}
 	
 	
 	@Override
 	public Rail getNextRail(Rail trainPreviousRail){
-		//TODO: kitÃ¶lteni
-		//TODO: statetÅ‘l fÃ¼ggÅ‘en az elsÅ‘ vagy a mÃ¡sodik kell
-		int count=state?1:0; //(count 1 ha vÃ¡lt Ã©s 0 ha nem, annyiadikat adjuk vissza a sorban)
-		for(Rail r:neighbourRails){
-			if(trainPreviousRail!=r){
-				if(count==0){
-					return r; //Ez kell nekÃ¼nk
-				}else{
-					count--; //Egyet kihagyunk
+		int counter=state?1:0; /* Ha módosítani akarjuk az irányt, akkor a count 1-lesz, ha nem akarjuk módosítani, akkor nulla */
+		
+		for(Rail oneNeighbourRail:neighbourRails){/* Minden sínt végignézünk. */
+			if(trainPreviousRail!=oneNeighbourRail){ /* Ha nem az a sín amit nézünk, ahonnan jött a vonat */
+				if(counter==0){
+					return oneNeighbourRail; /* A counter 0, azaz ezt a sínt kell visszaadjuk. */
+				} else {
+					counter--; /* A counter még nem nulla, így nem ezt kell visszaadnunk. */
 				}		
 			}
 		}
-		return null; //Ha nem lenne semmi
+		return null; /* Nem találtunk következő sínt, így null-al tértünk vissza. */
 	}
 
 }

@@ -16,8 +16,7 @@ public class TrainStation extends Rail{
 	 * 
 	 * @param stationColor	A megálló színe.
 	 */
-	public TrainStation(ArrayList<Rail> neighbourRails,Color stationColor){
-		super(neighbourRails);
+	public TrainStation(Color stationColor){
 		color = stationColor;
 	}
 	

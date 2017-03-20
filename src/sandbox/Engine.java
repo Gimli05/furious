@@ -11,6 +11,6 @@ public class Engine extends TrainElement{
 	 * Az engine konstruktora. beállítja feketére a mozdony színét.
 	 */
 	public Engine(){
-		color = new Color(0,0,0); /* A mozdonynak fekete színe van, így ezt a létrejövetelekor beállítjuk */
+		color = Color.BLACK; /* A mozdonynak fekete színe van, így ezt a létrejövetelekor beállítjuk */
 	}
 }

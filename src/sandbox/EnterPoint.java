@@ -8,10 +8,5 @@ import java.util.ArrayList;
  * a szerelvény egy Michael Bay Effekt keretében felrobban, és a játékos veszít.
  */
 public class EnterPoint extends Rail {
-
-	public EnterPoint(ArrayList<Rail> neighbours) {
-		super(neighbours);
-		// TODO Auto-generated constructor stub
-	}
 	//Empty class
 }

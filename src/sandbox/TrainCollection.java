@@ -17,9 +17,7 @@ public class TrainCollection {
 	 * vagy adott esetben csak beállítja a következõ lépés helyét a train setNextRail() függvényével.
 	 */
 	public void moveAllTrains(){
-		//TODO: kitölteni.
-		
-		for(Train train: trains){
+		for(Train train: trains){ /* Minden vonatot a neki következõ sínre léptetünk */
 			Rail rail=train.getNextRail();
 			rail.accept(train);
 		}
