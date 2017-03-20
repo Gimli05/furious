@@ -37,7 +37,7 @@ public class Switch extends Rail{
 	
 	@Override
 	public Rail getNextRail(Rail trainPreviousRail){
-		System.out.println("Class: Switch\t Method: getNextRail\t Param: Rail trainPreviousRail\t A következő sín.");
+		System.out.println("Class: Switch overriding Rail\t Method: getNextRail\t Param: Rail trainPreviousRail\t A következő sín.");
 		int counter=state?1:0; /* Ha módosítani akarjuk az irányt, akkor a count 1-lesz, ha nem akarjuk módosítani, akkor nulla */
 		
 		for(Rail oneNeighbourRail:neighbourRails){/* Minden sínt végignézünk. */
