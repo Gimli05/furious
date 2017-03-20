@@ -1,41 +1,54 @@
 package sandbox;
 
+import java.util.ArrayList;
+
 /**
- * Speciális sín, két lehetséges továbbhaladási iránnyal. Összesen 3 másik sínnel szomszédos. 
- * A felhasználó tudja beállítani, hogy a két lehetséges továbbhaladási irány közül melyik aktív. 
- * Visitor fogadásánál ezt felhasználva mondja meg, hogy az õsbõl származó (de felülírt) getNextRail metódusa mivel tér vissza.
+ * SpeciÃ¡lis sÃ­n, kÃ©t lehetsÃ©ges tovÃ¡bbhaladÃ¡si irÃ¡nnyal. Ã–sszesen 3 mÃ¡sik sÃ­nnel szomszÃ©dos. 
+ * A felhasznÃ¡lÃ³ tudja beÃ¡llÃ­tani, hogy a kÃ©t lehetsÃ©ges tovÃ¡bbhaladÃ¡si irÃ¡ny kÃ¶zÃ¼l melyik aktÃ­v. 
+ * Visitor fogadÃ¡sÃ¡nÃ¡l ezt felhasznÃ¡lva mondja meg, hogy az ÃµsbÃµl szÃ¡rmazÃ³ (de felÃ¼lÃ­rt) getNextRail metÃ³dusa mivel tÃ©r vissza.
  */
 public class Switch extends Rail{
-	private Boolean state; /* A váltó állapotát tároló változó. A váltónak két állapota lehet: módosítja az irányt, vagy nem módosítja azt. 
-							* Ha módosítja, akkor true az értéke, ha nem módosítja az irány, akkor false. Ha módosítja az irányt, 
-							* akkor a menetirány szerinti jobb vagy bal oldalra irányítja át a vonatot, ha nem módosítja, akkor egyenesen küldi tovább. */
+	private Boolean state; /* A vÃ¡ltÃ³ Ã¡llapotÃ¡t tÃ¡rolÃ³ vÃ¡ltozÃ³. A vÃ¡ltÃ³nak kÃ©t Ã¡llapota lehet: mÃ³dosÃ­tja az irÃ¡nyt, vagy nem mÃ³dosÃ­tja azt. 
+							* Ha mÃ³dosÃ­tja, akkor true az Ã©rtÃ©ke, ha nem mÃ³dosÃ­tja az irÃ¡ny, akkor false. Ha mÃ³dosÃ­tja az irÃ¡nyt, 
+							* akkor a menetirÃ¡ny szerinti jobb vagy bal oldalra irÃ¡nyÃ­tja Ã¡t a vonatot, ha nem mÃ³dosÃ­tja, akkor egyenesen kÃ¼ldi tovÃ¡bb. */
 	
 	
 	/**
-	 * A váltó konstruktora.
-	 * Alap értelmezetten nem módosít a vonat irányán.
+	 * A vÃ¡ltÃ³ konstruktora.
+	 * Alap Ã©rtelmezetten nem mÃ³dosÃ­t a vonat irÃ¡nyÃ¡n.
 	 */
-	public Switch(){
+	public Switch(ArrayList<Rail> neighbourRails){
+		super(neighbourRails);
 		state = false;
 	}
+
 	
 	
 	/**
-	 * !!!MIVEL A JAVABAN VAN ALAP SWITCH EZÉRT ÁT KELLET ÍRNOM SWITCHRAIL-RE A FÜGGVÉNYNEVET!!!!
-	 * A váltó irányának megváltoztatására szolgál. A játékos aktiválja a váltót, melyre ez a függvény hívódik meg Ha eddig a state true-volt akkor most false lesz, 
-	 * ha false volt akkor pedig true. Ezzel megvalósul, hogy ha eddig megváltoztatta az irányt a váltó, akkor most pont át fogja engedni egyenesen, ha eddig átengedte, most elkanyarítja.
+	 * !!!MIVEL A JAVABAN VAN ALAP SWITCH EZÃ‰RT ÃT KELLET ÃRNOM SWITCHRAIL-RE A FÃœGGVÃ‰NYNEVET!!!!
+	 * A vÃ¡ltÃ³ irÃ¡nyÃ¡nak megvÃ¡ltoztatÃ¡sÃ¡ra szolgÃ¡l. A jÃ¡tÃ©kos aktivÃ¡lja a vÃ¡ltÃ³t, melyre ez a fÃ¼ggvÃ©ny hÃ­vÃ³dik meg Ha eddig a state true-volt akkor most false lesz, 
+	 * ha false volt akkor pedig true. Ezzel megvalÃ³sul, hogy ha eddig megvÃ¡ltoztatta az irÃ¡nyt a vÃ¡ltÃ³, akkor most pont Ã¡t fogja engedni egyenesen, ha eddig Ã¡tengedte, most elkanyarÃ­tja.
 	 */
 	public void switchRail(){ /*Eredetileg switch() */
-		if (state == true){
-			state = false;
-		} else {
-			state = true;
-		}
+		state= !state;
 	}
 	
 	
 	@Override
-	public void accept(Visitor visitor){
-		//TODO: kitölteni.
+	public Rail getNextRail(Rail trainPreviousRail){
+		//TODO: kitÃƒÂ¶lteni
+		//TODO: statetÃ…â€˜l fÃƒÂ¼ggÃ…â€˜en az elsÃ…â€˜ vagy a mÃƒÂ¡sodik kell
+		int count=state?1:0; //(count 1 ha vÃƒÂ¡lt ÃƒÂ©s 0 ha nem, annyiadikat adjuk vissza a sorban)
+		for(Rail r:neighbourRails){
+			if(trainPreviousRail!=r){
+				if(count==0){
+					return r; //Ez kell nekÃƒÂ¼nk
+				}else{
+					count--; //Egyet kihagyunk
+				}		
+			}
+		}
+		return null; //Ha nem lenne semmi
 	}
+
 }

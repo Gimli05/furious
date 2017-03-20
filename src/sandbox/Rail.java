@@ -9,10 +9,14 @@ import java.util.ArrayList;
  * vagy egy leszármazottját, megtudható a getNextrRail metódus segítségével és a vonat previousRail attribútumával együtt, hogy a vonatnak merre kell továbblépnie.
  */
 public class Rail {
-	private ArrayList<Rail> neighbourRails; /*Egy lista a szomszédos sínekre mutató pointerekrõl, mely az adott sín közvetlen közelében találhatóak. */
+	protected ArrayList<Rail> neighbourRails; /*Egy lista a szomszédos sínekre mutató pointerekrõl, mely az adott sín közvetlen közelében találhatóak. */
 	
 	
 	//TODO: konstruktor?
+	public Rail(ArrayList<Rail> neighbours){
+		//MÃ¡soljuk
+		neighbourRails=new ArrayList<Rail>(neighbours);
+	}
 	
 	
 	
@@ -25,7 +29,13 @@ public class Rail {
 	 */
 	public Rail getNextRail(Rail trainPreviousRail){
 		//TODO: kitölteni
+		for(Rail r:neighbourRails){
+			if(trainPreviousRail!=r){
+				return r;
+			}
+		}
 		return null;
+
 	}
 	
 	
@@ -36,6 +46,13 @@ public class Rail {
 	 * @param visitor A látogató, melyet fogadni tud.
 	 */
 	public void accept(Visitor visitor){
-		//TODO: kitölteni.
+		//TODO: Long talÃ¡n Ã©rti
+				visitor.visit(this);
+
 	}
+	public boolean CheckIfOccupied(){
+		//TODO: Long ezt talÃ¡lta a szekvenciÃ¡ban
+		return false;
+	}
+
 }
