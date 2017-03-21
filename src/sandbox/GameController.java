@@ -230,20 +230,7 @@ public class GameController {
     	System.out.println("Class: GameController\t Object: "+this+"\t Returned: "+isAllEmpty);
     	return isAllEmpty;
     }
-    
-
-    
-    /** Kizárólag a teszteléshez létrehozott metódus
-     * A switch funkcionalitását demonstrálja a tesztelõnek.
-     * Beégetett pályát kap a tesztelõ amin az egyetlen elem egy switch. Ez lesz a railCollection egyetlen eleme
-     * Ezután a railCollection 0. indexére meghívja ezt, ami készít egy switchet és átkapcsolja.
-     * @param n
-     */
-	public void skeletonTesterSwitch(int n) {
-		Switch tempSwitch = (Switch)railCollection.get(n);
-		tempSwitch.switchRail();
-	}
-    
+   
 	
 	/**
 	 * Kizárólag a teszteléshez létrehozott metódus.
@@ -309,6 +296,29 @@ public class GameController {
 			}
 		}
 		System.out.println("Class: GameController\t Object: "+this+"\t Aktív alagútszájak száma: "+activeEntranceCounter);
+	}
+	
+	
+	/**
+	 * Kizárólag a teszteléshez létrehozott metódus.
+	 * A pályán megkeresi az elsõ váltót amit talál és beállítja a kívánt állapotra.
+	 * 
+	 * A getClass fv csak azért kell bele, mert a végsõ verzióban a GUI-n történõ kattintásból egybõl meg fogjuk tudni az eventet kiváltó objektum id-jét,
+	 * GUI hiányában azonban erre nincs lehetõségünk. Ha nagyon szükséges, meg tudjuk oldani enélkül is (de az ocsmányabb lenne) ezért ennél maradtunk.
+	 */
+	public void skeletonTesterSwitchASwitch(){
+		Boolean switchFound = false;
+		while(!switchFound){
+			for(Rail oneRail:railCollection){
+				if(oneRail.getClass() == Switch.class){  /*  Az ilyenért lehet kibasznak tbh.. :D */
+					Switch oneSwitch = (Switch) oneRail; /* Ezért meg fõleg. */
+					oneSwitch.switchRail();
+					switchFound = true;
+					break;
+					
+				}
+			}
+		}
 	}
 	
 

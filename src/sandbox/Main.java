@@ -176,7 +176,7 @@ public class Main {
 				switch (scanner.nextLine().charAt(0))
 				{
 					case 'I': 
-					case 'i': System.out.println("Váltó állítása alaphelyzetbe..."); 
+					case 'i': 
 					
 					/* Ez a kódrészlet akkor fut le ha a váltó alternatív helyzetben volt és mi alaphelyzetbe
 					 * szeretnénk állítani. Ez majd GUI-n eventekkel történik majd a jövõben. Mivel a váltó alaphelyzetbõl indul,
@@ -184,19 +184,21 @@ public class Main {
 					 */
 					GameController gc41 = new GameController();
 					gc41.startNewGame(3);
-					gc41.skeletonTesterSwitch(0);
-					gc41.skeletonTesterSwitch(0); 
+					gc41.skeletonTesterSwitchASwitch();
+					System.out.println("Váltó állítása alaphelyzetbe..."); 
+					gc41.skeletonTesterSwitchASwitch();
 					
 					break;
 					case 'N':
-					case 'n': System.out.println("Váltó állítása alternatív helyzetbe...");
+					case 'n': 
 					
 					/*Ez a kódrészlet akkor fut le ha a váltó alaphelyzetben volt
 					 * és mi szeretnénk a másik állapotába helyezni. Ez majd GUI-n eventekkel történik majd a jövõben.
 					 */
 					GameController gc42 = new GameController();
 					gc42.startNewGame(3);
-					gc42.skeletonTesterSwitch(0);
+					System.out.println("Váltó állítása alternatív helyzetbe..."); /*A váltó alapból alap helyzetben van, így csak egy váltás szükséges rajta */
+					gc42.skeletonTesterSwitchASwitch();
 					break;
 					/* Ha a felhasználó nem i vagy n bemenetet adott, akkor a
 					 * fenti tesztesetek közül egyik sem fut le. Ehelyett a program visszalép 
