@@ -56,7 +56,7 @@ public class GameController {
 	 */
 	public static void winEvent(){
 		System.out.println("Class: GameController\t Method: winEvent\t Param: -\t Gyozelem.");
-		if()
+		/*TODO */
 	}
 	
 	
@@ -164,8 +164,14 @@ public class GameController {
 				if(tempMap[i][j]!=null)railCollection.add(tempMap[i][j]); /*Ha van Rail tipus, akkor a kollekciónk része kell hogy legyen, felvesszük.*/
 			}
 		}
+//<<<<<<< HEAD
+		br.close();
+		System.out.println("Létrehozott pályaelemek száma: "+railCollection.size());
+		isTheGameRunning=true;
+//=======
 		System.out.println("Létrehozott pályaelemek száma: "+railCollection.size()); /*Megnézzük hogy változott e valam*/
 		isTheGameRunning=true; /*Elinditjuka játkot*/
+//>>>>>>> branch 'master' of https://github.com/Gimli05/furious
 		System.out.println("A játék elindult");
 	}
 	
@@ -213,6 +219,20 @@ public class GameController {
     private boolean hasTheGameEnded(){
     	return trainCollection.isAllEmpty();
     }
+    
+
+    
+    /** Kizárólag a teszteléshez létrehozott metódus
+     * A switch funkcionalitását demonstrálja a tesztelõnek.
+     * Beégetett pályát kap a tesztelõ amin az egyetlen elem egy switch. Ez lesz a railCollection egyetlen eleme
+     * Ezután a railCollection 0. indexére meghívja ezt, ami készít egy switchet és átkapcsolja.
+     * @param n
+     */
+	public void skeletonTesterSwitch(int n) {
+		Switch tempSwitch = (Switch)railCollection.get(n);
+		tempSwitch.switchRail();
+		
+	}
     
     
 }

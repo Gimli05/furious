@@ -1,5 +1,6 @@
 package sandbox;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 /**
@@ -55,7 +56,7 @@ public class TrainCollection {
 	 */
 	public boolean isAllEmpty(){
 		for(Train train: trains){ /*Minden vonatot vizsgálunk*/
-			if(getFirstNotEmptyCabColor != Color.BLACK)return false; /*Ha van aminek van nem fekete vagonja akkor van utas*/
+			if(train.getFirstNotEmptyCabColor() != Color.BLACK)return false; /*Ha van aminek van nem fekete vagonja akkor van utas*/
 		}
 		return true;
 	}

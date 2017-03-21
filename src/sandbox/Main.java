@@ -1,5 +1,6 @@
 package sandbox;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -55,6 +56,8 @@ public class Main {
 			switch(Integer.parseInt(scanner.nextLine())){
 			/* Elõször is intté kasztolom a bemenetet.*/
 			
+			
+			
 				case 1: System.out.println("1: Új játék indítása. Melyik pálya legyen? [1, 2]");
 				/* Ez a teszteset új játékot indít. Bemenetként vár a felhasználótól egy számot, hogy melyik pálya
 				 * induljon el. */
@@ -62,15 +65,16 @@ public class Main {
 						case 1: System.out.println("1. pálya indítása...");	
 						
 						/* Ez a programrész akkor fut le, ha a felhasználó az elsõ pályát választja. Létrejön egy GameController. */
-						GameController gc1 = new GameController();
-						gc1.startNewGame(1);
+						/* a gc utáni szám azt mutatja, melyik feladat melyik részfeladatához tartozik. */
+						GameController gc11 = new GameController();
+						gc11.startNewGame(1);
 						
 						break;
 						case 2: System.out.println("2. pálya indítása...");
 						
 						/* Ez a programrész akkor fut le, ha a felhasználó a második pályát választja. Létrejön egy GameController. */
-						GameController gc2 = new GameController();
-						gc2.startNewGame(2);
+						GameController gc12 = new GameController();
+						gc12.startNewGame(2);
 						
 						break;
 						/* Ez a programrész akkor fut le, ha a felhasználó nem 1-est vagy kettest adott meg bemenetként. 
@@ -79,6 +83,8 @@ public class Main {
 					}
 				break;
 					
+				
+				
 				/* Ez a teszteset alagútszáájak lérehozását teszi lehetõvé a felhasználó számára. 
 				 * Elõször megkérdezi, hány alagútszáj van nyitva jelenleg a pályán. Egyszerre csak két  
 				 * alagútszáj lehet nyitva a pályán, így a megengedett bemenetek a 0 és az 1.
@@ -118,6 +124,8 @@ public class Main {
 				}
 				break;
 				
+				
+				
 				/* Ez a teszteset alagútszáj deaktiválására szolgál.
 				 * Mivel egyszerre csak két alagútszáj lehet aktív a pályán, ezért  a megengedett bemenetek az 1 és a 2.
 				 * Értelemszerûen kettõnél több aktív alagútszáj nem létezhet egy pályán egyszerre, ugyanis
@@ -149,6 +157,8 @@ public class Main {
 				}
 				break;
 				
+				
+				
 				/* 
 				 * Ez a teszteset a pályán található váltók állítását szimulálja. 
 				 * A váltóknak két állása van, egy alaphelyzet, amiben a rajta áthaladó
@@ -170,7 +180,7 @@ public class Main {
 					GameController gc41 = new GameController();
 					gc41.startNewGame(3);
 					gc41.skeletonTesterSwitch(0);
-					gc41.skeletonTesterSwitch(0);
+					gc41.skeletonTesterSwitch(0); 
 					
 					break;
 					case 'N':
@@ -190,6 +200,8 @@ public class Main {
 					default: System.out.println("Csak az 'i' és 'n' a támogatott bemenet");
 				}
 				break;
+				
+				
 				
 				/*Ez a teszteset a vonat léptetését szimulálja
 				 * A vonat 5 különbözõ sínre léphet. Ezek a következõk:
@@ -219,8 +231,7 @@ public class Main {
 					case 1: System.out.println("A vonat sínre lép..."); 
 					
 					/*Ez a programrész fut le akkor, ha a vonat egy egyszerû sínre lép. */
-					GameController gc51 = new GameController();
-					gc51.startNewGame(1);
+
 					
 					
 					
@@ -339,6 +350,8 @@ public class Main {
 			}
 			break;
 			
+			
+			
 				/* Ez a teszteset felel azért, ha egy új vonat érkezik a pályára.
 				 * Elõször lekérdezi a felhasználótól a program, hogy hány vagon legyen a vonatban.
 				 */
@@ -346,7 +359,7 @@ public class Main {
 				int vagonSzam = Integer.parseInt(scanner.nextLine());
 				/* Megvizsgáljuk, hogy a felhasználó érvényes vagon számot írt-e be. */
 				if(vagonSzam <= 0) break;
-				/* TODO létrehozni egy vonatot a collectionben adott vagonszámmal */
+				
 				System.out.println("A vonatnak " + vagonSzam + " vagonja lesz");
 				/*
 				 * Ezek a booleanok azért kellenek, mert ha már elkezdõdik a vonat vagonjainak felkonfigurálása,
@@ -358,6 +371,8 @@ public class Main {
 				 */
 				boolean ervenyesBemenetSzin = false;		
 				boolean ervenyesBemenetVagonteli = false;
+				/*Ebben tároljuk a vagonok színét amit a felhasználó ad meg*/
+				ArrayList<Color> cabinColors = new ArrayList<Color>();
 				/* Ez a ciklus végrehajtja a vagon inicializálást minden vagonra. */
 				for(int i = 0; i < vagonSzam; i++)
 				{
@@ -365,27 +380,28 @@ public class Main {
 					ervenyesBemenetVagonteli = false;
 					while(!ervenyesBemenetSzin)
 					{
-						System.out.println("Milyen színû legyen a " + i + ". vagon? [r, g, b]");
+						System.out.println("Milyen színû legyen a " + (i+1) + ". vagon? [r, g, b]");
 						switch (scanner.nextLine().charAt(0))
 						{
 							case 'R':
-							case 'r': System.out.println("Piros a(z) " + i + ". vagon"); 
+							case 'r': System.out.println("Piros a(z) " + (i+1) + ". vagon"); 
 							/* Ha egy érvényes színt ad meg a felhasználó, akkor kilép ebbõl a while
 							 * ciklusból Ellenkezõ esetben, megint azt kérdezi tõle a program, milyen színû legyen
 							 * ez a vagon.
 							 */
 							ervenyesBemenetSzin = true;
-							/*TODO */
+							/* beállítjuk az ideiglenes tömbünkben, hogy a felhasználó azt mondta, legyen az i.-edik elem piros */
+							cabinColors.add(Color.RED);
 							break;
 							case 'G':
-							case 'g': System.out.println("Zöld a(z) " + i + ". vagon");
+							case 'g': System.out.println("Zöld a(z) " + (i+1) + ". vagon");
 							ervenyesBemenetSzin = true;
-							/*TODO */
+							cabinColors.add(Color.GREEN);
 							break;
 							case 'B':
-							case 'b': System.out.println("Kék a(z) " + i + ". vagon");
+							case 'b': System.out.println("Kék a(z) " + (i+1) + ". vagon");
 							ervenyesBemenetSzin = true;
-							/*TODO */
+							cabinColors.add(Color.BLUE);
 							break;
 							default: System.out.println("Csak az 'r', 'g' és 'b' a támogatott bemenet.");
 						}
@@ -403,24 +419,37 @@ public class Main {
 							case 'N':
 							case 'n': System.out.println("Ebben a vagonban nem lesznek utasok.");
 							ervenyesBemenetVagonteli = true;
-							/*TODO */
+							/*TODO Ez most így semmire se jó. Benne van a cab kódjába égetve a konstruktorába, hogy a kabinok mindig úgy kezdenek, hogy teli vannak!
+							 * így annak, hogy a felhasználó azt mondja, van/ nincs utas a vagonban értelmetlen, mert úgyis lesz.
+							 * Lehet ennek a tesztelését így ejteni kéne.*/
 							break;
 							default: System.out.println("Csak az 'i' és kis 'n' a támogatott bemenet");
 						}
 					}
-					
-					/* TODO beállítani az adott vagon színét */
 				}
+				
+				GameController gc61 = new GameController();
+				gc61.startNewGame(4);
+				Train test6Train = new Train(cabinColors);
+				TrainCollection test6TrainCollection = new TrainCollection();
+				test6TrainCollection.addNewTrain(test6Train);
+				/* TODO Ez a vonat így most még csak van. Benne van egy traincollectionben, de nincs odaadva a gamecontrollernek.
+				 * gc traincollectionje privát, nem lehet átadni neki. 
+				 * By the way, ha ebben a tesztesetben benne van, hogy a vonat rálép az entrypointra, vagy csak létrejön?*/
 				break;
+				
+				
 				
 				/* Ez a teszteset azt szimulálja, ha a játékos nyer.
 				 * Ebben az esetben megkérdezi, melyik pályát nyerte meg.
 				 */
 				case 7: System.out.println("Gyõzelem. Melyik pályán volt? [1, 2]");
-				switch (scanner.nextLine().charAt(0)){
+				switch (Integer.parseInt(scanner.nextLine())){
 					case 1: System.out.println("Gyõzelem az elsõ pályán...");
 					/* Ha a játékos az elsõ pályát nyeri meg akkor a játék a második pályát elkezdi. */
-					/*TODO*/
+					GameController.winEvent();
+					/*TODO  a winevent statikus, ezért a fent látott módon hívódik meg. Így értelmetlen arról beszélni,
+					 * melyik pályán nyert a játékos, mert nem úgy hívódik meg a winevent, hogy pl gc71.winEvent*/
 					break;
 					case 2: System.out.println("Gyõzelem a második pályán");
 					/* Ha a játékos a második pályán nyer, a játék véget ér*/
