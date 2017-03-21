@@ -95,23 +95,24 @@ public class Main {
 					/* Ez a kódrészlet fut le akkor, ha  a felhasználó futtatja az alagútszáj aktiválása tesztesetet
 					 * úgy, hogy, a pályán a éppen nincs egyetlen alagútszáj se nyitott állapotban.
 					 */
-					GameController gc3 = new GameController();
-					gc3.startNewGame(1);
-					/**gc3.ActivateAnyEntrance();					A szekv. diagramunk alapján kb ez történik **/
-					/* Ez azért van, mert a GUI-n lesz majd event generálással ez megoldva, de itt még nincs GUI*/
-					
-					/* TODO Ez inkább placeholder kód fentebb... */
+					GameController gc31 = new GameController();
+					gc31.startNewGame(1);
+					gc31.skeletonTesterActivateTunnelEntrance(1);/* Aktiváljuk az elsõ alagútszájat. */
 					
 					break;
 					
-					case 1: System.out.println("Második alagútszáj létrhozása...");
+					case 1: System.out.println("Elsõ és második alagútszáj létrhozása...");
 
 					/* Ez a kódrészlet fog lefutni abban az esetben, ha a pályán már található egy aktív
 					 * alagútszály és mi még egy alagútszájat szeretnénk létrehozni mellé. Ekkor az alagútszájon
 					 * kívül egy alagút is létrejön a két alagútszáj között.
 					 */
-					TunnelEntrance te2 = new TunnelEntrance();
-					te2.activate();
+					GameController gc32 = new GameController();
+					gc32.startNewGame(1);
+					gc32.skeletonTesterActivateTunnelEntrance(2);/* Aktiváljuk az elsõ alagútszájat. */
+					
+					/*TunnelEntrance te2 = new TunnelEntrance();
+					te2.activate();*/
 					/* TODO Ebbõl még így nem derül ki, hogy már volt-e valahol alagútszáj. Nem jó, ezt GC-n keresztül kellene*/
 					
 					break;

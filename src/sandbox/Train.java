@@ -29,7 +29,7 @@ public class Train implements Visitor{
 	 * @param cabColors	A kabinok színeit tartalmazó lista.
 	 */
 	public Train(ArrayList<Color> cabColors){
-		System.out.println("Class: Train\t Method: Constructor\t Param: cabColors");
+		System.out.println("Class: Train\t Method: Constructor\t Param: "+cabColors);
 		engine=new Engine();
 		cabins=new ArrayList<Cab>(); /* Létrehozunk egy új ArrayListet. */
 		for(Color color:cabColors){
@@ -45,14 +45,15 @@ public class Train implements Visitor{
 	 * @return 	Az elsõ nem üres kabin színe.
 	 */
 	public Color getFirstNotEmptyCabColor(){
-		System.out.println("Class: Train\t Method: getFirstNotEmptyCabColor\t Param: -");
+		System.out.println("Class: Train\t Method: getFirstNotEmptyCabColor\t ");
 		for(Cab oneCabin:cabins){
 			if(oneCabin.isFull()){/* Ha a kabin tele van, akkor visszatérünk a színével. */
-				System.out.println("Return: color\t Az elso nem üres kabin színe.");
-				return oneCabin.getColor();
+				Color cabinColor = oneCabin.getColor();
+				System.out.println("Return: "+cabinColor+"\t Az elso nem üres kabin színe.");
+				return cabinColor;
 			}
 		}
-		System.out.println("Return: color\t Nincs teli kabin.");
+		System.out.println("Return: "+Color.BLACK+"\t Nincs teli kabin.");
 		return Color.BLACK; /* Ha nincs teli kabin, akkor feketével térünk vissza. */
 	}
 	
@@ -63,7 +64,7 @@ public class Train implements Visitor{
 	 * hogy az adott TrainStationnek a kabinnal megegyezõ a színe (csak akkor hívja meg, ha ez teljesül).
 	 */
 	public void emptyTheFirstNotEmptyCab(){
-		System.out.println("Class: Train\t Method: emptyTheFirstNotEmptyCab\t Param: -");
+		System.out.println("Class: Train\t Method: emptyTheFirstNotEmptyCab\t ");
 		for(Cab oneCabin:cabins){
 			if(oneCabin.isFull()){ /* Ha a kabin tele van, akkor kiürítjük. */
 				oneCabin.emptyCab();
@@ -80,7 +81,8 @@ public class Train implements Visitor{
 	 * @return A következõ sín, ahova lépnie kell majd a vonatnak.
 	 */
 	public Rail getNextRail(){
-		System.out.println("Class: Train\t Method: getNextRail\t Param: -\t Return: nextRail\t A következo sín.");
+		System.out.println("Class: Train\t Method: getNextRail\t A következo sínt adja meg.");
+		System.out.println("Returned: "+nextRail);
 		return nextRail;
 	}
 	
@@ -91,7 +93,7 @@ public class Train implements Visitor{
 	 * @param rail	A k0vetkezõ sín, ahova lépni fog majd a vonat.
 	 */
 	public void setNextRail(Rail rail){
-		System.out.println("Class: Train\t Method: setNextRail\t Param: rail\t Beállítjuk a következo sínt.");
+		System.out.println("Class: Train\t Method: setNextRail\t Param: "+rail+"\t Beállítjuk a következo sínt.");
 		previousRail = nextRail;
 		nextRail = rail; /* frissítjük, hogy honnan jöttünk, és elmentjük, hogy hová fogunk menni. */ 
 	}
@@ -103,7 +105,7 @@ public class Train implements Visitor{
 	 */
 	@Override
 	public void visit(Rail rail) {
-		System.out.println("Class: Train override\t Method: visit\t Param: rail\t Sínre lép.");
+		System.out.println("Class: Train override\t Method: visit\t Param: "+rail+"\t Sínre lép.");
 		if(!rail.checkIfOccupied()){ /* Ellenõrizzük, hogy foglalt-e a sín. */
 			this.setNextRail(rail.getNextRail(previousRail)); /* Ha nem foglalt, akkor lekérjük a következõ sínt, ahova lépnie kell a vonatnak, 
 			   												   * és beállítjuk azt a vonat következõ sínjének. */
@@ -119,7 +121,7 @@ public class Train implements Visitor{
 	
 	@Override
 	public void visit(Switch rail) {
-		System.out.println("Class: Train override\t Method: visit\t Param: rail\t Switchre lép.");
+		System.out.println("Class: Train override\t Method: visit\t Param: "+rail+"\t Switchre lép.");
 		if(!rail.checkIfOccupied()){ /* Ellenõrizzük, hogy foglalt-e a sín. */
 			this.setNextRail(rail.getNextRail(previousRail)); /* Ha nem foglalt, akkor lekérjük a következõ sínt, ahova lépnie kell a vonatnak, 
 			 												   * és beállítjuk azt a vonat következõ sínjének. */
@@ -135,7 +137,7 @@ public class Train implements Visitor{
 	
 	@Override
 	public void visit(TunnelEntrance rail) {
-		System.out.println("Class: Train override\t Method: visit\t Param: rail\t Alagútszájba lép.");
+		System.out.println("Class: Train override\t Method: visit\t Param: "+rail+"\t Alagútszájba lép.");
 		if(!rail.checkIfOccupied()){ /* Ellenõrizzük, hogy foglalt-e a sín. */
 			this.setNextRail(rail.getNextRail(previousRail)); /* Ha nem foglalt, akkor lekérjük a következõ sínt, ahova lépnie kell a vonatnak, 
 			 												   * és beállítjuk azt a vonat következõ sínjének. */
@@ -151,7 +153,7 @@ public class Train implements Visitor{
 	
 	@Override
 	public void visit(Tunnel rail) {
-		System.out.println("Class: Train override\t Method: visit\t Param: rail\t Alagútban lép.");
+		System.out.println("Class: Train override\t Method: visit\t Param: "+rail+"\t Alagútban lép.");
 		if(!rail.checkIfOccupied()){ /* Ellenõrizzük, hogy foglalt-e a sín. */
 			this.setNextRail(rail.getNextRail(previousRail)); /* Ha nem foglalt, akkor lekérjük a következõ sínt, ahova lépnie kell a vonatnak, 
 			   												   * és beállítjuk azt a vonat következõ sínjének. */
@@ -167,7 +169,7 @@ public class Train implements Visitor{
 	
 	@Override
 	public void visit(TrainStation rail) {
-		System.out.println("Class: Train override\t Method: visit\t Param: rail\t Állomásra lép.");
+		System.out.println("Class: Train override\t Method: visit\t Param: "+rail+"\t Állomásra lép.");
 		if(!rail.checkIfOccupied()){ /* Ellenõrizzük, hogy foglalt-e a sín. */
 			this.setNextRail(rail.getNextRail(previousRail)); /* Ha nem foglalt, akkor lekérjük a következõ sínt, ahova lépnie kell a vonatnak, 
 															   * és beállítjuk azt a vonat következõ sínjének. */

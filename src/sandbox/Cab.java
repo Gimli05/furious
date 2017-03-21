@@ -14,6 +14,7 @@ public class Cab extends TrainElement{
 	
 	/**
 	 * A kabin konstruktora. 
+	 * 
 	 * @param cabColor	Az adott kabin színe.
 	 */
 	public Cab(Color cabColor){

@@ -11,6 +11,7 @@ public class TrainCollection {
 	private ArrayList<Train> trains; /* Ebben a listában tároljuk a vonatokat. */
 	
 	public TrainCollection (){
+		System.out.println("Class: TrainCollection\t Method: Constructor\t ");
 		trains = new ArrayList<Train>();
 	}
 	
@@ -21,7 +22,7 @@ public class TrainCollection {
 	 * vagy adott esetben csak beállítja a következõ lépés helyét a train setNextRail() függvényével.
 	 */
 	public void moveAllTrains(){
-		System.out.println("Class: TrainCollection\t Method: moveAllTrains\t Param: -\t Minden vonat lép.");
+		System.out.println("Class: TrainCollection\t Method: moveAllTrains\t  Minden vonat lép.");
 		for(Train train: trains){ /* Minden vonatot a neki következõ sínre léptetünk */
 			Rail rail=train.getNextRail();
 			rail.accept(train);
@@ -47,7 +48,7 @@ public class TrainCollection {
 	 */
 	
 	public void clear(){
-		System.out.println("Class: TrainCollection\t Method: clear\t Param: -");
+		System.out.println("Class: TrainCollection\t Method: clear\t ");
 		trains.clear();
 	}
 	
@@ -55,9 +56,14 @@ public class TrainCollection {
 	 * Megnézzük hogy még van e nem üres vagon bármelyik voanton
 	 */
 	public boolean isAllEmpty(){
+		System.out.println("Class: Tunnel\t Method: isAllEmpty\t ");
 		for(Train train: trains){ /*Minden vonatot vizsgálunk*/
-			if(train.getFirstNotEmptyCabColor() != Color.BLACK)return false; /*Ha van aminek van nem fekete vagonja akkor van utas*/
+			if(train.getFirstNotEmptyCabColor() != Color.BLACK){
+				System.out.println("Returned: false");
+				return false; /*Ha van aminek van nem fekete vagonja akkor van utas*/
+			}
 		}
+		System.out.println("Returned: true");
 		return true;
 	}
 }

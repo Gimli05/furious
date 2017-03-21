@@ -21,6 +21,8 @@ public class GameController {
 	private TrainCollection trainCollection; /* A vonatokat tároló kollekció. A játék futása során az adott pályához tartozó ütemezés szerint adagoljuk 
 											  * a pályához tartozó hosszúságú vonatokat a tárolóba a tároló addTrain(Train) metódusával.*/
 	
+	private int activeEntranceCounter; /* Az aktív alagútszályak számát tárolja. Segítségével, ha két aktív alagútszály van, akkor létrejöhet az alagút közöttük. */
+	
 	
 	/**
 	 * A GameController konstruktora.
@@ -172,7 +174,7 @@ public class GameController {
 		br.close();
 		System.out.println("Létrehozott pályaelemek száma: "+railCollection.size()); /*Megnézzük hogy változott e valam*/
 		isTheGameRunning=true; /*Elinditjuka játkot*/
-		System.out.println("A játék elindult");
+		System.out.println("\nA játék elindult\n");
 	}
 	
 	 /**
@@ -242,5 +244,37 @@ public class GameController {
 		
 	}
     
+	
+	/**
+	 * Kizárólag a teszteléshez létrehozott metódus.
+	 * Annyi alagútszályat tud aktiválni, ahányat megadunk neki. (ennek mennyiségét nem ellenõrzi, hiszen azt a Main megfelelõ része már megtette.
+	 * 
+	 * @param tunnelEntranceCounterToBeActivated	Hány alagútszályat akarunk aktiválni.
+	 */
+	public void skeletonTesterActivateTunnelEntrance(int tunnelEntranceCounterToBeActivated){
+		for(int i=0; i < tunnelEntranceCounterToBeActivated; i++){
+			Boolean notActivatedTunnelEntranceFound = false;
+			while(!notActivatedTunnelEntranceFound){
+				for(Rail oneRail:railCollection){
+					if(oneRail.getClass() == TunnelEntrance.class){  /*  Az ilyenért lehet kibasznak tbh.. :D */
+						TunnelEntrance oneTunnel = (TunnelEntrance) oneRail; /* Ezért meg fõleg. */
+						if(!oneTunnel.checkIfActivated()){
+							oneTunnel.activate();
+							activeEntranceCounter++;
+							notActivatedTunnelEntranceFound = true;
+							break;
+						}
+					}
+				}
+			}
+			
+		}
+		System.out.println("Aktív alagútszájak száma: "+activeEntranceCounter);
+		
+		if(activeEntranceCounter == 2){
+			System.out.println("Class: GameController\t Alagút létrehozása");
+			//TODO implementálni
+		}
+	}
     
 }

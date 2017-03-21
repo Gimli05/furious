@@ -7,6 +7,6 @@ import java.util.ArrayList;
  */
 public class Tunnel extends Rail {
 	public Tunnel(){
-		System.out.println("Class: Tunnel\t Method: Constructor\t Param: -");
+		System.out.println("Class: Tunnel\t Method: Constructor\t ");
 	}
 }
