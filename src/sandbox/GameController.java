@@ -130,14 +130,12 @@ public class GameController {
 		
 		String in; /*Egy beolvasott sort tárol, ebbe olvasunk*/
 		String[] line; /*Feltördeljük az elözöleg olvasott sort*/
-		String inT;
-		String[] lineT;
 		
 		
 		BufferedReader brMap = new BufferedReader(new FileReader(new File(filename))); /*Térkép File olvasó*/
 		
 		String tunnelFilename=filename.substring(0,filename.length()-4)+"tunnelmap.txt";
-		line=br.readLine().split(";"); /*Kiolvassuk a pálya méretét*/
+		line=brMap.readLine().split(";"); /*Kiolvassuk a pálya méretét*/
 		
 		
 		int width = Integer.parseInt(line[0]); /*Pálya szélessége*/
