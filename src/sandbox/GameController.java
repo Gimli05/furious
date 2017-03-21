@@ -14,21 +14,22 @@ import java.util.ArrayList;
  * és a játék kimenetelének eldöntéséért és ennek lekezeléséért. Felelõs továbbá annak felügyeléséért, hogy csak két alagútszáj lehessen egyszerre aktív.
  */
 public class GameController {
-	private Boolean isTheGameRunning; /* Megadja, hogy éppen folyamatban van-e játék. True, ha igen, false ha nem. */
+	private static Boolean isTheGameRunning; /* Megadja, hogy éppen folyamatban van-e játék. True, ha igen, false ha nem. */
 	
-	private ArrayList<Rail> railCollection; /* A síneket tároló arraylist. A pálya betöltése után ebben tároljuk el a teljes sínhálózatot */
+	private static ArrayList<Rail> railCollection; /* A síneket tároló arraylist. A pálya betöltése után ebben tároljuk el a teljes sínhálózatot */
 	
-	private TrainCollection trainCollection; /* A vonatokat tároló kollekció. A játék futása során az adott pályához tartozó ütemezés szerint adagoljuk 
+	private static TrainCollection trainCollection; /* A vonatokat tároló kollekció. A játék futása során az adott pályához tartozó ütemezés szerint adagoljuk 
 											  * a pályához tartozó hosszúságú vonatokat a tárolóba a tároló addTrain(Train) metódusával.*/
 	
-	private int activeEntranceCounter; /* Az aktív alagútszályak számát tárolja. Segítségével, ha két aktív alagútszály van, akkor létrejöhet az alagút közöttük. */
+	private static int activeEntranceCounter; /* Az aktív alagútszályak számát tárolja. Segítségével, ha két aktív alagútszály van, akkor létrejöhet az alagút közöttük. */
+	private static int lastPlayedMapNumber;
 	
 	
 	/**
 	 * A GameController konstruktora.
 	 */
 	public GameController(){
-		System.out.println("Class: GameController\t Object: "+this+"\t Method: Constructor\t ");
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: Constructor\t ");
 		isTheGameRunning = false;
 		railCollection=new ArrayList<Rail>();
 		trainCollection = new TrainCollection();
@@ -40,13 +41,16 @@ public class GameController {
 	 * Miután a játékos kiválasztotta melyik pályán akar játszani, betölti a pályához tartozó sínhálózatot és vonat ütemezést. 
 	 * Ezután elindítja a vonatok léptetéséért felelõs szálat.
 	 */
-	public void startNewGame(int mapNumber){
-		System.out.println("Class: GameController\t Object: "+this+"\t Method: startNewGame\t Param: "+mapNumber);
+	public static void startNewGame(int mapNumber){
+		System.out.println("Class: GameController\t Object: Object: GameController@STATIC\t Method: startNewGame\t Param: "+mapNumber);
 		
 		
 		String mapName = new String("maps/map" + mapNumber + ".txt");
 		try {
 			buildFromFile(mapName);
+			isTheGameRunning=true; /*Elinditjuka játkot*/
+			System.out.println("\nClass: GameController\t Object: GameController@STATIC\t A játék elindult\n");
+			lastPlayedMapNumber = mapNumber;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,8 +62,15 @@ public class GameController {
 	 * Értesíti a játékost, hogy nyert, és leállítja a játékot.
 	 */
 	public static void winEvent(){
+		isTheGameRunning = false;
 		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: winEvent\t Gyozelem.");
-		/*TODO */
+		if(lastPlayedMapNumber == 1){
+			System.out.println("Class: GameController\t Object: GameController@STATIC\t Van még új pálya, így az következik.");
+			System.out.println("\n\nÚJ JÁTÉK KEZDÕDIK \n\n");
+			startNewGame(2);
+		} else {
+			System.out.println("Class: GameController\t Object: GameController@STATIC\t Nincs tobb palya, jatek vege.");
+		}
 	}
 	
 	
@@ -67,8 +78,9 @@ public class GameController {
 	 * Értesíti a játékost, hogy vesztett, és leállítja a játékot.
 	 */
 	public static void loseEvent(){
+		isTheGameRunning = false;
 		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: loseEvent\t Vereseg");
-		//TODO: kitolteni
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Michael Bay Effekt");
 	}
 	
 	/**
@@ -106,14 +118,14 @@ public class GameController {
 	 *  
 	 */
 	
-	private void buildFromFile(String filename) throws IOException{
-		System.out.println("Class: GameController\t Object: "+this+"\t Method: buildFromFile\t Param: "+filename+"\t Betoltes.");
+	private static void buildFromFile(String filename) throws IOException{
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: buildFromFile\t Param: "+filename+"\t Betoltes.");
 		
 		/*Kezdetben megállítjk a játékot és töröljük azelözö listákat*/
 		isTheGameRunning=false;
 		railCollection.clear();
 		trainCollection.clear();
-		System.out.println("Class: GameController\t Object: "+this+"\t Method: railCollection.clear");
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: railCollection.clear");
 		
 		
 		String in; /*Egy beolvasott sort tárol, ebbe olvasunk*/
@@ -143,7 +155,7 @@ public class GameController {
 		}
 		
 		
-		System.out.println("\nClass: GameController\t Object: "+this+"\t Sínek közötti kapcsolatok létrehozása.");
+		System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Sínek közötti kapcsolatok létrehozása.");
 		for(int i=0;i<width;i++){ /*Végignézzük a pályát szélességben...*/
 			for(int j=0;j<height;j++){	/*... és magasságban*/
 				if(tempMap[i][j]!=null){		/*Ha az aktuális elem nem üres, akkor lehetnek szomszédai*/		
@@ -171,9 +183,7 @@ public class GameController {
 		}
 
 		br.close();
-		System.out.println("Class: GameController\t Object: "+this+"\t Létrehozott pályaelemek száma: "+railCollection.size()); /*Megnézzük hogy változott e valam*/
-		isTheGameRunning=true; /*Elinditjuka játkot*/
-		System.out.println("\nClass: GameController\t Object: "+this+"\t A játék elindult\n");
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Létrehozott pályaelemek száma: "+railCollection.size()); /*Megnézzük hogy változott e valam*/
 	}
 	
 	 /**
@@ -184,8 +194,8 @@ public class GameController {
      * @param mapChar   A map-ban szereplõ karakter, mely egy síntípust takar.
      * @return  A létrehozott sín.
      */
-    private Rail elementReader(String mapChar){
-    	System.out.println("\nClass: GameController\t Object: "+this+"\t Method: elementReader\t Param: "+mapChar+"\t Elem dekodolasa fajlbol"); /* A jobb olvashatóság érdekében ezelõtt egy új sor van. */
+    private static Rail elementReader(String mapChar){
+    	System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Method: elementReader\t Param: "+mapChar+"\t Elem dekodolasa fajlbol"); /* A jobb olvashatóság érdekében ezelõtt egy új sor van. */
         switch(mapChar){
         case "E":
         	System.out.println("Beolvasott elem: EnterPoint");
@@ -225,9 +235,9 @@ public class GameController {
      * Meg kell nézni minden léptetés után hogy a vonatok kiürültek e
      */ 
     private boolean hasTheGameEnded(){
-    	System.out.println("Class: GameController\t Object: "+this+"\t Method: hasTheGameEnded\t Vonatok uressegenek ellenorzese");
+    	System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: hasTheGameEnded\t Vonatok uressegenek ellenorzese");
     	Boolean isAllEmpty = trainCollection.isAllEmpty();
-    	System.out.println("Class: GameController\t Object: "+this+"\t Returned: "+isAllEmpty);
+    	System.out.println("Class: GameController\t Object: GameController@STATIC\t Returned: "+isAllEmpty);
     	return isAllEmpty;
     }
    
@@ -259,10 +269,10 @@ public class GameController {
 			}
 			
 		}
-		System.out.println("Class: GameController\t Object: "+this+"\t Aktív alagútszájak száma: "+activeEntranceCounter);
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Aktív alagútszájak száma: "+activeEntranceCounter);
 		
 		if(activeEntranceCounter == 2){
-			System.out.println("\nClass: GameController\t Object: "+this+"\t Alagút létrehozása");
+			System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Alagút létrehozása");
 			//TODO implementálni
 		}
 	}
@@ -277,7 +287,7 @@ public class GameController {
 	 */
 	public void skeletonTesterDeActivateATunnelEntrance(){
 		if(activeEntranceCounter == 2){
-			System.out.println("\nClass: GameController\t Object: "+this+"\t Alagút lerombolása");
+			System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Alagút lerombolása");
 			//TODO implementálni
 		}
 		
@@ -295,7 +305,7 @@ public class GameController {
 				}
 			}
 		}
-		System.out.println("Class: GameController\t Object: "+this+"\t Aktív alagútszájak száma: "+activeEntranceCounter);
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Aktív alagútszájak száma: "+activeEntranceCounter);
 	}
 	
 	
@@ -330,7 +340,7 @@ public class GameController {
 	 */
 	public void skeletonTesterAddNewTrain(ArrayList<Color> cabinColors){
 		
-		System.out.println("\nClass: GameController\t Object: "+this+"\t Új vonat hozzáadása");
+		System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Új vonat hozzáadása");
 		Train testTrain = new Train(cabinColors);
 		
 		EnterPoint enterPoint = null;

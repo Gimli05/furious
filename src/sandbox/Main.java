@@ -54,7 +54,7 @@ public class Main {
 			switch(Integer.parseInt(scanner.nextLine())){
 			/* Elõször is intté kasztolom a bemenetet.*/
 			
-			
+				/* --------------------------------------------------------------------------------- 1. MENÜPONT ----------------------------------------------------------------------------- */
 			
 				case 1: System.out.println("1: Új játék indítása. Melyik pálya legyen? [1, 2]");
 				/* Ez a teszteset új játékot indít. Bemenetként vár a felhasználótól egy számot, hogy melyik pálya
@@ -82,6 +82,7 @@ public class Main {
 				break;
 					
 				
+				/* --------------------------------------------------------------------------------- 2. MENÜPONT ----------------------------------------------------------------------------- */
 				
 				/* Ez a teszteset alagútszáájak lérehozását teszi lehetõvé a felhasználó számára. 
 				 * Elõször megkérdezi, hány alagútszáj van nyitva jelenleg a pályán. Egyszerre csak két  
@@ -119,6 +120,7 @@ public class Main {
 				break;
 				
 				
+				/* --------------------------------------------------------------------------------- 3. MENÜPONT ----------------------------------------------------------------------------- */
 				
 				/* Ez a teszteset alagútszáj deaktiválására szolgál.
 				 * Mivel egyszerre csak két alagútszáj lehet aktív a pályán, ezért  a megengedett bemenetek az 1 és a 2.
@@ -163,6 +165,7 @@ public class Main {
 				break;
 				
 				
+				/* --------------------------------------------------------------------------------- 4. MENÜPONT ----------------------------------------------------------------------------- */
 				
 				/* 
 				 * Ez a teszteset a pályán található váltók állítását szimulálja. 
@@ -209,6 +212,7 @@ public class Main {
 				break;
 				
 				
+				/* --------------------------------------------------------------------------------- 5. MENÜPONT ----------------------------------------------------------------------------- */
 				
 				/*Ez a teszteset a vonat léptetését szimulálja
 				 * A vonat 5 különbözõ sínre léphet. Ezek a következõk:
@@ -357,6 +361,8 @@ public class Main {
 				}
 				break;
 			
+				
+				/* --------------------------------------------------------------------------------- 6. MENÜPONT ----------------------------------------------------------------------------- */
 			
 				/* Ez a teszteset felel azért, ha egy új vonat érkezik a pályára.
 				 * Elõször lekérdezi a felhasználótól a program, hogy hány vagon legyen a vonatban.
@@ -423,6 +429,7 @@ public class Main {
 				break;
 				
 				
+				/* --------------------------------------------------------------------------------- 7. MENÜPONT ----------------------------------------------------------------------------- */
 				
 				/* Ez a teszteset azt szimulálja, ha a játékos nyer.
 				 * Ebben az esetben megkérdezi, melyik pályát nyerte meg.
@@ -431,17 +438,23 @@ public class Main {
 				switch (Integer.parseInt(scanner.nextLine())){
 					case 1: System.out.println("Gyõzelem az elsõ pályán...");
 					/* Ha a játékos az elsõ pályát nyeri meg akkor a játék a második pályát elkezdi. */
-					GameController.winEvent();
-					/*TODO  a winevent statikus, ezért a fent látott módon hívódik meg. Így értelmetlen arról beszélni,
-					 * melyik pályán nyert a játékos, mert nem úgy hívódik meg a winevent, hogy pl gc71.winEvent*/
+					GameController gc71 = new GameController();
+					gc71.startNewGame(1);
+					gc71.winEvent();
+					
 					break;
 					case 2: System.out.println("Gyõzelem a második pályán");
-					/* Ha a játékos a második pályán nyer, a játék véget ér*/
-					/*TODO */
+					GameController gc72 = new GameController();
+					gc72.startNewGame(2);
+					gc72.winEvent();
 					break;
 					default: System.out.println("Csak az 1 és a 2 a megengedett bemenet.");
 				}
 				break;
+				
+				
+				/* --------------------------------------------------------------------------------- 8. MENÜPONT ----------------------------------------------------------------------------- */
+				
 				/*Ha a felhsználó a nyolcas gombot nyomja meg, a a tesztprogram véget ér.*/
 				case 8: run = false; break;
 			/*Ha olyan tesztesetet indítana  a játékos ami nem is létezik, akkor a fõmenüben marad. */
