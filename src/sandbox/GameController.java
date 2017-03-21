@@ -321,5 +321,34 @@ public class GameController {
 		}
 	}
 	
+	
+	/**
+	 * Kizárólag a teszteléshez létrehozott metódus
+	 * A Main-tõl megadott paraméterekkel létrehoz egy vonatot,
+	 * 
+	 * @param cabinColors
+	 */
+	public void skeletonTesterAddNewTrain(ArrayList<Color> cabinColors){
+		
+		System.out.println("\nClass: GameController\t Object: "+this+"\t Új vonat hozzáadása");
+		Train testTrain = new Train(cabinColors);
+		
+		EnterPoint enterPoint = null;
+		
+		Boolean enterPointFound = false;
+		while(!enterPointFound){
+			for(Rail oneRail:railCollection){
+				if(oneRail.getClass() == EnterPoint.class){  /*  Az ilyenért lehet kibasznak tbh.. :D */
+					enterPoint = (EnterPoint) oneRail;	
+					enterPointFound = true;
+				}
+			}
+		}
+		
+		
+		testTrain.setNextRail(enterPoint);
+		
+		trainCollection.addNewTrain(testTrain);
+	}
 
 }

@@ -354,9 +354,8 @@ public class Main {
 					 * akkor a tesztelõ program kilép a fõmenübe.
 					 */
 					default: System.out.println("A vonat csak a fent jelzett 6 dologra léphet, az elvárt bemenet 1, 2, 3, 4, 5 vagy 6");
-			}
-			break;
-			
+				}
+				break;
 			
 			
 				/* Ez a teszteset felel azért, ha egy új vonat érkezik a pályára.
@@ -365,9 +364,13 @@ public class Main {
 				case 6: System.out.println("Új vonat érkezik. Hány vagon legyen? [pozitív egész szám]");
 				int vagonSzam = Integer.parseInt(scanner.nextLine());
 				/* Megvizsgáljuk, hogy a felhasználó érvényes vagon számot írt-e be. */
-				if(vagonSzam <= 0) break;
+				if(vagonSzam <= 0) {
+					System.out.println("Csak pozitív egész szám lehet!");
+					break;
+				}
 				
 				System.out.println("A vonatnak " + vagonSzam + " vagonja lesz");
+				
 				/*
 				 * Ezek a booleanok azért kellenek, mert ha már elkezdõdik a vonat vagonjainak felkonfigurálása,
 				 * akkor ha a felhasználó nem létezõ színt írna be vagy arra a kérdésre, hogy a vagonban
@@ -377,14 +380,12 @@ public class Main {
 				 * hogy nem lesznek vagonok érvénytelen paraméterekkel felkonfigurálva.
 				 */
 				boolean ervenyesBemenetSzin = false;		
-				boolean ervenyesBemenetVagonteli = false;
 				/*Ebben tároljuk a vagonok színét amit a felhasználó ad meg*/
 				ArrayList<Color> cabinColors = new ArrayList<Color>();
 				/* Ez a ciklus végrehajtja a vagon inicializálást minden vagonra. */
 				for(int i = 0; i < vagonSzam; i++)
 				{
 					ervenyesBemenetSzin = false;
-					ervenyesBemenetVagonteli = false;
 					while(!ervenyesBemenetSzin)
 					{
 						System.out.println("Milyen színû legyen a " + (i+1) + ". vagon? [r, g, b]");
@@ -412,37 +413,13 @@ public class Main {
 							break;
 							default: System.out.println("Csak az 'r', 'g' és 'b' a támogatott bemenet.");
 						}
-						
-					}
-					while(!ervenyesBemenetVagonteli)
-					{
-						System.out.println("Vannak ebben a vagonban utasok? [i, n]");
-						switch (scanner.nextLine().charAt(0)){
-							case 'I': 
-							case 'i': System.out.println("Ebben a vagonban lesznek utasok.");
-							ervenyesBemenetVagonteli = true;
-							/*TODO */
-							break;
-							case 'N':
-							case 'n': System.out.println("Ebben a vagonban nem lesznek utasok.");
-							ervenyesBemenetVagonteli = true;
-							/*TODO Ez most így semmire se jó. Benne van a cab kódjába égetve a konstruktorába, hogy a kabinok mindig úgy kezdenek, hogy teli vannak!
-							 * így annak, hogy a felhasználó azt mondja, van/ nincs utas a vagonban értelmetlen, mert úgyis lesz.
-							 * Lehet ennek a tesztelését így ejteni kéne.*/
-							break;
-							default: System.out.println("Csak az 'i' és kis 'n' a támogatott bemenet");
-						}
 					}
 				}
 				
-				GameController gc61 = new GameController();
-				gc61.startNewGame(4);
-				Train test6Train = new Train(cabinColors);
-				TrainCollection test6TrainCollection = new TrainCollection();
-				test6TrainCollection.addNewTrain(test6Train);
-				/* TODO Ez a vonat így most még csak van. Benne van egy traincollectionben, de nincs odaadva a gamecontrollernek.
-				 * gc traincollectionje privát, nem lehet átadni neki. 
-				 * By the way, ha ebben a tesztesetben benne van, hogy a vonat rálép az entrypointra, vagy csak létrejön?*/
+				GameController gc6 = new GameController();
+				gc6.startNewGame(1);
+				gc6.skeletonTesterAddNewTrain(cabinColors);
+				
 				break;
 				
 				
