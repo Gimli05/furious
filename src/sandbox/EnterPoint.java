@@ -9,6 +9,6 @@ import java.util.ArrayList;
  */
 public class EnterPoint extends Rail {
 	public EnterPoint(){
-		System.out.println("Class: EnterPoint\t Method: Constructor\t ");
+		System.out.println("Class: EnterPoint\t Object: "+this+"\t\t Method: Constructor\t ");
 	}
 }

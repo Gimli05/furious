@@ -11,7 +11,7 @@ public class TrainCollection {
 	private ArrayList<Train> trains; /* Ebben a listában tároljuk a vonatokat. */
 	
 	public TrainCollection (){
-		System.out.println("Class: TrainCollection\t Method: Constructor\t ");
+		System.out.println("Class: TrainCollection\t Object: "+this+"\t Method: Constructor\t ");
 		trains = new ArrayList<Train>();
 	}
 	
@@ -22,7 +22,7 @@ public class TrainCollection {
 	 * vagy adott esetben csak beállítja a következõ lépés helyét a train setNextRail() függvényével.
 	 */
 	public void moveAllTrains(){
-		System.out.println("Class: TrainCollection\t Method: moveAllTrains\t  Minden vonat lép.");
+		System.out.println("Class: TrainCollection\t Object: "+this+"\t Method: moveAllTrains\t  Minden vonat lép.");
 		for(Train train: trains){ /* Minden vonatot a neki következõ sínre léptetünk */
 			Rail rail=train.getNextRail();
 			rail.accept(train);
@@ -39,7 +39,7 @@ public class TrainCollection {
 	 * @param train Az új hozzáadandó vonat referenciája.
 	 */
 	public void addNewTrain(Train train){
-		System.out.println("Class: TrainCollection\t Method: addNewTrain\t Param: "+ train);
+		System.out.println("Class: TrainCollection\t Object: "+this+"\t Method: addNewTrain\t Param: "+ train);
 		trains.add(train);
 	}	
 	
@@ -48,7 +48,7 @@ public class TrainCollection {
 	 */
 	
 	public void clear(){
-		System.out.println("Class: TrainCollection\t Method: clear\t ");
+		System.out.println("Class: TrainCollection\t Object: "+this+"\t Method: clear\t ");
 		trains.clear();
 	}
 	
@@ -56,14 +56,14 @@ public class TrainCollection {
 	 * Megnézzük hogy még van e nem üres vagon bármelyik voanton
 	 */
 	public boolean isAllEmpty(){
-		System.out.println("Class: Tunnel\t Method: isAllEmpty\t ");
+		System.out.println("Class: TrainCollection\t Object: "+this+"\t Method: isAllEmpty\t ");
 		for(Train train: trains){ /*Minden vonatot vizsgálunk*/
 			if(train.getFirstNotEmptyCabColor() != Color.BLACK){
-				System.out.println("Returned: false");
+				System.out.println("Class: TrainCollection\t Object: "+this+" Returned: false");
 				return false; /*Ha van aminek van nem fekete vagonja akkor van utas*/
 			}
 		}
-		System.out.println("Returned: true");
+		System.out.println("Class: TrainCollection\t Object: "+this+"\t Returned: true");
 		return true;
 	}
 }

@@ -28,7 +28,7 @@ public class GameController {
 	 * A GameController konstruktora.
 	 */
 	public GameController(){
-		System.out.println("Class: GameController\t Method: Constructor\t ");
+		System.out.println("Class: GameController\t Object: "+this+"\t Method: Constructor\t ");
 		isTheGameRunning = false;
 		railCollection=new ArrayList<Rail>();
 		trainCollection = new TrainCollection();
@@ -41,11 +41,10 @@ public class GameController {
 	 * Ezután elindítja a vonatok léptetéséért felelõs szálat.
 	 */
 	public void startNewGame(int mapNumber){
-		System.out.println("Class: GameController\t Method: startNewGame\t Param: "+mapNumber);
+		System.out.println("Class: GameController\t Object: "+this+"\t Method: startNewGame\t Param: "+mapNumber);
 		
 		
 		String mapName = new String("maps/map" + mapNumber + ".txt");
-		System.out.println("Megnyitando palya eleresi ut: "+mapName);
 		try {
 			buildFromFile(mapName);
 		} catch (IOException e) {
@@ -59,7 +58,7 @@ public class GameController {
 	 * Értesíti a játékost, hogy nyert, és leállítja a játékot.
 	 */
 	public static void winEvent(){
-		System.out.println("Class: GameController\t Method: winEvent\t Gyozelem.");
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: winEvent\t Gyozelem.");
 		/*TODO */
 	}
 	
@@ -68,7 +67,7 @@ public class GameController {
 	 * Értesíti a játékost, hogy vesztett, és leállítja a játékot.
 	 */
 	public static void loseEvent(){
-		System.out.println("Class: GameController\t Method: loseEvent\t Vereseg");
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: loseEvent\t Vereseg");
 		//TODO: kitolteni
 	}
 	
@@ -108,13 +107,13 @@ public class GameController {
 	 */
 	
 	private void buildFromFile(String filename) throws IOException{
-		System.out.println("Class: GameController\t Method: buildFromFile\t Param: "+filename+"\t Betoltes.");
+		System.out.println("Class: GameController\t Object: "+this+"\t Method: buildFromFile\t Param: "+filename+"\t Betoltes.");
 		
 		/*Kezdetben megállítjk a játékot és töröljük azelözö listákat*/
 		isTheGameRunning=false;
 		railCollection.clear();
 		trainCollection.clear();
-		System.out.println("Class: GameController\t Method: railCollection.clear");
+		System.out.println("Class: GameController\t Object: "+this+"\t Method: railCollection.clear");
 		
 		
 		String in; /*Egy beolvasott sort tárol, ebbe olvasunk*/
@@ -144,7 +143,7 @@ public class GameController {
 		}
 		
 		
-		System.out.println("\nClass: GameController\t Sínek közötti kapcsolatok létrehozása.");
+		System.out.println("\nClass: GameController\t Object: "+this+"\t Sínek közötti kapcsolatok létrehozása.");
 		for(int i=0;i<width;i++){ /*Végignézzük a pályát szélességben...*/
 			for(int j=0;j<height;j++){	/*... és magasságban*/
 				if(tempMap[i][j]!=null){		/*Ha az aktuális elem nem üres, akkor lehetnek szomszédai*/		
@@ -172,9 +171,9 @@ public class GameController {
 		}
 
 		br.close();
-		System.out.println("Létrehozott pályaelemek száma: "+railCollection.size()); /*Megnézzük hogy változott e valam*/
+		System.out.println("Class: GameController\t Object: "+this+"\t Létrehozott pályaelemek száma: "+railCollection.size()); /*Megnézzük hogy változott e valam*/
 		isTheGameRunning=true; /*Elinditjuka játkot*/
-		System.out.println("\nA játék elindult\n");
+		System.out.println("\nClass: GameController\t Object: "+this+"\t A játék elindult\n");
 	}
 	
 	 /**
@@ -186,7 +185,7 @@ public class GameController {
      * @return  A létrehozott sín.
      */
     private Rail elementReader(String mapChar){
-    	System.out.println("\nClass: GameController\t Method: elementReader\t Param: "+mapChar+"\t Elem dekodolasa fajlbol"); /* A jobb olvashatóság érdekében ezelõtt egy új sor van. */
+    	System.out.println("\nClass: GameController\t Object: "+this+"\t Method: elementReader\t Param: "+mapChar+"\t Elem dekodolasa fajlbol"); /* A jobb olvashatóság érdekében ezelõtt egy új sor van. */
         switch(mapChar){
         case "E":
         	System.out.println("Beolvasott elem: EnterPoint");
@@ -226,9 +225,9 @@ public class GameController {
      * Meg kell nézni minden léptetés után hogy a vonatok kiürültek e
      */ 
     private boolean hasTheGameEnded(){
-    	System.out.println("Class: GameController\t Method: hasTheGameEnded\t Vonatok uressegenek ellenorzese");
+    	System.out.println("Class: GameController\t Object: "+this+"\t Method: hasTheGameEnded\t Vonatok uressegenek ellenorzese");
     	Boolean isAllEmpty = trainCollection.isAllEmpty();
-    	System.out.println("Returned: "+isAllEmpty);
+    	System.out.println("Class: GameController\t Object: "+this+"\t Returned: "+isAllEmpty);
     	return isAllEmpty;
     }
     
@@ -270,10 +269,10 @@ public class GameController {
 			}
 			
 		}
-		System.out.println("Aktív alagútszájak száma: "+activeEntranceCounter);
+		System.out.println("Class: GameController\t Object: "+this+"\t Aktív alagútszájak száma: "+activeEntranceCounter);
 		
 		if(activeEntranceCounter == 2){
-			System.out.println("Class: GameController\t Alagút létrehozása");
+			System.out.println("\nClass: GameController\t Object: "+this+"\t Alagút létrehozása");
 			//TODO implementálni
 		}
 	}
@@ -285,7 +284,7 @@ public class GameController {
 	 */
 	public void skeletonTesterDeActivateATunnelEntrance(){
 		if(activeEntranceCounter == 2){
-			System.out.println("Class: GameController\t Alagút lerombolása");
+			System.out.println("\nClass: GameController\t Object: "+this+"\t Alagút lerombolása");
 			//TODO implementálni
 		}
 		
@@ -303,7 +302,7 @@ public class GameController {
 				}
 			}
 		}
-		System.out.println("Aktív alagútszájak száma: "+activeEntranceCounter);
+		System.out.println("Class: GameController\t Object: "+this+"\t Aktív alagútszájak száma: "+activeEntranceCounter);
 	}
 	
 

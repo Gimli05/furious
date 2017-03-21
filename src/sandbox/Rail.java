@@ -17,7 +17,7 @@ public class Rail {
 	 * A Rail konstruktora. Beállítjaa countert 0-ra.
 	 */
 	public Rail(){
-		System.out.println("Class: Rail\t\t Method: Constructor\t");
+		System.out.println("Class: Rail\t\t Object: "+this+"\t\t\t Method: Constructor\t");
 		trainLenghtCounter = 0; /* Létrehozásakor minden sín üres. */
 	}
 	
@@ -30,14 +30,14 @@ public class Rail {
 	 * @return	A következõ sín ahova lépni fog a vonat.
 	 */
 	public Rail getNextRail(Rail trainPreviousRail){
-		System.out.println("Class: Rail\t Method: getNextRail\t Param: "+trainPreviousRail+"\t A kovetkezo sin.");
+		System.out.println("Class: Rail\t\t Object: "+this+"\t\t\t Method: getNextRail\t Param: "+trainPreviousRail+"\t A kovetkezo sin.");
 		for(Rail oneNeighbourRail:neighbourRails){ /* Végignézzük az összes sínt, és amelyik nem az érkezõ sín, az a következõ sín, mivel csak 2 szomszédja van egy sima sínnek */
 			if(trainPreviousRail!=oneNeighbourRail){
-				System.out.println("Returned: "+oneNeighbourRail);
+				System.out.println("Class: Rail\t\t Object: "+this+"\t\t\t Returned: "+oneNeighbourRail);
 				return oneNeighbourRail;
 			}
 		}
-		System.out.println("Returned: null");
+		System.out.println("Class: Rail\t\t Object: "+this+"\t\t\t Returned: null");
 		return null; /* Ha nincs hova lépnie, akkor null-t adunk vissza */
 
 	}
@@ -50,7 +50,7 @@ public class Rail {
 	 * @param visitor A látogató, melyet fogadni tud.
 	 */
 	public void accept(Visitor visitor){
-		System.out.println("Class: Rail\t Method: Accept\t Param: "+visitor);
+		System.out.println("Class: Rail\t\t Object: "+this+"\t\t\t Method: Accept\t Param: "+visitor);
 		visitor.visit(this); /* Elfogadjuk a visitort, és átadjuk magunkat, hogy nézzen meg minket. */
 	}
 	
@@ -62,12 +62,12 @@ public class Rail {
 	 * @return	Foglalt-e a sín.
 	 */
 	public boolean checkIfOccupied(){
-		System.out.println("Class: Rail\t Method: checkIfOccupied\t Van-e még vonat a sínen?");
+		System.out.println("Class: Rail\t\t Object: "+this+"\t\t\t Method: checkIfOccupied\t Van-e még vonat a sínen?");
 		if(trainLenghtCounter == 0){ /* Ha nincs már rajta egyetlen cab-sem akkor false-al tér vissza egyébként true-val. */
-			System.out.println("Returned: false");
+			System.out.println("Class: Rail\t\t Object: "+this+"\t\t\t Returned: false");
 			return false;
 		} else {
-			System.out.println("Returned: true");
+			System.out.println("Class: Rail\t\t Object: "+this+"\t\t\t Returned: true");
 			return true;
 		}
 	}
@@ -79,7 +79,7 @@ public class Rail {
 	 * @param newNeighbourRails	Az adott sín szomszéjdai.
 	 */
 	public void setNeighbourRails(ArrayList<Rail> newNeighbourRails){
-		System.out.println("Class: Rail\t Method: setNeighbourRails\t Param: "+newNeighbourRails);
+		System.out.println("Class: Rail\t\t Object: "+this+"\t\t\t Method: setNeighbourRails\t Param: "+newNeighbourRails);
 		neighbourRails = newNeighbourRails;
 	}
 	
@@ -89,7 +89,7 @@ public class Rail {
 	 * Minden léptetés során csökkentjük egyel a számlálót, hiszen már elhaladt egy kabin.
 	 */
 	public void lowerTrainLenghtCounter(){
-		System.out.println("Class: Rail\t Method: lowerTrainLenghtCounter\t A vagon továbbhalad a sínen.");
+		System.out.println("Class: Rail\t\t Object: "+this+"\t\t\t Method: lowerTrainLenghtCounter\t A vagon továbbhalad a sínen.");
 		if(trainLenghtCounter > 0){ /* Ha még nem nulla a számláló, azaz van még kabin a sínen, akkor csökkentjük egyel, hiszen most haladt tovább */
 			trainLenghtCounter--;
 		}
@@ -102,7 +102,7 @@ public class Rail {
 	 * @param newCounter	A vonat hossza.
 	 */
 	public void setTrainLenghtCounter(int newCounter){
-		System.out.println("Class: Rail\t Method: setTrainLenghtCounter\t Param: "+newCounter+"\t Vonat lépett a sínre.");
+		System.out.println("Class: Rail\t\t Class: Rail\t\t\t Method: setTrainLenghtCounter\t Param: "+newCounter+"\t Vonat lépett a sínre.");
 		trainLenghtCounter = newCounter;
 	}
 }

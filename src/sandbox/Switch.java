@@ -18,7 +18,7 @@ public class Switch extends Rail{
 	 * Alap értelmezetten nem módosít a vonat irányán.
 	 */
 	public Switch(){
-		System.out.println("Class: Switch\t\t Method: Constructor\t");
+		System.out.println("Class: Switch\t\t Object: "+this+"\t\t Method: Constructor\t");
 		state = false;
 	}
 
@@ -30,28 +30,28 @@ public class Switch extends Rail{
 	 * ha false volt akkor pedig true. Ezzel megvalósul, hogy ha eddig megváltoztatta az irányt a váltó, akkor most pont át fogja engedni egyenesen, ha eddig átengedte, most elkanyarítja.
 	 */
 	public void switchRail(){ /* Eredetileg switch() */
-		System.out.println("Class: Switch\t\t Method: switchRail\t Változik a továbbhaladási irány");
+		System.out.println("Class: Switch\t\t Object: "+this+"\t\t Method: switchRail\t Változik a továbbhaladási irány");
 		state = !state;
-		System.out.println("Új state: "+state);
+		System.out.println("Class: Switch\t\t Object: "+this+"\t\t New state: "+state);
 	}
 	
 	
 	@Override
 	public Rail getNextRail(Rail trainPreviousRail){
-		System.out.println("Class: Switch overriding Rail\t Method: getNextRail\t Param: "+trainPreviousRail+"\t A következő sín.");
+		System.out.println("Class: Switch\t\t Object: "+this+"\t Method: getNextRail\t Param: "+trainPreviousRail+"\t A következő sín.");
 		int counter=state?1:0; /* Ha módosítani akarjuk az irányt, akkor a count 1-lesz, ha nem akarjuk módosítani, akkor nulla */
 		
 		for(Rail oneNeighbourRail:neighbourRails){/* Minden sínt végignézünk. */
 			if(trainPreviousRail!=oneNeighbourRail){ /* Ha nem az a sín amit nézünk, ahonnan jött a vonat */
 				if(counter==0){
-					System.out.println("Returned: "+oneNeighbourRail);
+					System.out.println("Class: Switch\t\t Object: "+this+"\t Returned: "+oneNeighbourRail);
 					return oneNeighbourRail; /* A counter 0, azaz ezt a sínt kell visszaadjuk. */
 				} else {
 					counter--; /* A counter még nem nulla, így nem ezt kell visszaadnunk. */
 				}		
 			}
 		}
-		System.out.println("Returned: null\t Nincs következő sín");
+		System.out.println("Class: Switch\t\t Object: "+this+"\t Returned: null\t Nincs következő sín");
 		return null; /* Nem találtunk következő sínt, így null-al tértünk vissza. */
 	}
 
