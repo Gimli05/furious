@@ -15,6 +15,7 @@ public class TunnelEntrance extends Switch{
 	
 	
 	public TunnelEntrance(){
+		System.out.println("Class: TunnelEntrance\t Method: Constructor\t Param: -");
 		isActivated = false;
 	}
 	

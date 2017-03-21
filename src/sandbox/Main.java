@@ -48,7 +48,7 @@ public class Main {
 			 * Az ötös billentyû lenyomásának hatására a szkeleton tesztelõ program elindítja a "Vonatok léptetése" tesztesetet. 
 			 * A hatos billentyû lenyomásának hatására a szkeleton tesztelõ program elindítja az "Új vonat érkezése" tesztesetet. 
 			 * A hetes billentyû lenyomásának hatására a szkeleton tesztelõ program elindítja az "Gyõzelem" tesztesetet. 
-			 * Az egyes billentyû lenyomásának hatására a szkeleton tesztelõ program futása megszakad.
+			 * A nyolcas billentyû lenyomásának hatására a szkeleton tesztelõ program futása megszakad.
 			 */
 			
 			switch(Integer.parseInt(scanner.nextLine())){
@@ -60,7 +60,7 @@ public class Main {
 				/* Ez a teszteset új játékot indít. Bemenetként vár a felhasználótól egy számot, hogy melyik pálya
 				 * induljon el. */
 					switch(Integer.parseInt(scanner.nextLine())){
-						case 1: System.out.println("1. pálya indítása...");	
+						case 1: System.out.println("\n1. pálya indítása...");	
 						
 						/* Ez a programrész akkor fut le, ha a felhasználó az elsõ pályát választja. Létrejön egy GameController. */
 						/* a gc utáni szám azt mutatja, melyik feladat melyik részfeladatához tartozik. */
@@ -68,7 +68,7 @@ public class Main {
 						gc11.startNewGame(1);
 						
 						break;
-						case 2: System.out.println("2. pálya indítása...");
+						case 2: System.out.println("\n2. pálya indítása...");
 						
 						/* Ez a programrész akkor fut le, ha a felhasználó a második pályát választja. Létrejön egy GameController. */
 						GameController gc12 = new GameController();
@@ -100,7 +100,7 @@ public class Main {
 					/**gc3.ActivateAnyEntrance();					A szekv. diagramunk alapján kb ez történik **/
 					/* Ez azért van, mert a GUI-n lesz majd event generálással ez megoldva, de itt még nincs GUI*/
 					
-					/* TODO Ez inkább placeholder kód fentebb...
+					/* TODO Ez inkább placeholder kód fentebb... */
 					
 					break;
 					

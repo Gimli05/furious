@@ -38,7 +38,7 @@ public class TrainCollection {
 	 * @param train Az új hozzáadandó vonat referenciája.
 	 */
 	public void addNewTrain(Train train){
-		System.out.println("Class: TrainCollection\t Method: addNewTrain\t Param: train");
+		System.out.println("Class: TrainCollection\t Method: addNewTrain\t Param: "+ train);
 		trains.add(train);
 	}	
 	

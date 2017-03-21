@@ -18,7 +18,7 @@ public class Switch extends Rail{
 	 * Alap értelmezetten nem módosít a vonat irányán.
 	 */
 	public Switch(){
-		System.out.println("Class: Switch\t Method: Constructor\t Param: -");
+		System.out.println("Class: Switch\t\t Method: Constructor\t Param: -");
 		state = false;
 	}
 

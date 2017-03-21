@@ -17,7 +17,7 @@ public class TrainStation extends Rail{
 	 * @param stationColor	A megálló színe.
 	 */
 	public TrainStation(Color stationColor){
-		System.out.println("Class: TrainStation\t Method: Constructor\t Param: stationColor");
+		System.out.println("Class: TrainStation\t Method: Constructor\t Param: "+stationColor);
 		color = stationColor;
 	}
 	

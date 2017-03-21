@@ -8,5 +8,7 @@ import java.util.ArrayList;
  * a szerelvény egy Michael Bay Effekt keretében felrobban, és a játékos veszít.
  */
 public class EnterPoint extends Rail {
-	//Empty class
+	public EnterPoint(){
+		System.out.println("Class: EnterPoint\t Method: Constructor\t Param: -");
+	}
 }

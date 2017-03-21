@@ -39,9 +39,11 @@ public class GameController {
 	 * Ezután elindítja a vonatok léptetéséért felelõs szálat.
 	 */
 	public void startNewGame(int mapNumber){
-		System.out.println("Class: GameController\t Method: startNewGame\t Param: -");
+		System.out.println("Class: GameController\t Method: startNewGame\t Param: "+mapNumber);
+		
 		
 		String mapName = new String("maps/map" + mapNumber + ".txt");
+		System.out.println("Megnyitando palya eleresi ut: "+mapName);
 		try {
 			buildFromFile(mapName);
 		} catch (IOException e) {
@@ -104,12 +106,13 @@ public class GameController {
 	 */
 	
 	private void buildFromFile(String filename) throws IOException{
-		System.out.println("Class: GameController\t Method: buildFromFile\t Param: filename\t Betoltes.");
+		System.out.println("Class: GameController\t Method: buildFromFile\t Param: "+filename+"\t Betoltes.");
 		
 		/*Kezdetben megállítjk a játékot és töröljük azelözö listákat*/
 		isTheGameRunning=false;
 		railCollection.clear();
 		trainCollection.clear();
+		System.out.println("Class: GameController\t Method: railCollection.clear");
 		
 		
 		String in; /*Egy beolvasott sort tárol, ebbe olvasunk*/
@@ -139,6 +142,7 @@ public class GameController {
 		}
 		
 		
+		System.out.println("\nClass: GameController\t Sínek közötti kapcsolatok létrehozása.");
 		for(int i=0;i<width;i++){ /*Végignézzük a pályát szélességben...*/
 			for(int j=0;j<height;j++){	/*... és magasságban*/
 				if(tempMap[i][j]!=null){		/*Ha az aktuális elem nem üres, akkor lehetnek szomszédai*/		
@@ -164,14 +168,10 @@ public class GameController {
 				if(tempMap[i][j]!=null)railCollection.add(tempMap[i][j]); /*Ha van Rail tipus, akkor a kollekciónk része kell hogy legyen, felvesszük.*/
 			}
 		}
-//<<<<<<< HEAD
+
 		br.close();
-		System.out.println("Létrehozott pályaelemek száma: "+railCollection.size());
-		isTheGameRunning=true;
-//=======
 		System.out.println("Létrehozott pályaelemek száma: "+railCollection.size()); /*Megnézzük hogy változott e valam*/
 		isTheGameRunning=true; /*Elinditjuka játkot*/
-//>>>>>>> branch 'master' of https://github.com/Gimli05/furious
 		System.out.println("A játék elindult");
 	}
 	
@@ -184,39 +184,47 @@ public class GameController {
      * @return  A létrehozott sín.
      */
     private Rail elementReader(String mapChar){
-    	System.out.println("Class: GameController\t Method: elementReader\t Param: mapChar\t Dek------------?????--------a fajlbol");
+    	System.out.println("\nClass: GameController\t Method: elementReader\t Param: "+mapChar+"\t Elem dekodolasa fajlbol"); /* A jobb olvashatóság érdekében ezelõtt egy új sor van. */
         switch(mapChar){
         case "E":
+        	System.out.println("Beolvasott elem: EnterPoint");
             return new EnterPoint(); /* Létrehozunk egy új enterPointot. */
            
         case "R":
+        	System.out.println("Beolvasott elem: Rail");
             return new Rail(); /* Létrehozunk egy új Railt. */
            
         case "S":
+        	System.out.println("Beolvasott elem: Switch");
             return new Switch(); /* Létrehozunk egy új Switchet. */
            
         case "U":
+        	System.out.println("Beolvasott elem: TunnelEntrance");
             return new TunnelEntrance(); /* Létrehozunk egy új TunnelEntrance-t. */
            
         case "1":
+        	System.out.println("Beolvasott elem: Red TrainStation");
             return new TrainStation(Color.RED); /* Létrehozunk egy új TrainStation-t, mely piros színû lesz. */
            
         case "2":
+        	System.out.println("Beolvasott elem: Green TrainStation");
             return new TrainStation(Color.GREEN); /* Létrehozunk egy új TrainStation-t, mely zöld színû lesz. */
            
         case "3":
+        	System.out.println("Beolvasott elem: Blue TrainStation");
             return new TrainStation(Color.BLUE); /* Létrehozunk egy új TrainStation-t, mely kék színû lesz. */
            
         default:
+        	System.out.println("Beolvasott elem: ures");
             return null; /* Ez a lehetõség akkor fut le ha nem ismert betü van a szövegünben, mely ilyenkor egy üres mezö lesz */
         }
     }
     
     /**
      * Meg kell nézni minden léptetés után hogy a vonatok kiürültek e
-     */
-    
+     */ 
     private boolean hasTheGameEnded(){
+    	System.out.println("Class: GameController\t Method: hasTheGameEnded\t Param: -\t Vonatok uressegenek ellenorzese");
     	return trainCollection.isAllEmpty();
     }
     
