@@ -23,15 +23,8 @@ public class Rail {
 		y=0;
 	}
 	
-	public Rail(int X, int Y){
-		System.out.println("Class: Rail\t\t Object: "+this+"\t\t\t Method: Constructor(x,y)\t");
-		trainLenghtCounter = 0; /* Létrehozásakor minden sín üres. */
-		x=X; /*Helyhez rakjuk*/
-		y=Y;
-	}
 	
 	/** X és Y koordinátát kérjük le**/
-	
 	public int getY(){
 		return y;
 	}
@@ -132,7 +125,7 @@ public class Rail {
 	 * @param newCounter	A vonat hossza.
 	 */
 	public void setTrainLenghtCounter(int newCounter){
-		System.out.println("Class: Rail\t\t Class: Rail\t\t\t Method: setTrainLenghtCounter\t Param: "+newCounter+"\t Vonat lépett a sínre.");
+		System.out.println("Class: Rail\t\t Object: "+this+"\t\t\t Method: setTrainLenghtCounter\t Param: "+newCounter+"\t Vonat lépett a sínre.");
 		trainLenghtCounter = newCounter;
 	}
 

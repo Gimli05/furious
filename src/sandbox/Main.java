@@ -360,7 +360,7 @@ public class Main {
 						default: System.out.println("Csak az 'i' és 'n' a támogatott bemenet");
 					}
 					break;
-					case 4: System.out.println("A vonat megállóra lép. Van nem üres kabin a vonatban? [i, n]");
+					case 4: System.out.println("A vonat ZÖLD megállóra lép. Van nem üres kabin a vonatban? [i, n]");
 					/* Ha a vonat megállóra lép, az elsõ kérdés, hogy utaznak-e a vonatban. Ha nem, akkor a vonat
 					 * egyszerûen áthalad a megállón. Ha van olyan kabin ami nem üres akkor ha az elsõ 
 					 * nem üres vagon színe megegyezik a megállóéval, leszállnak az utasok arról a vagonról.
@@ -368,40 +368,50 @@ public class Main {
 						switch (scanner.nextLine().charAt(0))
 						{
 							case 'I':
-							case 'i': System.out.println("Milyen színû a megálló? Piros, zöld vagy kék lehet. [r, g, b]"); 
-							/* Ebben tároljuk a megálló színét amit a felhasználó megad. */
-							char megalloSzin = scanner.nextLine().charAt(0);	
-							
-							System.out.println("Milyen színû az elsõ nem üres vagon? Piros, zöld vagy kék lehet. [r, g, b]"); 
-							/* Ebben tároljuk a vagon színét amit a felhasználó megad. */
-							char vagonSzin = scanner.nextLine().charAt(0);	
-							
-							/*Ez az if csak azért van itt, hogy letesztelje, a megadott szín érvényes-e. Ha nem az, megszakad a teszteset.*/
-							if ((megalloSzin != 'r' && megalloSzin != 'g' && megalloSzin != 'b' 
-									&& megalloSzin != 'R' && megalloSzin != 'G' && megalloSzin != 'B') || 
-									(vagonSzin != 'r' && vagonSzin != 'g' && vagonSzin != 'b' &&
-									vagonSzin != 'R' && vagonSzin != 'G' && vagonSzin != 'B'))
-							{
+							case 'i': System.out.println("Milyen színû a megálló? Milyen színû az elsõ nem üres vagon? Piros, zöld vagy kék lehet. [r, g, b]"); 
+							//* Ebben tároljuk a vagon színét amit a felhasználó megad. */
+							char vagonSzin = scanner.nextLine().charAt(0);		
+							Color cabColor = null;
+														
+							if(vagonSzin == 'r' || vagonSzin == 'R'){
+								System.out.println("Nem szállnak le az utasok...");
+								cabColor = Color.RED;
+							} else if(vagonSzin == 'g' || vagonSzin == 'G'){
+								System.out.println("Leszállnak az utasok...");
+								cabColor = Color.GREEN;
+							} else if(vagonSzin == 'b' || vagonSzin == 'B'){
+								System.out.println("Nem szállnak le az utasok...");
+								cabColor = Color.BLUE;
+							} else {						
 								System.out.println("A vagonok és a megállók csak 'r', 'g' vagy 'b' színûek lehetnek");
 								break;
 							}
-							if(megalloSzin == vagonSzin)
-							{
-								System.out.println("Leszállnak az utasok...");
-								/* Ha az elsõ nem üres vagon színe megegyezik a megálló színével, leszállnak az utasok. */
-								/* TODO */
-							}else
-							{
-								System.out.println("Nem szállnak le az utasok...");
-								/* Ha az elsõ nem üres vagon színe nem egyezik meg a megálló színével, nem szállnak le az utasok. */
-								/* TODO*/
-							}
+							
+							
+							ArrayList<Color>cabinColors41 = new ArrayList<Color>();
+							cabinColors41.add(cabColor);
+							
+							GameController gc541 = new GameController();
+							gc541.startNewGame(54);
+							
+							gc541.skeletonTesterAddNewTrain(cabinColors41);
+							gc541.skeletonTesterMakeTrainsMove();
+							gc541.skeletonTesterMakeTrainsMove();
 						
 						break;
 						case 'n': System.out.println("A vonat áthalad a megállón és semmi más nem történik...");
 						/* Ez a programrész akkor fut le, ha senki nem utazott a vonaton mikor az a megállóra lépett. 
 						 * Ekkor ugyanis nincs kinek leszállnia a vonatról. */
-						/*TODO */
+						ArrayList<Color>cabinColors42 = new ArrayList<Color>();
+						cabinColors42.add(Color.BLACK); /* Olyan, mint ha üres lenne */
+						
+						GameController gc542 = new GameController();
+						gc542.startNewGame(54);
+						
+						gc542.skeletonTesterAddNewTrain(cabinColors42);
+						gc542.skeletonTesterMakeTrainsMove();
+						gc542.skeletonTesterMakeTrainsMove();
+						
 						break;
 						/* a program visszalép a fõmenübe, ha nem kap érvényes bemenetet arra a kérdésre
 						 * hogy utanak-e a vonaton

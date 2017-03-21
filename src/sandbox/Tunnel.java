@@ -10,8 +10,4 @@ public class Tunnel extends Rail {
 		System.out.println("Class: Tunnel\t Object: "+this+"\t Method: Constructor\t ");
 	}
 	
-	public Tunnel(int X, int Y){
-		super(X,Y);
-		System.out.println("Class: Tunnel\t Object: "+this+"\t Method: Constructor\t ");
-	}
 }

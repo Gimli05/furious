@@ -183,7 +183,10 @@ public class Train implements Visitor{
 			Color trainColor = this.getFirstNotEmptyCabColor(); /* lekérjük az elsõ nem üres kabin színét */
 			
 			if(trainColor == trainStationColor){ /* Ha az állomás és az elsõ nem üres kabin színe egyezik */
+				System.out.println("Class: Train\t\t Object: "+this+"\t\t\t Az állomás és a vonat színe egyezik!");
 				this.emptyTheFirstNotEmptyCab(); /* kiürítjük az elsõ nem üres kabint. */
+			} else {
+				System.out.println("Class: Train\t\t Object: "+this+"\t\t\t Az állomás és a vonat színe nem egyezik!");
 			}
 		} else {
 			GameController.loseEvent(); /* Ha foglalt a sín, akkor a vonat ütközött, ezért meghívjuk a GameController loseEvent-jét, 
