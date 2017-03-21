@@ -105,31 +105,33 @@ public class GameController {
 	
 	private void buildFromFile(String filename) throws IOException{
 		System.out.println("Class: GameController\t Method: buildFromFile\t Param: filename\t Betoltes.");
+		
+		/*Kezdetben megállítjk a játékot és töröljük azelözö listákat*/
 		isTheGameRunning=false;
 		railCollection.clear();
 		trainCollection.clear();
 		
 		
-		String in;
-		String[] line;
-		BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
-		line=br.readLine().split(";");
+		String in; /*Egy beolvasott sort tárol, ebbe olvasunk*/
+		String[] line; /*Feltördeljük az elözöleg olvasott sort*/
+		BufferedReader br = new BufferedReader(new FileReader(new File(filename))); /*File olvasó*/
+		line=br.readLine().split(";"); /*Kiolvassuk a pálya méretét*/
 		
 		
-		int width = Integer.parseInt(line[0]);
-		int height = Integer.parseInt(line[1]);
-		Rail[][] tempMap = new Rail[width][height];
-		String[][] tempView = new String[width][height];
+		int width = Integer.parseInt(line[0]); /*Pálya szélessége*/
+		int height = Integer.parseInt(line[1]); /*Pálya magassága*/
+		Rail[][] tempMap = new Rail[width][height]; /*Pályaelem tároló mátrix*/
+		String[][] tempView = new String[width][height]; /*Pályaelem leíró mátrix*/
 		
 				
 
-		int x=0;
-		int y=0;
-		while((in=br.readLine())!=null){
-			line=in.split("");
-			for(String s: line){
-				tempMap[x][y] = elementReader(s);
-				tempView[x][y]=s;
+		int x=0; /*Segédváltozó szélességhez*/
+		int y=0; /*Segédváltpzó magassághoz*/
+		while((in=br.readLine())!=null){ /*Összes maradék sort kiolvassuk*/
+			line=in.split(""); 
+			for(String s: line){ /*Minden karaktert megnézünk*/
+				tempMap[x][y] = elementReader(s); /*Létrehozzuk a típust*/
+				tempView[x][y]=s; /*Mentjük a vázlatát*/
 				x++;
 			}
 			x=0;
@@ -137,33 +139,33 @@ public class GameController {
 		}
 		
 		
-		for(int i=0;i<width;i++){
-			for(int j=0;j<height;j++){	
-				if(tempMap[i][j]!=null){				
-					ArrayList<Rail> tmp = new ArrayList<Rail>();
-					if(i-1>0 && tempView[i-1][j]!=null) tmp.add(tempMap[i-1][j]);
-					if(i+1<width && tempView[i+1][j]!=null) tmp.add(tempMap[i+1][j]);
-					if(j-1>0 && tempView[i][j-1]!=null) tmp.add(tempMap[i][j-1]);
-					if(j+1<height && tempView[i][j+1]!=null) tmp.add(tempMap[i][j+1]);
+		for(int i=0;i<width;i++){ /*Végignézzük a pályát szélességben...*/
+			for(int j=0;j<height;j++){	/*... és magasságban*/
+				if(tempMap[i][j]!=null){		/*Ha az aktuális elem nem üres, akkor lehetnek szomszédai*/		
+					ArrayList<Rail> tmp = new ArrayList<Rail>(); /*új "szomszéd tároló"*/
+					if(i-1>0 && tempView[i-1][j]!=null) tmp.add(tempMap[i-1][j]); /*Ha balra lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(i+1<width && tempView[i+1][j]!=null) tmp.add(tempMap[i+1][j]);/*Ha jobbra lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(j-1>0 && tempView[i][j-1]!=null) tmp.add(tempMap[i][j-1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(j+1<height && tempView[i][j+1]!=null) tmp.add(tempMap[i][j+1]);/*Ha alatta lévö mezö a pálya része és Rail akkor a szomszédja*/
 				
-					if(i-1>0 && j-1>0 && tempView[i-1][j-1]!=null) tmp.add(tempMap[i-1][j-1]);
-					if(i+1<width && j-1>0 && tempView[i+1][j-1]!=null) tmp.add(tempMap[i+1][j-1]);
-					if(i-1>0 && j+1<height && tempView[i-1][j+1]!=null) tmp.add(tempMap[i-1][j+1]);
-					if(i+1<width && j+1<height && tempView[i+1][j+1]!=null) tmp.add(tempMap[i+1][j+1]);
+					if(i-1>0 && j-1>0 && tempView[i-1][j-1]!=null) tmp.add(tempMap[i-1][j-1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(i+1<width && j-1>0 && tempView[i+1][j-1]!=null) tmp.add(tempMap[i+1][j-1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(i-1>0 && j+1<height && tempView[i-1][j+1]!=null) tmp.add(tempMap[i-1][j+1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(i+1<width && j+1<height && tempView[i+1][j+1]!=null) tmp.add(tempMap[i+1][j+1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
 								
-					tempMap[i][j].setNeighbourRails(tmp);
+					tempMap[i][j].setNeighbourRails(tmp); /*Hozzáadjuk az újonnan felvett szomszédokat*/
 				}
 			}
 		}
 		
 		
-		for(int i=0;i<width;i++){
+		for(int i=0;i<width;i++){ /*Bejárjuk a táblát*/
 			for(int j=0;j<height;j++){
-				if(tempMap[i][j]!=null)railCollection.add(tempMap[i][j]);
+				if(tempMap[i][j]!=null)railCollection.add(tempMap[i][j]); /*Ha van Rail tipus, akkor a kollekciónk része kell hogy legyen, felvesszük.*/
 			}
 		}
-		System.out.println("Létrehozott pályaelemek száma: "+railCollection.size());
-		isTheGameRunning=true;
+		System.out.println("Létrehozott pályaelemek száma: "+railCollection.size()); /*Megnézzük hogy változott e valam*/
+		isTheGameRunning=true; /*Elinditjuka játkot*/
 		System.out.println("A játék elindult");
 	}
 	
@@ -202,18 +204,5 @@ public class GameController {
         default:
             return null; /* Ez a lehetõség akkor fut le ha nem ismert betü van a szövegünben, mely ilyenkor egy üres mezö lesz */
         }
-    }
-    
-    /** Csak a tesztelésre létrehozott metódus
-     * A megadott paraméterû elemet átswitcheli. 
-     * A switch osztályt nem látja a GameController, csak a Railt. Ezek a jövõben eventekkel kommunikálnak majd.
-     * Így az ideiglenes megoldás, egy olyan pálya létrehozása amiben csak egy switch van, ezt aztán beolvassuk, 
-     * Az egyetlen railrõl csinálunk itt egy másolatot, de azt a másolatot, hogy el is érjünk a gamecontrollerbõl
-     * egy switchet, majd ezt átváltjuk.
-     */
-    /*Sorry nem volt jobb ötletem. Ja és Long, nézd, van temp! Ezt a kommentet majd töröljük.*/
-    public void skeletonTesterSwitch(int arrayIndex){
-    	Switch temp = (Switch)railCollection.get(arrayIndex);
-    	temp.switchRail();
     }
 }
