@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Rail {
 	protected ArrayList<Rail> neighbourRails; /* Egy lista a szomszédos sínekre mutató pointerekrõl, mely az adott sín közvetlen közelében találhatóak. */
 	protected int trainLenghtCounter; /* Ebben tároljuk, hogy hány kabin fog még áthaladni a sínen (mivel a Train entity csak 1 mezõt foglal el konkrétan) */
-	
+	protected int x,y; /*Pozício két koordinátája*/
 	
 	/**
 	 * A Rail konstruktora. Beállítjaa countert 0-ra.
@@ -19,8 +19,26 @@ public class Rail {
 	public Rail(){
 		System.out.println("Class: Rail\t\t Object: "+this+"\t\t\t Method: Constructor\t");
 		trainLenghtCounter = 0; /* Létrehozásakor minden sín üres. */
+		x=0; /*Origoba rakjuk*/
+		y=0;
 	}
 	
+	public Rail(int X, int Y){
+		System.out.println("Class: Rail\t\t Object: "+this+"\t\t\t Method: Constructor(x,y)\t");
+		trainLenghtCounter = 0; /* Létrehozásakor minden sín üres. */
+		x=X; /*Helyhez rakjuk*/
+		y=Y;
+	}
+	
+	/** X és Y koordinátát kérjük le**/
+	
+	public int getY(){
+		return y;
+	}
+	
+	public int getX(){
+		return x;
+	}
 	
 	/**
 	 * A vonat a visitje során meghívja ezt a függvényt, mely a vonat elõzõ pozíciója alapján egyértelmûen megadja melyik sínre kell tovább mennie. 

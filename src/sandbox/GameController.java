@@ -274,7 +274,125 @@ public class GameController {
 		
 		if(activeEntranceCounter == 2){
 			System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Alagút létrehozása");
-			//TODO implementálni
+			Rail entrance1, entrance2;
+			
+			/*Kikeressük a kettöt*/
+			for(Rail rail:railCollection){
+				if(rail.getClass() == TunnelEntrance.class){
+					if(enrance1==null){
+						entrance1=rail
+					}else{
+						entrance2=rail;
+					}
+				}
+			}
+			
+			/*Összekötjük*/
+			int e1X=entrance1.getX();
+			int e1Y=entrance1.getY();
+			int e2X=entrance2.getX();
+			int e2Y=entrance2.getY();
+			
+			Rail lemarado = entrance1;
+			Rail next;
+			
+			/*X közelit*/
+			if(e1X>e2X){
+				while(e1X>e2X){
+					e1X--;
+					ArrayList<Rail> neighbours = new ArrayList<Rail>();
+					neighbours.add(lemarado);				
+					
+					if(e1X-1==e2X && e1Y==e2Y){
+						e1X--;
+						neighbours.add(entrance2);
+					}else{
+						next=new Tunnel(e1X-1,e1Y);
+						neighbours.add(next);
+					}
+					
+					Tunnel tmp = new Tunnel(e1X,e1Y);
+					tmp.setNeighbourRails(neighbours);
+					
+					railCollection.add(tmp);
+					if(e1X==e2X && e1Y==e2Y)entrance2.addNeighbourRail(tmp);				
+					if(entrance1==lemarado)entrance1.addNeighbourRail(tmp);
+					
+					lemarado=tmp;
+				}
+			}else if(e1X<e2X){
+				while(e1X<e2X){
+					e1X++;
+					ArrayList<Rail> neighbours = new ArrayList<Rail>();
+					neighbours.add(lemarado);				
+					
+					if(e1X+1==e2X && e1Y==e2Y){
+						e1X++;
+						neighbours.add(entrance2);
+					}else{
+						next=new Tunnel(e1X+1,e1Y);
+						neighbours.add(next);
+					}
+					
+					Tunnel tmp = new Tunnel(e1X,e1Y);
+					tmp.setNeighbourRails(neighbours);
+					
+					railCollection.add(tmp);
+					if(e1X==e2X && e1Y==e2Y)entrance2.addNeighbourRail(tmp);				
+					if(entrance1==lemarado)entrance1.addNeighbourRail(tmp);
+					
+					lemarado=tmp;
+				}
+			}
+			
+			/*Y közelit*/
+			if(e1Y>e2Y){
+				while(e1Y>e2Y){
+					e1Y--;
+					ArrayList<Rail> neighbours = new ArrayList<Rail>();
+					neighbours.add(lemarado);				
+					
+					if(e1Y+1==e2Y && e1X==e2X){
+						e1X--;
+						neighbours.add(entrance2);
+					}else{
+						next=new Tunnel(e1X,e1Y-1);
+						neighbours.add(next);
+					}
+					
+					Tunnel tmp = new Tunnel(e1X,e1Y);
+					tmp.setNeighbourRails(neighbours);
+					
+					railCollection.add(tmp);
+					if(e1X==e2X && e1Y==e2Y)entrance2.addNeighbourRail(tmp);				
+					if(entrance1==lemarado)entrance1.addNeighbourRail(tmp);
+					
+					lemarado=tmp;
+				}
+			}else if(e1Y<eY){
+				while(e1Y<e2Y){
+					e1Y++;
+					ArrayList<Rail> neighbours = new ArrayList<Rail>();
+					neighbours.add(lemarado);				
+					
+					if(e1Y+1==e2Y && e1X==e2X){
+						e1Y++;
+						neighbours.add(entrance2);
+					}else{
+						next=new Tunnel(e1X,e1Y+1);
+						neighbours.add(next);
+					}
+					
+					Tunnel tmp = new Tunnel(e1X,e1Y);
+					tmp.setNeighbourRails(neighbours);
+					
+					railCollection.add(tmp);
+					if(e1X==e2X && e1Y==e2Y)entrance2.addNeighbourRail(tmp);				
+					if(entrance1==lemarado)entrance1.addNeighbourRail(tmp);
+					
+					lemarado=tmp;
+				}
+			}
 		}
 	}
 	
