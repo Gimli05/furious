@@ -128,7 +128,7 @@ public class Main {
 				 * ez szembemenne a feladat specifikációjával. Ugyanitt, nem lehet 0 aktív alagútszáj, ha éppen deaktiválni
 				 * szeretnénk egy alagútszájat, ebben az esetben ugyanis nem lenne mit deaktiválni.
 				 */
-				case 3: System.out.println("Alagútszály deaktiválása. Hány alagútszály van jelenleg nyitva? [1, 2]");
+				case 3: System.out.println("Alagútszály deaktiválása. Hány alagútszáj van jelenleg nyitva? [1, 2]");
 				switch (Integer.parseInt(scanner.nextLine()))
 				{
 					case 1: 
@@ -242,29 +242,57 @@ public class Main {
 					case 1: System.out.println("A vonat sínre lép..."); 
 					
 					/*Ez a programrész fut le akkor, ha a vonat egy egyszerû sínre lép. */
-
 					
-					
-					
-					/*TODO */
+						ArrayList<Color>cabinColors = new ArrayList<Color>();
+						cabinColors.add(Color.RED);
+						cabinColors.add(Color.GREEN);
+						cabinColors.add(Color.BLUE);
+						
+						GameController gc51 = new GameController();
+						gc51.startNewGame(51);
+						gc51.skeletonTesterAddNewTrain(cabinColors);
+						gc51.skeletonTesterMakeTrainsMove();
+						gc51.skeletonTesterMakeTrainsMove();
 					break;
+					
 					case 2: System.out.println("A vonat váltóra lép. A váltó alaphelyzetben (i) vagy az elternatív helyzetben (n) van? [i, n]");
-					switch (scanner.nextLine().charAt(0)){
-						case 'I': 
-						case 'i': System.out.println("A vonat egyenesen halad tovább..."); 
-						/* Ez a programrész akkor fut le, ha a vonat egy váltóra lép és a váltó alapállapotban van
-						 * 
-						 */
-						/*TODO */
-						break;
-						case 'N':
-						case 'n': System.out.println("A vonat elkanyarodik...");
-						/* Ez a programrész akkor fut le, ha a vonat egy váltóra lép és a váltó alternatív   van */
-						/*TODO */
-						break;
-						default: System.out.println("Csak az 'i' és 'n' a támogatott bemenet");
-					}
+						switch (scanner.nextLine().charAt(0)){
+							case 'I': 
+							case 'i': System.out.println("A vonat egyenesen halad tovább..."); 
+							/* Ez a programrész akkor fut le, ha a vonat egy váltóra lép és a váltó alapállapotban van */
+							ArrayList<Color>cabinColors21 = new ArrayList<Color>();
+							cabinColors21.add(Color.RED);
+							cabinColors21.add(Color.GREEN);
+							cabinColors21.add(Color.BLUE);
+							
+							GameController gc521 = new GameController();
+							gc521.startNewGame(52);
+							gc521.skeletonTesterAddNewTrain(cabinColors21);
+							gc521.skeletonTesterMakeTrainsMove();
+							gc521.skeletonTesterMakeTrainsMove();
+							break;
+							
+							case 'N':
+							case 'n': System.out.println("A vonat elkanyarodik...");
+							/* Ez a programrész akkor fut le, ha a vonat egy váltóra lép és a váltó alternatív   van */
+							ArrayList<Color>cabinColors22 = new ArrayList<Color>();
+							cabinColors22.add(Color.RED);
+							cabinColors22.add(Color.GREEN);
+							cabinColors22.add(Color.BLUE);
+							
+							GameController gc522 = new GameController();
+							gc522.startNewGame(52);
+							gc522.skeletonTesterSwitchASwitch();
+							gc522.skeletonTesterAddNewTrain(cabinColors22);
+							gc522.skeletonTesterMakeTrainsMove();
+							gc522.skeletonTesterMakeTrainsMove();
+							break;
+							
+							default: System.out.println("Csak az 'i' és 'n' a támogatott bemenet");
+						}
 					break;
+					
+					
 					case 3: System.out.println("A vonat alagútszájra lép. A váltó az alagútszáj felé irányítja a vonatot? [i, n]");
 					switch (scanner.nextLine().charAt(0))
 					{
@@ -276,21 +304,58 @@ public class Main {
 							/* Ez a teszteset akkor fut le, ha a vonat alagútba lépne, de nincs alagút, mert csak egy aktív alagútszáj 
 							 * található jelenleg a pályán.
 							 */
-							/*TODO */
+							
+							ArrayList<Color>cabinColors31 = new ArrayList<Color>();
+							cabinColors31.add(Color.RED);
+							cabinColors31.add(Color.GREEN);
+							cabinColors31.add(Color.BLUE);
+							
+							GameController gc531 = new GameController();
+							gc531.startNewGame(53);
+							gc531.skeletonTesterActivateTunnelEntrance(1);
+							gc531.skeletonTesterSwitchATunnelEntrance();
+							
+							gc531.skeletonTesterAddNewTrain(cabinColors31);
+							gc531.skeletonTesterMakeTrainsMove();
+							gc531.skeletonTesterMakeTrainsMove();
 							break;
+							
 							case 2: System.out.println("A vonat belép az alagútba...");
 							/* Ez a teszteset akkor fut le, ha a vonat alagútba lép és van is alagút, vagyis a 
 							 * pályán két aktív alagútszáj található.
 							 */
-							/*TODO */
+							ArrayList<Color>cabinColors32 = new ArrayList<Color>();
+							cabinColors32.add(Color.RED);
+							cabinColors32.add(Color.GREEN);
+							cabinColors32.add(Color.BLUE);
+							
+							GameController gc532 = new GameController();
+							gc532.startNewGame(53);
+							gc532.skeletonTesterActivateTunnelEntrance(2);
+							gc532.skeletonTesterSwitchATunnelEntrance();
+							
+							gc532.skeletonTesterAddNewTrain(cabinColors32);
+							gc532.skeletonTesterMakeTrainsMove();
+							gc532.skeletonTesterMakeTrainsMove();
 							break;
+							
 							default: System.out.println("Csak akkor léphet a vonat alagútba, ha, ha 1 vagy 2 nyitott alagútszáj van.");
 						}
 						break;
 						case 'N':
 						case 'n': System.out.println("A vonat elkerüli az alagutat...");
 						/* Ha az alagútszájnál álló váltó alaphelyzetben van akkor a vonat nem megy be az alagútba*/
-						/*TODO */
+						ArrayList<Color>cabinColors33 = new ArrayList<Color>();
+						cabinColors33.add(Color.RED);
+						cabinColors33.add(Color.GREEN);
+						cabinColors33.add(Color.BLUE);
+						
+						GameController gc533 = new GameController();
+						gc533.startNewGame(53);
+						
+						gc533.skeletonTesterAddNewTrain(cabinColors33);
+						gc533.skeletonTesterMakeTrainsMove();
+						gc533.skeletonTesterMakeTrainsMove();
 						break;
 						default: System.out.println("Csak az 'i' és 'n' a támogatott bemenet");
 					}

@@ -34,6 +34,14 @@ public class TunnelEntrance extends Switch{
 	public void deActivate(){
 		System.out.println("Class: TunnelEntrance\t Object: "+this+"\t Method: Deactivate\t Deaktivalta az alagutszajat");
 		isActivated = false;
+		
+		Rail neighbourRailToGetDeleted = null;
+		for(Rail rail:neighbourRails){
+			if(rail.getClass() == Tunnel.class){
+				neighbourRailToGetDeleted = rail;
+			}
+		}
+		neighbourRails.remove(neighbourRailToGetDeleted);
 	}
 	
 	

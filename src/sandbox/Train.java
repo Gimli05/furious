@@ -95,7 +95,10 @@ public class Train implements Visitor{
 	public void setNextRail(Rail rail){
 		System.out.println("Class: Train\t\t Object: "+this+"\t\t\t Method: setNextRail\t Param: "+rail+"\t Beállítjuk a következo sínt.");
 		previousRail = nextRail;
-		nextRail = rail; /* frissítjük, hogy honnan jöttünk, és elmentjük, hogy hová fogunk menni. */ 
+		nextRail = rail; /* frissítjük, hogy honnan jöttünk, és elmentjük, hogy hová fogunk menni. */
+		if(nextRail == null){
+			GameController.loseEvent();
+		}
 	}
 
 	

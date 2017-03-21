@@ -103,6 +103,18 @@ public class Rail {
 	
 	
 	/**
+	 * A tunnel létrehozása miatt szükség van on the fly hozzáadni rail-eket.
+	 * Ez a függvény ezt a célt szolgálja.
+	 * 
+	 * @param newNeighbourRail Új szomszéd
+	 */
+	public void addNeighbourRail(Rail newNeighbourRail){
+		System.out.println("Class: Rail\t\t Object: "+this+"\t\t\t Method: setNeighbourRails\t Param: "+newNeighbourRail);
+		neighbourRails.add(newNeighbourRail);
+	}
+	
+	
+	/**
 	 * Csökkenti a trainLenghtCountert
 	 * Minden léptetés során csökkentjük egyel a számlálót, hiszen már elhaladt egy kabin.
 	 */
@@ -122,5 +134,14 @@ public class Rail {
 	public void setTrainLenghtCounter(int newCounter){
 		System.out.println("Class: Rail\t\t Class: Rail\t\t\t Method: setTrainLenghtCounter\t Param: "+newCounter+"\t Vonat lépett a sínre.");
 		trainLenghtCounter = newCounter;
+	}
+
+	public void setX(int x2) {
+		x=x2;
+		
+	}
+	
+	public void setY(int y2){
+		y=y2;
 	}
 }
