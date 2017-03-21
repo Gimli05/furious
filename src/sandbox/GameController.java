@@ -212,7 +212,7 @@ public class GameController {
      * egy switchet, majd ezt átváltjuk.
      */
     /*Sorry nem volt jobb ötletem. Ja és Long, nézd, van temp! Ezt a kommentet majd töröljük.*/
-    public void skeletonTesterSwittch(int arrayIndex){
+    public void skeletonTesterSwitch(int arrayIndex){
     	Switch temp = (Switch)railCollection.get(arrayIndex);
     	temp.switchRail();
     }
