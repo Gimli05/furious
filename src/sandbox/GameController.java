@@ -118,14 +118,14 @@ public class GameController {
 	 *  
 	 */
 	
-	private void buildFromFile(String filename) throws IOException{
-		System.out.println("Class: GameController\t Object: "+this+"\t Method: buildFromFile\t Param: "+filename+"\t Betoltes.");
+	private static void buildFromFile(String filename) throws IOException{
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: buildFromFile\t Param: "+filename+"\t Betoltes.");
 		
 		/*Kezdetben megállítjk a játékot és töröljük azelözö listákat*/
 		isTheGameRunning=false;
 		railCollection.clear();
 		trainCollection.clear();
-		System.out.println("Class: GameController\t Object: "+this+"\t Method: railCollection.clear");
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: railCollection.clear");
 		
 		
 		String in; /*Egy beolvasott sort tárol, ebbe olvasunk*/
@@ -158,7 +158,7 @@ public class GameController {
 		}
 		
 		
-		System.out.println("\nClass: GameController\t Object: "+this+"\t Sínek közötti kapcsolatok létrehozása.");
+		System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Sínek közötti kapcsolatok létrehozása.");
 		for(int i=0;i<width;i++){ /*Végignézzük a pályát szélességben...*/
 			for(int j=0;j<height;j++){	/*... és magasságban*/
 				if(tempMap[i][j]!=null){		/*Ha az aktuális elem nem üres, akkor lehetnek szomszédai*/		
@@ -180,9 +180,9 @@ public class GameController {
 		}
 
 		brMap.close();
-		System.out.println("Class: GameController\t Object: "+this+"\t Létrehozott pályaelemek száma: "+railCollection.size()); /*Megnézzük hogy változott e valam*/
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Létrehozott pályaelemek száma: "+railCollection.size()); /*Megnézzük hogy változott e valam*/
 		isTheGameRunning=true; /*Elinditjuka játkot*/
-		System.out.println("\nClass: GameController\t Object: "+this+"\t A játék elindult\n");
+		System.out.println("\nClass: GameController\t Object: GameController@STATIC\t A játék elindult\n");
 	}
 	
 
