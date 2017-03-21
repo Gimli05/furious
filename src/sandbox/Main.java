@@ -419,15 +419,39 @@ public class Main {
 						default: System.out.println("Csak az 'i' és 'n' a támogatott bemenet");
 					}
 					break;
+					
 					case 5: System.out.println("A vonat elhagyja a pályát...");
 					/* Ez a teszteset szimulálja, hogy a vonat egy bemeneti ponton keresztül kifelé 
 					 * haladva elhagyja a pályát.
 					 */
-					/*TODO */
+					ArrayList<Color>cabinColors5 = new ArrayList<Color>();
+					cabinColors5.add(Color.RED);
+					cabinColors5.add(Color.GREEN);
+					cabinColors5.add(Color.BLUE);
+					
+					GameController gc55 = new GameController();
+					gc55.startNewGame(55);
+									
+					gc55.skeletonTesterAddNewTrain(cabinColors5);
+					gc55.skeletonTesterMakeTrainsMove();
+					gc55.skeletonTesterMakeTrainsMove();
 					break;
+					
 					case 6: System.out.println("A vonat összeütközik egy másikkal...");
 					/*Ez a teszteset szimulálja, hogy a vonat összeütközik egy másik vonattal. */
-					/*TODO */
+					ArrayList<Color>cabinColors6 = new ArrayList<Color>();
+					cabinColors6.add(Color.RED);
+					cabinColors6.add(Color.GREEN);
+					cabinColors6.add(Color.BLUE);
+					
+					GameController gc56 = new GameController();
+					gc56.startNewGame(56);
+									
+					gc56.skeletonTesterAddNewTrain(cabinColors6);
+					gc56.skeletonTesterMakeTrainsMove();
+					
+					gc56.skeletonTesterAddNewTrain(cabinColors6);
+					gc56.skeletonTesterMakeTrainsMove();
 					break;	
 					/* Ha a felhasználó nem a várt kimenetet adja (vagyis nem 1, 2, 3,4 , 5, 6 számok valamelyikét
 					 * akkor a tesztelõ program kilép a fõmenübe.
