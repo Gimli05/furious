@@ -90,32 +90,27 @@ public class Main {
 				case 2: System.out.println("Alagútszály aktiválása. Hány alagútszály van jelenleg nyitva? [0, 1]");
 				switch (Integer.parseInt(scanner.nextLine()))
 				{
-					case 0: System.out.println("Elsõ alagútszáj létrehozása...");
+					case 0: System.out.println("Elsõ alagútszáj aktiválása...");
 					
 					/* Ez a kódrészlet fut le akkor, ha  a felhasználó futtatja az alagútszáj aktiválása tesztesetet
 					 * úgy, hogy, a pályán a éppen nincs egyetlen alagútszáj se nyitott állapotban.
 					 */
-					GameController gc31 = new GameController();
-					gc31.startNewGame(1);
-					gc31.skeletonTesterActivateTunnelEntrance(1);/* Aktiváljuk az elsõ alagútszájat. */
-					
+					GameController gc21 = new GameController();
+					gc21.startNewGame(1);
+					gc21.skeletonTesterActivateTunnelEntrance(1);/* Aktiváljuk az elsõ alagútszájat. */
 					break;
 					
-					case 1: System.out.println("Elsõ és második alagútszáj létrhozása...");
-
+					case 1: System.out.println("Elsõ és második alagútszáj aktiválása...");
+					
 					/* Ez a kódrészlet fog lefutni abban az esetben, ha a pályán már található egy aktív
 					 * alagútszály és mi még egy alagútszájat szeretnénk létrehozni mellé. Ekkor az alagútszájon
 					 * kívül egy alagút is létrejön a két alagútszáj között.
 					 */
-					GameController gc32 = new GameController();
-					gc32.startNewGame(1);
-					gc32.skeletonTesterActivateTunnelEntrance(2);/* Aktiváljuk az elsõ alagútszájat. */
-					
-					/*TunnelEntrance te2 = new TunnelEntrance();
-					te2.activate();*/
-					/* TODO Ebbõl még így nem derül ki, hogy már volt-e valahol alagútszáj. Nem jó, ezt GC-n keresztül kellene*/
-					
+					GameController gc22 = new GameController();
+					gc22.startNewGame(1);
+					gc22.skeletonTesterActivateTunnelEntrance(2);/* Aktiváljuk az elsõ alagútszájat. */				
 					break;
+					
 					/* Amennyiben a felhasználó nem az 1-es vagy a 2-es gombot nyomta meg, egyik fenti teszteset
 					 * sem fog lefutni. A szkeleton tesztelõ visszatér a fõmenübe.
 					 */
@@ -134,20 +129,31 @@ public class Main {
 				case 3: System.out.println("Alagútszály deaktiválása. Hány alagútszály van jelenleg nyitva? [1, 2]");
 				switch (Integer.parseInt(scanner.nextLine()))
 				{
-					case 1: System.out.println("Egyedüli alagútszáj zárása..."); 
+					case 1: 
+						
 					/* Ez a programrész akkor fut le, amikor egy alagútszájat deaktiválunk úgy, hogy ez volt az egyetlen alagútszáj a pályán.
 					 * Ebben az esetben csak egyszerûen deaktiválódik az alagútszáj.
 					 */
+						GameController gc31 = new GameController();
+						gc31.startNewGame(1);
+						gc31.skeletonTesterActivateTunnelEntrance(1);/* Aktiváljuk az elsõ alagútszájat. */
+						System.out.println("\nEgyedüli alagútszáj zárása..."); 
+						gc31.skeletonTesterDeActivateATunnelEntrance();
 					
-					
-					/*TODO */
 					break;
-					case 2: System.out.println("Egyik alagútszáj zárása...");
+					
+					case 2: 
+			
 					/* Ez a programrész akkor fut le, ha a felhasználó úgy deaktivál alagútszájat, hogy a 
 					 * pályán két alagútszáj volt aktív. Ebben az esetben az alagút a két alagútszáj között megszûnik, 
 					 * és eltûnik az alagútszáj.
 					 */
-					/*TODO */
+						GameController gc32 = new GameController();
+						gc32.startNewGame(1);
+						gc32.skeletonTesterActivateTunnelEntrance(2);/* Aktiváljuk az elsõ alagútszájat. */
+						System.out.println("\nAlagút bontása és az egyik alagútszáj zárása...");
+						gc32.skeletonTesterDeActivateATunnelEntrance();
+						
 					break;
 					/* Ha a felhasználó nem 1-et vagy 2-t adott meg bemenetként akkor a fenti 
 					 * tesztesetek közül egyik se fut le. A program visszalép a fõmenübe.
@@ -456,6 +462,7 @@ public class Main {
 					break;
 					default: System.out.println("Csak az 1 és a 2 a megengedett bemenet.");
 				}
+				break;
 				/*Ha a felhsználó a nyolcas gombot nyomja meg, a a tesztprogram véget ér.*/
 				case 8: run = false; break;
 			/*Ha olyan tesztesetet indítana  a játékos ami nem is létezik, akkor a fõmenüben marad. */

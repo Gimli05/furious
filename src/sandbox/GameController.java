@@ -28,7 +28,7 @@ public class GameController {
 	 * A GameController konstruktora.
 	 */
 	public GameController(){
-		System.out.println("Class: GameController\t Method: Constructor\t Param: -");
+		System.out.println("Class: GameController\t Method: Constructor\t ");
 		isTheGameRunning = false;
 		railCollection=new ArrayList<Rail>();
 		trainCollection = new TrainCollection();
@@ -59,7 +59,7 @@ public class GameController {
 	 * Értesíti a játékost, hogy nyert, és leállítja a játékot.
 	 */
 	public static void winEvent(){
-		System.out.println("Class: GameController\t Method: winEvent\t Param: -\t Gyozelem.");
+		System.out.println("Class: GameController\t Method: winEvent\t Gyozelem.");
 		/*TODO */
 	}
 	
@@ -68,7 +68,7 @@ public class GameController {
 	 * Értesíti a játékost, hogy vesztett, és leállítja a játékot.
 	 */
 	public static void loseEvent(){
-		System.out.println("Class: GameController\t Method: loseEvent\t Param: -\t Vereseg");
+		System.out.println("Class: GameController\t Method: loseEvent\t Vereseg");
 		//TODO: kitolteni
 	}
 	
@@ -226,8 +226,10 @@ public class GameController {
      * Meg kell nézni minden léptetés után hogy a vonatok kiürültek e
      */ 
     private boolean hasTheGameEnded(){
-    	System.out.println("Class: GameController\t Method: hasTheGameEnded\t Param: -\t Vonatok uressegenek ellenorzese");
-    	return trainCollection.isAllEmpty();
+    	System.out.println("Class: GameController\t Method: hasTheGameEnded\t Vonatok uressegenek ellenorzese");
+    	Boolean isAllEmpty = trainCollection.isAllEmpty();
+    	System.out.println("Returned: "+isAllEmpty);
+    	return isAllEmpty;
     }
     
 
@@ -241,7 +243,6 @@ public class GameController {
 	public void skeletonTesterSwitch(int n) {
 		Switch tempSwitch = (Switch)railCollection.get(n);
 		tempSwitch.switchRail();
-		
 	}
     
 	
@@ -276,5 +277,34 @@ public class GameController {
 			//TODO implementálni
 		}
 	}
-    
+	
+	
+	/**
+	 * Kizárólag a teszteléshez létrehozott metódus.
+	 * Ellenõrzi hány aktív alagútszáj van. Ha kettõ, akkor lebontja az alagutat, és deaktivál egyet.
+	 */
+	public void skeletonTesterDeActivateATunnelEntrance(){
+		if(activeEntranceCounter == 2){
+			System.out.println("Class: GameController\t Alagút lerombolása");
+			//TODO implementálni
+		}
+		
+		Boolean activatedTunnelEntranceFound = false;
+		while(!activatedTunnelEntranceFound){
+			for(Rail oneRail:railCollection){
+				if(oneRail.getClass() == TunnelEntrance.class){  /*  Az ilyenért lehet kibasznak tbh.. :D */
+					TunnelEntrance oneTunnel = (TunnelEntrance) oneRail; /* Ezért meg fõleg. */
+					if(oneTunnel.checkIfActivated()){
+						oneTunnel.deActivate();
+						activeEntranceCounter--;
+						activatedTunnelEntranceFound = true;
+						break;
+					}
+				}
+			}
+		}
+		System.out.println("Aktív alagútszájak száma: "+activeEntranceCounter);
+	}
+	
+
 }
