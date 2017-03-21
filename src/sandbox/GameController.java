@@ -118,19 +118,26 @@ public class GameController {
 	 *  
 	 */
 	
-	private static void buildFromFile(String filename) throws IOException{
-		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: buildFromFile\t Param: "+filename+"\t Betoltes.");
+	private void buildFromFile(String filename) throws IOException{
+		System.out.println("Class: GameController\t Object: "+this+"\t Method: buildFromFile\t Param: "+filename+"\t Betoltes.");
 		
 		/*Kezdetben megállítjk a játékot és töröljük azelözö listákat*/
 		isTheGameRunning=false;
 		railCollection.clear();
 		trainCollection.clear();
-		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: railCollection.clear");
+		System.out.println("Class: GameController\t Object: "+this+"\t Method: railCollection.clear");
 		
 		
 		String in; /*Egy beolvasott sort tárol, ebbe olvasunk*/
 		String[] line; /*Feltördeljük az elözöleg olvasott sort*/
-		BufferedReader br = new BufferedReader(new FileReader(new File(filename))); /*File olvasó*/
+		String inT;
+		String[] lineT;
+		
+		
+		BufferedReader brMap = new BufferedReader(new FileReader(new File(filename))); /*Térkép File olvasó*/
+		
+		String tunnelFilename=filename.substring(0,filename.length()-4)+"tunnelmap.txt";
+		BufferedReader brTunnel = new BufferedReader(new FileReader(new File(tunnelFilename))); /*Alagut File olvasó*/
 		line=br.readLine().split(";"); /*Kiolvassuk a pálya méretét*/
 		
 		
@@ -139,23 +146,32 @@ public class GameController {
 		Rail[][] tempMap = new Rail[width][height]; /*Pályaelem tároló mátrix*/
 		String[][] tempView = new String[width][height]; /*Pályaelem leíró mátrix*/
 		
-				
+		Rail[][] tempTunnel = new Rail[width][height]; /*Tunnel tároló mátrix*/
+		
 
 		int x=0; /*Segédváltozó szélességhez*/
 		int y=0; /*Segédváltpzó magassághoz*/
-		while((in=br.readLine())!=null){ /*Összes maradék sort kiolvassuk*/
-			line=in.split(""); 
+		while((in=brMap.readLine())!=null && (inT=brTunnel.readLine())!=null){ /*Összes maradék sort kiolvassuk*/
+			line=in.split("");
+			lineT=inT.split("");
 			for(String s: line){ /*Minden karaktert megnézünk*/
 				tempMap[x][y] = elementReader(s); /*Létrehozzuk a típust*/
-				tempView[x][y]=s; /*Mentjük a vázlatát*/
+				tempView[x][y]=s; /*Mentjük a vázlatát*/		
+				if(s=="U")tempTunnel[x][y]= tempMap[x][y];	/*Ha ez TunnelEntrance akkor a tunnelMap része is*/	
 				x++;
 			}
+			x=0;
+			
+			for(String s: lineT){
+				if(s=="T")tempTunnel[x][y] = elementReader(s); /*Csak a tunneleket kerressük, Entrance-k már fel vannak véve*/
+				x++;
+			}			
 			x=0;
 			y++;
 		}
 		
 		
-		System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Sínek közötti kapcsolatok létrehozása.");
+		System.out.println("\nClass: GameController\t Object: "+this+"\t Sínek közötti kapcsolatok létrehozása.");
 		for(int i=0;i<width;i++){ /*Végignézzük a pályát szélességben...*/
 			for(int j=0;j<height;j++){	/*... és magasságban*/
 				if(tempMap[i][j]!=null){		/*Ha az aktuális elem nem üres, akkor lehetnek szomszédai*/		
@@ -165,26 +181,49 @@ public class GameController {
 					if(j-1>0 && tempMap[i][j-1]!=null) tmp.add(tempMap[i][j-1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
 					if(j+1<height && tempMap[i][j+1]!=null) tmp.add(tempMap[i][j+1]);/*Ha alatta lévö mezö a pálya része és Rail akkor a szomszédja*/
 				
-					if(i-1>0 && j-1>0 && tempMap[i-1][j-1]!=null) tmp.add(tempMap[i-1][j-1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
-					if(i+1<width && j-1>0 && tempMap[i+1][j-1]!=null) tmp.add(tempMap[i+1][j-1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
-					if(i-1>0 && j+1<height && tempMap[i-1][j+1]!=null) tmp.add(tempMap[i-1][j+1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
-					if(i+1<width && j+1<height && tempMap[i+1][j+1]!=null) tmp.add(tempMap[i+1][j+1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
-								
+					/*Ha ez egy Entrance akkor a Tunnel térképen is át kell nézni hogy van e szomszéd*/
+					if(tempView[i][j]=="U"){
+						if(i-1>0 && tempTunnel[i-1][j]!=null) tmp.add(tempTunnel[i-1][j]); /*Ha balra lévö mezö a pálya része és Rail akkor a szomszédja*/
+						if(i+1<width && tempTunnel[i+1][j]!=null) tmp.add(tempTunnel[i+1][j]);/*Ha jobbra lévö mezö a pálya része és Rail akkor a szomszédja*/
+						if(j-1>0 && tempTunnel[i][j-1]!=null) tmp.add(tempTunnel[i][j-1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
+						if(j+1<height && tempTunnel[i][j+1]!=null) tmp.add(tempTunnel[i][j+1]);/*Ha alatta lévö mezö a pálya része és Rail akkor a szomszédja*/
+					
+					}
+					
 					tempMap[i][j].setNeighbourRails(tmp); /*Hozzáadjuk az újonnan felvett szomszédokat*/
 				}
 			}
 		}
-		
+		/*Most megkeressük a tunnelMap-en lévö Tunnelek szomszédait (Ekkora az Entrence-k már be vannak kötve)*/
+		for(int i=0;i<width;i++){ /*Végignézzük a pályát szélességben...*/
+			for(int j=0;j<height;j++){	/*... és magasságban*/
+				if(tempTunnel[i][j]!=null){
+					ArrayList<Rail> tmp = new ArrayList<Rail>(); /*új "szomszéd tároló"*/
+					if(i-1>0 && tempTunnel[i-1][j]!=null) tmp.add(tempTunnel[i-1][j]); /*Ha balra lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(i+1<width && tempTunnel[i+1][j]!=null) tmp.add(tempTunnel[i+1][j]);/*Ha jobbra lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(j-1>0 && tempTunnel[i][j-1]!=null) tmp.add(tempTunnel[i][j-1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(j+1<height && tempTunnel[i][j+1]!=null) tmp.add(tempTunnel[i][j+1]);/*Ha alatta lévö mezö a pálya része és Rail akkor a szomszédja*/
+					
+					tempTunnel[i][j].setNeighbourRails(tmp); /*Hozzáadjuk az újonnan felvett szomszédokat*/
+				}
+			}
+		}
 		
 		for(int i=0;i<width;i++){ /*Bejárjuk a táblát*/
 			for(int j=0;j<height;j++){
 				if(tempMap[i][j]!=null)railCollection.add(tempMap[i][j]); /*Ha van Rail tipus, akkor a kollekciónk része kell hogy legyen, felvesszük.*/
+				if(tempTunnel[i][j]!=null && tempView=="T")railCollection.add(tempTunnel[i][j]); /*Ha ez egy Tunel akkor még nincs a listában*/
 			}
 		}
 
-		br.close();
-		System.out.println("Class: GameController\t Object: GameController@STATIC\t Létrehozott pályaelemek száma: "+railCollection.size()); /*Megnézzük hogy változott e valam*/
+		brMap.close();
+		brTunnel.close();
+		System.out.println("Class: GameController\t Object: "+this+"\t Létrehozott pályaelemek száma: "+railCollection.size()); /*Megnézzük hogy változott e valam*/
+		isTheGameRunning=true; /*Elinditjuka játkot*/
+		System.out.println("\nClass: GameController\t Object: "+this+"\t A játék elindult\n");
 	}
+	
+
 	
 	 /**
      * A map-ben minden egyes mezõ egy betûvel van megadva.
