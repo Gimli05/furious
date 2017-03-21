@@ -148,15 +148,15 @@ public class GameController {
 			for(int j=0;j<height;j++){	/*... és magasságban*/
 				if(tempMap[i][j]!=null){		/*Ha az aktuális elem nem üres, akkor lehetnek szomszédai*/		
 					ArrayList<Rail> tmp = new ArrayList<Rail>(); /*új "szomszéd tároló"*/
-					if(i-1>0 && tempView[i-1][j]!=null) tmp.add(tempMap[i-1][j]); /*Ha balra lévö mezö a pálya része és Rail akkor a szomszédja*/
-					if(i+1<width && tempView[i+1][j]!=null) tmp.add(tempMap[i+1][j]);/*Ha jobbra lévö mezö a pálya része és Rail akkor a szomszédja*/
-					if(j-1>0 && tempView[i][j-1]!=null) tmp.add(tempMap[i][j-1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
-					if(j+1<height && tempView[i][j+1]!=null) tmp.add(tempMap[i][j+1]);/*Ha alatta lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(i-1>0 && tempMap[i-1][j]!=null) tmp.add(tempMap[i-1][j]); /*Ha balra lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(i+1<width && tempMap[i+1][j]!=null) tmp.add(tempMap[i+1][j]);/*Ha jobbra lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(j-1>0 && tempMap[i][j-1]!=null) tmp.add(tempMap[i][j-1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(j+1<height && tempMap[i][j+1]!=null) tmp.add(tempMap[i][j+1]);/*Ha alatta lévö mezö a pálya része és Rail akkor a szomszédja*/
 				
-					if(i-1>0 && j-1>0 && tempView[i-1][j-1]!=null) tmp.add(tempMap[i-1][j-1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
-					if(i+1<width && j-1>0 && tempView[i+1][j-1]!=null) tmp.add(tempMap[i+1][j-1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
-					if(i-1>0 && j+1<height && tempView[i-1][j+1]!=null) tmp.add(tempMap[i-1][j+1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
-					if(i+1<width && j+1<height && tempView[i+1][j+1]!=null) tmp.add(tempMap[i+1][j+1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(i-1>0 && j-1>0 && tempMap[i-1][j-1]!=null) tmp.add(tempMap[i-1][j-1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(i+1<width && j-1>0 && tempMap[i+1][j-1]!=null) tmp.add(tempMap[i+1][j-1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(i-1>0 && j+1<height && tempMap[i-1][j+1]!=null) tmp.add(tempMap[i-1][j+1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(i+1<width && j+1<height && tempMap[i+1][j+1]!=null) tmp.add(tempMap[i+1][j+1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
 								
 					tempMap[i][j].setNeighbourRails(tmp); /*Hozzáadjuk az újonnan felvett szomszédokat*/
 				}
@@ -249,6 +249,9 @@ public class GameController {
 	 * Kizárólag a teszteléshez létrehozott metódus.
 	 * Annyi alagútszályat tud aktiválni, ahányat megadunk neki. (ennek mennyiségét nem ellenõrzi, hiszen azt a Main megfelelõ része már megtette.
 	 * 
+	 * A getClass fv csak azért kell bele, mert a végsõ verzióban a GUI-n történõ kattintásból egybõl meg fogjuk tudni az eventet kiváltó objektum id-jét,
+	 * GUI hiányában azonban erre nincs lehetõségünk. Ha nagyon szükséges, meg tudjuk oldani enélkül is (de az ocsmányabb lenne) ezért ennél maradtunk.
+	 * 
 	 * @param tunnelEntranceCounterToBeActivated	Hány alagútszályat akarunk aktiválni.
 	 */
 	public void skeletonTesterActivateTunnelEntrance(int tunnelEntranceCounterToBeActivated){
@@ -281,6 +284,9 @@ public class GameController {
 	/**
 	 * Kizárólag a teszteléshez létrehozott metódus.
 	 * Ellenõrzi hány aktív alagútszáj van. Ha kettõ, akkor lebontja az alagutat, és deaktivál egyet.
+	 * 
+	 * A getClass fv csak azért kell bele, mert a végsõ verzióban a GUI-n történõ kattintásból egybõl meg fogjuk tudni az eventet kiváltó objektum id-jét,
+	 * GUI hiányában azonban erre nincs lehetõségünk. Ha nagyon szükséges, meg tudjuk oldani enélkül is (de az ocsmányabb lenne) ezért ennél maradtunk.
 	 */
 	public void skeletonTesterDeActivateATunnelEntrance(){
 		if(activeEntranceCounter == 2){
