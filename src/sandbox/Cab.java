@@ -17,7 +17,7 @@ public class Cab extends TrainElement{
 	 * @param cabColor	Az adott kabin színe.
 	 */
 	public Cab(Color cabColor){
-		System.out.println("Class: Cab\t Method: Constructor\t Param: cabColor");
+		System.out.println("Class: Cab\t Method: Constructor\t Param: "+cabColor);
 		hasPassenger = true; /* Kezdetben minden kabint beállítunk, hogy utassal teli */
 		color = cabColor; /* A kabin színét beállítjuk a megadott színre. */
 	}
@@ -29,7 +29,8 @@ public class Cab extends TrainElement{
 	 * @return	Van-e utas a kabinban.
 	 */
 	public Boolean isFull(){
-		System.out.println("Class: Cab\t Method: isFull\t Param: -\t Van-e utasa a vagonnak?");
+		System.out.println("Class: Cab\t Method: isFull\t Van-e utasa a vagonnak?");
+		System.out.println("Returned: "+hasPassenger);
 		return hasPassenger; 
 	}
 	
@@ -40,7 +41,7 @@ public class Cab extends TrainElement{
 	 * akkor ennek a függvények a meghívásával lehet kiüríteni az utasokat az adott megállónál. 
 	 */
 	public void emptyCab(){
-		System.out.println("Class: Cab\t Method: emptyCab\t Param: -\t Kiürül a vagon.");
+		System.out.println("Class: Cab\t Method: emptyCab\t Kiürül a vagon.");
 		hasPassenger = false;
 	}
 	
