@@ -10,8 +10,6 @@ import java.util.Scanner;
  */
 public class Main {
 	public static void main(String[] args) throws IOException{
-		 System.out.println("Long /* NEM */ dolgozik");
-		
 		 Scanner scanner = new Scanner(System.in);
 		 /* Ezzel történik majd a konzolon felhasználó által bemeneten megadott karakter beolvasása */
 		 
