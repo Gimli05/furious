@@ -41,8 +41,22 @@ public class TrainCollection {
 		trains.add(train);
 	}	
 	
+	/**
+	 * Ürítjük a vonatokat listáját
+	 */
+	
 	public void clear(){
 		System.out.println("Class: TrainCollection\t Method: clear\t Param: -");
 		trains.clear();
+	}
+	
+	/**
+	 * Megnézzük hogy még van e nem üres vagon bármelyik voanton
+	 */
+	public boolean isAllEmpty(){
+		for(Train train: trains){ /*Minden vonatot vizsgálunk*/
+			if(getFirstNotEmptyCabColor != Color.BLACK)return false; /*Ha van aminek van nem fekete vagonja akkor van utas*/
+		}
+		return true;
 	}
 }

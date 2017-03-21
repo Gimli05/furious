@@ -56,7 +56,7 @@ public class GameController {
 	 */
 	public static void winEvent(){
 		System.out.println("Class: GameController\t Method: winEvent\t Param: -\t Gyozelem.");
-		//TODO: kitolteni
+		if()
 	}
 	
 	
@@ -205,4 +205,14 @@ public class GameController {
             return null; /* Ez a lehetõség akkor fut le ha nem ismert betü van a szövegünben, mely ilyenkor egy üres mezö lesz */
         }
     }
+    
+    /**
+     * Meg kell nézni minden léptetés után hogy a vonatok kiürültek e
+     */
+    
+    private boolean hasTheGameEnded(){
+    	return trainCollection.isAllEmpty();
+    }
+    
+    
 }
