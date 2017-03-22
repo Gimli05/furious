@@ -346,7 +346,7 @@ public class GameController {
 						newTunnels.add(entrance2);				/*Bekötjük a kijárathoz*/
 						e1Y--;
 					}else{ 										/*Ha ez még csak egy alagut*/
-						e1X--; 									/*Közelebb hozzuk*/
+						e1Y--; 									/*Közelebb hozzuk*/
 						tmp=new Tunnel();						/*Létrehozzuk és beállítjuk az adatait*/
 						tmp.setX(e1X);
 						tmp.setY(e1Y);

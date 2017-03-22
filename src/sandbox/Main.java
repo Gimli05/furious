@@ -108,8 +108,8 @@ public class Main {
 					 * kívül egy alagút is létrejön a két alagútszáj között.
 					 */
 					GameController gc22 = new GameController();
-					gc22.startNewGame(1);
-					gc22.skeletonTesterActivateTunnelEntrance(2);/* Aktiváljuk az elsõ alagútszájat. */				
+					gc22.startNewGame(2);
+					gc22.skeletonTesterActivateTunnelEntrance(1);/* Aktiváljuk az elsõ alagútszájat. */				
 					break;
 					
 					/* Amennyiben a felhasználó nem az 1-es vagy a 2-es gombot nyomta meg, egyik fenti teszteset
