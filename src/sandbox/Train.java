@@ -29,8 +29,8 @@ public class Train implements Visitor{
 	 * @param cabColors	A kabinok színeit tartalmazó lista.
 	 */
 	public Train(ArrayList<Color> cabColors){
-		System.out.println("Class: Train\t\t Object: "+this+"\t\t\t Method: Constructor\t Param: "+cabColors);
-		engine=new Engine();
+		System.out.println("Class: Train\t\t Object: "+this+"\t\t\t Method: Constructor\t Param: "+cabColors); /* Kiíratás a Szkeleton vezérlésének */
+		engine=new Engine(); /* Létrehozunk egy új mozdonyt. */
 		cabins=new ArrayList<Cab>(); /* Létrehozunk egy új ArrayListet. */
 		for(Color color:cabColors){
 			cabins.add(new Cab(color)); /* A lista végére szúrjuk be az új kabint. */
@@ -45,15 +45,15 @@ public class Train implements Visitor{
 	 * @return 	Az elsõ nem üres kabin színe.
 	 */
 	public Color getFirstNotEmptyCabColor(){
-		System.out.println("Class: Train\t\t Object: "+this+"\t\t\t Method: getFirstNotEmptyCabColor\t ");
-		for(Cab oneCabin:cabins){
+		System.out.println("Class: Train\t\t Object: "+this+"\t\t\t Method: getFirstNotEmptyCabColor\t "); /* Kiíratás a Szkeleton vezérlésének */
+		for(Cab oneCabin:cabins){ /* végignézünk minden kabint */
 			if(oneCabin.isFull()){/* Ha a kabin tele van, akkor visszatérünk a színével. */
-				Color cabinColor = oneCabin.getColor();
-				System.out.println("Class: Train\t\t Object: "+this+"\t\t\t Returned: "+cabinColor+"\t Az elso nem üres kabin színe.");
-				return cabinColor;
+				Color cabinColor = oneCabin.getColor(); /* lekérjük a kabin színét */
+				System.out.println("Class: Train\t\t Object: "+this+"\t\t\t Returned: "+cabinColor+"\t Az elso nem üres kabin színe."); /* Kiíratás a Szkeleton vezérlésének */
+				return cabinColor; 
 			}
 		}
-		System.out.println("Class: Train\t\t Object: "+this+"\t\t\t Returned: "+Color.BLACK+"\t Nincs teli kabin.");
+		System.out.println("Class: Train\t\t Object: "+this+"\t\t\t Returned: "+Color.BLACK+"\t Nincs teli kabin."); /* Kiíratás a Szkeleton vezérlésének */
 		return Color.BLACK; /* Ha nincs teli kabin, akkor feketével térünk vissza. */
 	}
 	
@@ -64,8 +64,8 @@ public class Train implements Visitor{
 	 * hogy az adott TrainStationnek a kabinnal megegyezõ a színe (csak akkor hívja meg, ha ez teljesül).
 	 */
 	public void emptyTheFirstNotEmptyCab(){
-		System.out.println("Class: Train\t\t Object: "+this+"\t\t\t Method: emptyTheFirstNotEmptyCab\t ");
-		for(Cab oneCabin:cabins){
+		System.out.println("Class: Train\t\t Object: "+this+"\t\t\t Method: emptyTheFirstNotEmptyCab\t "); /* Kiíratás a Szkeleton vezérlésének */
+		for(Cab oneCabin:cabins){ /* végig nézzük a kabinokat */
 			if(oneCabin.isFull()){ /* Ha a kabin tele van, akkor kiürítjük. */
 				oneCabin.emptyCab();
 				return;

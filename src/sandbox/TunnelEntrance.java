@@ -15,33 +15,34 @@ public class TunnelEntrance extends Switch{
 	
 	
 	public TunnelEntrance(){
-		System.out.println("Class: TunnelEntrance\t Object: "+this+"\t Method: Constructor\t");
-		isActivated = false;
+		System.out.println("Class: TunnelEntrance\t Object: "+this+"\t Method: Constructor\t"); /* Kiíratás a Szkeleton vezérlésének */
+		isActivated = false; /* alapértelmezetten egyik alagútszáj sincs aktiválva. */
 	}
 	
 	/**
 	 * Aktiválja az alagút szájat, azaz igazzá teszi az isActivated változót. Innentõl kezdve a játékos a switch() metódus segítségével tudja kiválasztani merre menjen a vonat.
 	 */
 	public void activate(){
-		System.out.println("Class: TunnelEntrance\t Object: "+this+"\t Method: Activate\t Aktivalta az alagutszajat");
-		isActivated = true;
+		System.out.println("Class: TunnelEntrance\t Object: "+this+"\t Method: Activate\t Aktivalta az alagutszajat"); /* Kiíratás a Szkeleton vezérlésének */
+		isActivated = true; /* aktiváljuk az alagútszájat */
 	}
 	
 	
 	/**
 	 * Deaktiválja az alagút szájat. Deaktiválás után ismételten csak egyenesen haladhat át a vonat az adott sínen.
+	 * Ugyan ez a függvény felelõs azért, hogy törölje a szomszédok listájából a megszûnt tunnelt.
 	 */
 	public void deActivate(){
-		System.out.println("Class: TunnelEntrance\t Object: "+this+"\t Method: Deactivate\t Deaktivalta az alagutszajat");
-		isActivated = false;
+		System.out.println("Class: TunnelEntrance\t Object: "+this+"\t Method: Deactivate\t Deaktivalta az alagutszajat"); /* Kiíratás a Szkeleton vezérlésének */
+		isActivated = false; /* Deaktiváljuk az alagútszájat. */
 		
-		Rail neighbourRailToGetDeleted = null;
-		for(Rail rail:neighbourRails){
-			if(rail.getClass() == Tunnel.class){
+		Rail neighbourRailToGetDeleted = null; /* Ebben fogjuk eltárolni a törlendõ Tunnel szomszédot. */
+		for(Rail rail:neighbourRails){  /* végignézünk minden szomszédot */
+			if(rail.getClass() == Tunnel.class){ /* amelyik tunnel, azt megjelöljük, mint törlendõ szomszédot. */
 				neighbourRailToGetDeleted = rail;
 			}
 		}
-		neighbourRails.remove(neighbourRailToGetDeleted);
+		neighbourRails.remove(neighbourRailToGetDeleted); /* Töröljük a megjelölt szomszédot, mivel metszûtn a  */
 	}
 	
 	
@@ -50,9 +51,21 @@ public class TunnelEntrance extends Switch{
 	 * @return	Aktív-e az alagútszáj.
 	 */
 	public Boolean checkIfActivated(){
-		System.out.println("Class: TunnelEntrance\t Object: "+this+"\t Method: checkIfActivated\t Ellenorzi aktiv-e az alagutszaj.");
-		System.out.println("Class: TunnelEntrance\t Object: "+this+"\t Returned: "+isActivated);
+		System.out.println("Class: TunnelEntrance\t Object: "+this+"\t Method: checkIfActivated\t Ellenorzi aktiv-e az alagutszaj."); /* Kiíratás a Szkeleton vezérlésének */
+		System.out.println("Class: TunnelEntrance\t Object: "+this+"\t Returned: "+isActivated); /* Kiíratás a Szkeleton vezérlésének */
 		return isActivated;
+	}
+	
+	
+	/**
+	 * A visitor tervezési minta egyik függvénye. 
+	 * Ennek segítségével Bármelyik sín típus könnyedén fogadhat látogatót, melyek ezen overloadolt függvény segítségével mindegyik végre tudja hajtani a saját funkcióját.
+	 * 
+	 * @param visitor A látogató, melyet fogadni tud.
+	 */
+	public void accept(Visitor visitor){
+		System.out.println("Class: TunnelEntrance\t\t Object: "+this+"\t\t\t Method: Accept\t Param: "+visitor); /* Kiíratás a Szkeleton vezérlésének */
+		visitor.visit(this); /* Elfogadjuk a visitort, és átadjuk magunkat, hogy nézzen meg minket. */
 	}
 	
 }

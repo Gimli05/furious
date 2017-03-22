@@ -9,153 +9,151 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * A jÃ¡tÃ©kmenet vezÃ©rlÃ©sÃ©Ã©rt felel. BetÃ¶lti a jÃ¡tÃ©kos Ã¡ltal kivÃ¡lasztott pÃ¡lyÃ¡t fÃ¡jlbÃ³l, felÃ©pÃ­ti a pÃ¡lyÃ¡hoz tartozÃ³ sÃ­n hÃ¡lÃ³zatot Ã©s 
- * vezÃ©rli melyik EnterPoint-on milyen Ã¼temezÃ©ssel hÃ¡ny darab vonat Ã©rkezzen meg. Ez az osztÃ¡ly felel a vonatok sebessÃ©gÃ©nek meghatÃ¡rozÃ¡sÃ¡Ã©rt, 
- * Ã©s a jÃ¡tÃ©k kimenetelÃ©nek eldÃ¶ntÃ©sÃ©Ã©rt Ã©s ennek lekezelÃ©sÃ©Ã©rt. FelelÃµs tovÃ¡bbÃ¡ annak felÃ¼gyelÃ©sÃ©Ã©rt, hogy csak kÃ©t alagÃºtszÃ¡j lehessen egyszerre aktÃ­v.
+ * A játékmenet vezérléséért felel. Betölti a játékos által kiválasztott pályát fájlból, felépíti a pályához tartozó sín hálózatot és 
+ * vezérli melyik EnterPoint-on milyen ütemezéssel hány darab vonat érkezzen meg. Ez az osztály felel a vonatok sebességének meghatározásáért, 
+ * és a játék kimenetelének eldöntéséért és ennek lekezeléséért. Felelõs továbbá annak felügyeléséért, hogy csak két alagútszáj lehessen egyszerre aktív.
  */
 public class GameController {
-	private static Boolean isTheGameRunning; /* Megadja, hogy Ã©ppen folyamatban van-e jÃ¡tÃ©k. True, ha igen, false ha nem. */
+	private static Boolean isTheGameRunning; /* Megadja, hogy éppen folyamatban van-e játék. True, ha igen, false ha nem. */
 	
-	private static ArrayList<Rail> railCollection; /* A sÃ­neket tÃ¡rolÃ³ arraylist. A pÃ¡lya betÃ¶ltÃ©se utÃ¡n ebben tÃ¡roljuk el a teljes sÃ­nhÃ¡lÃ³zatot */
+	private static ArrayList<Rail> railCollection; /* A síneket tároló arraylist. A pálya betöltése után ebben tároljuk el a teljes sínhálózatot */
 	
-	private static TrainCollection trainCollection; /* A vonatokat tÃ¡rolÃ³ kollekciÃ³. A jÃ¡tÃ©k futÃ¡sa sorÃ¡n az adott pÃ¡lyÃ¡hoz tartozÃ³ Ã¼temezÃ©s szerint adagoljuk 
-											  * a pÃ¡lyÃ¡hoz tartozÃ³ hosszÃºsÃ¡gÃº vonatokat a tÃ¡rolÃ³ba a tÃ¡rolÃ³ addTrain(Train) metÃ³dusÃ¡val.*/
+	private static TrainCollection trainCollection; /* A vonatokat tároló kollekció. A játék futása során az adott pályához tartozó ütemezés szerint adagoljuk 
+											  * a pályához tartozó hosszúságú vonatokat a tárolóba a tároló addTrain(Train) metódusával.*/
 	
-	private static int activeEntranceCounter; /* Az aktÃ­v alagÃºtszÃ¡lyak szÃ¡mÃ¡t tÃ¡rolja. SegÃ­tsÃ©gÃ©vel, ha kÃ©t aktÃ­v alagÃºtszÃ¡ly van, akkor lÃ©trejÃ¶het az alagÃºt kÃ¶zÃ¶ttÃ¼k. */
-	private static int lastPlayedMapNumber;
+	private static int activeEntranceCounter; /* Az aktív alagútszályak számát tárolja. Segítségével, ha két aktív alagútszály van, akkor létrejöhet az alagút közöttük. */
+	private static int lastPlayedMapNumber; /* Ebben tároljuk, melyik pályát indítottuk el legutoljára. */
 	
 	
 	/**
 	 * A GameController konstruktora.
 	 */
 	public GameController(){
-		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: Constructor\t ");
-		isTheGameRunning = false;
-		railCollection=new ArrayList<Rail>();
-		trainCollection = new TrainCollection();
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: Constructor\t ");/* Kiíratás a Szkeleton vezérlésének */
+		isTheGameRunning = false; /* Alapból nem fut a játék */
+		railCollection=new ArrayList<Rail>(); /* Új listát hozunk létre */
+		trainCollection = new TrainCollection(); /* új kollekciót hozunk létre. */
 	}
 	
 	
 	/**
-	 * Ãšj jÃ¡tÃ©k indÃ­tÃ¡sÃ¡ra szolgÃ¡lÃ³ fÃ¼ggvÃ©ny. MegjelenÃ­ti a jÃ¡tÃ©kosnak a vÃ¡laszthatÃ³ pÃ¡lyÃ¡k listÃ¡jÃ¡t. 
-	 * MiutÃ¡n a jÃ¡tÃ©kos kivÃ¡lasztotta melyik pÃ¡lyÃ¡n akar jÃ¡tszani, betÃ¶lti a pÃ¡lyÃ¡hoz tartozÃ³ sÃ­nhÃ¡lÃ³zatot Ã©s vonat Ã¼temezÃ©st. 
-	 * EzutÃ¡n elindÃ­tja a vonatok lÃ©ptetÃ©sÃ©Ã©rt felelÃµs szÃ¡lat.
+	 * Új játék indítására szolgáló függvény. Megjeleníti a játékosnak a választható pályák listáját. 
+	 * Miután a játékos kiválasztotta melyik pályán akar játszani, betölti a pályához tartozó sínhálózatot és vonat ütemezést. 
+	 * Ezután elindítja a vonatok léptetéséért felelõs szálat.
 	 */
 	public static void startNewGame(int mapNumber){
-		System.out.println("Class: GameController\t Object: Object: GameController@STATIC\t Method: startNewGame\t Param: "+mapNumber);
+		System.out.println("Class: GameController\t Object: Object: GameController@STATIC\t Method: startNewGame\t Param: "+mapNumber); /* Kiíratás a Szkeleton vezérlésének */
 		
-		
-		String mapName = new String("maps/map" + mapNumber + ".txt");
+		String mapName = new String("maps/map" + mapNumber + ".txt"); /* mivel több pálya is lehet, ezért dinamikusan állítjuk össze a betöltendõ nevet. */
 		try {
-			buildFromFile(mapName);
-			isTheGameRunning=true; /*Elinditjuka jÃ¡tkot*/
-			System.out.println("\nClass: GameController\t Object: GameController@STATIC\t A jÃ¡tÃ©k elindult\n");
-			lastPlayedMapNumber = mapNumber;
+			buildFromFile(mapName); /* Megpróbáljuk a fájlból felépíteni a pályát */
+			isTheGameRunning=true; /*Elinditjuka játkot*/
+			System.out.println("\nClass: GameController\t Object: GameController@STATIC\t A játék elindult\n"); /* Kiíratás a Szkeleton vezérlésének */
+			lastPlayedMapNumber = mapNumber; /* Elmentjük melyik pályát töltöttük be utoljára. */
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("\nClass: GameController\t Object: GameController@STATIC\t HIBA A PÁLYA BETÖLTÉSE KÖZBEN\n"); /* Ha véletlen nem lehet betölteni a pályát, akkor küldünk egy értesítst errõl */
 		}
 	}
 	
 	
 	/**
-	 * Ã‰rtesÃ­ti a jÃ¡tÃ©kost, hogy nyert, Ã©s leÃ¡llÃ­tja a jÃ¡tÃ©kot.
+	 * Értesíti a játékost, hogy nyert, és leállítja a játékot.
 	 */
 	public static void winEvent(){
-		isTheGameRunning = false;
-		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: winEvent\t Gyozelem.");
-		if(lastPlayedMapNumber == 1){
-			System.out.println("Class: GameController\t Object: GameController@STATIC\t Van mÃ©g Ãºj pÃ¡lya, Ã­gy az kÃ¶vetkezik.");
-			System.out.println("\n\nÃšJ JÃTÃ‰K KEZDÃ•DIK \n\n");
-			startNewGame(2);
+		isTheGameRunning = false; /* Leállítjuk a játékot. Ez majd a GUI-t futtató threadnél lesz fontos */
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: winEvent\t Gyozelem."); /* Kiíratás a Szkeleton vezérlésének */
+		if(lastPlayedMapNumber == 1){ /* Ha az elsõ pálya volt az amit elõbb játszottunk, akkor betöltjük a másodikat. */
+			System.out.println("Class: GameController\t Object: GameController@STATIC\t Van még új pálya, így az következik."); /* Kiíratás a Szkeleton vezérlésének */
+			System.out.println("\n\nÚJ JÁTÉK KEZDÕDIK \n\n"); /* Kiíratás a Szkeleton vezérlésének */
+			startNewGame(2); /* Elindul az új játék */
 		} else {
-			System.out.println("Class: GameController\t Object: GameController@STATIC\t Nincs tobb palya, jatek vege.");
+			System.out.println("Class: GameController\t Object: GameController@STATIC\t Nincs tobb palya, jatek vege."); /* Kiíratás a Szkeleton vezérlésének */
 		}
 	}
 	
 	
 	/**
-	 * Ã‰rtesÃ­ti a jÃ¡tÃ©kost, hogy vesztett, Ã©s leÃ¡llÃ­tja a jÃ¡tÃ©kot.
+	 * Értesíti a játékost, hogy vesztett, és leállítja a játékot.
 	 */
 	public static void loseEvent(){
-		isTheGameRunning = false;
-		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: loseEvent\t Vereseg");
-		System.out.println("Class: GameController\t Object: GameController@STATIC\t Michael Bay Effekt");
+		isTheGameRunning = false; /* Leállítjuk a játékot */
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: loseEvent\t Vereseg"); /* Kiíratás a Szkeleton vezérlésének */
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Michael Bay Effekt"); /* Kiíratás a Szkeleton vezérlésének */
 	}
 	
 	/**
-	 * Ebben a rÃ©szben egy elÃ¶re kitÃ¶ltÃ¶tt szÃ¶veges fÃ¡jlbÃ³l ovlasunk majd be karaktereket,
-	 * ami alapjÃ¡n automatikusan felÃ©pitjÃ¼k a pÃ¡lyÃ¡nkat. A fÃ¡jl kÃ¶tÃ¶tt formÃ¡tumÃº, ha ezt 
-	 * nem tartjuk a program hibval zÃ¡rulna.
-	 * A szÃ¶vegfÃ¡j formai kÃ¶vetelmÃ©nyei:
-	 * 	* Az elsÃ¶ sor a pÃ¡lya szÃ©lessÃ©ge Ã©s magassÃ¡ga lesz, ;-vel elvÃ¡lasztva (pl.: 12;7)
-	 *  * EzutÃ¡n az elementReadeben leÃ­rtak alapjÃ¡n tÃ¶ltjÃ¼k ki afÃ¡jlunkat
-	 *  * Fontos hogy minden sorban pontosan annyi karakter legyen, amennyit meghatÃ¡roztunk kezdetben
-	 *  * Nincs ellenÃ¶rizve, hogy van e belÃ©pÃ©si pontunk, de az akadÃ¡lytalan futÃ¡s Ã©rdekÃ©ben ajÃ¡nlott.
-	 *  * Az egymÃ¡s mellett lÃ©vÃ¶ sinek szomszÃ©dosnak lesznek vÃ©ve, Ã­gy egy legalÃ¡bb egy mezÃ¶nyi helyet
-	 *    kell hagyni kÃ¶ztÃ¼k, hogy jÃ³l Ã©pÃ­tse fel.
+	 * Ebben a részben egy elöre kitöltött szöveges fájlból ovlasunk majd be karaktereket,
+	 * ami alapján automatikusan felépitjük a pályánkat. A fájl kötött formátumú, ha ezt 
+	 * nem tartjuk a program hibval zárulna.
+	 * A szövegfáj formai követelményei:
+	 * 	* Az elsö sor a pálya szélessége és magassága lesz, ;-vel elválasztva (pl.: 12;7)
+	 *  * Ezután az elementReadeben leírtak alapján töltjük ki afájlunkat
+	 *  * Fontos hogy minden sorban pontosan annyi karakter legyen, amennyit meghatároztunk kezdetben
+	 *  * Nincs ellenörizve, hogy van e belépési pontunk, de az akadálytalan futás érdekében ajánlott.
+	 *  * Az egymás mellett lévö sinek szomszédosnak lesznek véve, így egy legalább egy mezönyi helyet
+	 *    kell hagyni köztük, hogy jól építse fel.
 	 *    pl.: ERRR
 	 *    	   xRxR
 	 *  	   xRRR
-	 * Ha ezeket tartjuk, vÃ¡rhatÃ³an jÃ³ eredmÃ©nyt kapunk
+	 * Ha ezeket tartjuk, várhatóan jó eredményt kapunk
 	 * 
-	 * A gyakorlati mÃ¼kÃ¶dÃ©s:
-	 * 	* Kezdetben lÃ©trehozunk egy olvasÃ³t, amivel soronkÃ©nt vÃ©gignÃ©zzÃ¼k a fÃ¡jlt
-	 * 	* Az elsÃ¶ sorÃ¡t kiolvassuk Ã©s lÃ©trehozunk 2 tÃ¶mbÃ¶t: tempMap-ot ami konkrÃ©t sineket tÃ¡rol
-	 * 	  Ã©s a tempView-t ami a kiolvasott karaktereket.
-	 * 	* A kiolvasott karakterektÃ¶l fÃ¼ggÃ¶en az elementReader visszaadja amegfelelÃ¶ tipusÃº Rail-t
-	 *  * VÃ©gigolvassuk a fÃ¡jlt Ã©s kitÃ¶ltÃ¼jÃ¼k a kÃ©t tÃ¶mbÃ¶t
+	 * A gyakorlati müködés:
+	 * 	* Kezdetben létrehozunk egy olvasót, amivel soronként végignézzük a fájlt
+	 * 	* Az elsö sorát kiolvassuk és létrehozunk 2 tömböt: tempMap-ot ami konkrét sineket tárol
+	 * 	  és a tempView-t ami a kiolvasott karaktereket.
+	 * 	* A kiolvasott karakterektöl függöen az elementReader visszaadja amegfelelö tipusú Rail-t
+	 *  * Végigolvassuk a fájlt és kitöltüjük a két tömböt
 	 *  
-	 *  * EzutÃ¡n sorban vÃ©gigjÃ¡rjuk a tempView mezÃ¶it Ã©s ha Rail, akkor megnÃ©zzÃ¼k hogy a 8 szomszÃ©djÃ¡bÃ³l melyik lÃ©tezÃ¶ Rail
-	 *  * Ha a 8 szomszÃ©dos mezÃ¶n van Rail akkor azt felvesszÃ¼k az aktuÃ¡lis mezÃ¶ szomszÃ©dai kÃ¶zÃ©
-	 *  * VÃ©gÃ¼l hozzÃ¡adjuk a szomszÃ©dokat a tempMap megfelelÃ¶ Rail-jÃ©hez
-	 *  * ÃœgyelÃ¼nk arra hogy az ellenÃ¶rzÃ¶tt 8 mezÃ¶ ne lÃ³gjon le a pÃ¡lyÃ¡rÃ³l
+	 *  * Ezután sorban végigjárjuk a tempView mezöit és ha Rail, akkor megnézzük hogy a 8 szomszédjából melyik létezö Rail
+	 *  * Ha a 8 szomszédos mezön van Rail akkor azt felvesszük az aktuális mezö szomszédai közé
+	 *  * Végül hozzáadjuk a szomszédokat a tempMap megfelelö Rail-jéhez
+	 *  * Ügyelünk arra hogy az ellenörzött 8 mezö ne lógjon le a pályáról
 	 *  
-	 *  * VÃ©gÃ¼l bejÃ¡rjuk a tempMap-t Ã©s az Ã¶sszes lÃ©tezÃ¶ Railt hozzÃ¡aduk a railCollectionhoz
+	 *  * Végül bejárjuk a tempMap-t és az összes létezö Railt hozzáaduk a railCollectionhoz
 	 *  
-	 * Ekkorra minden szomszÃ©dossÃ¡g fel van Ã©pÃ­tve Ã©s minden mezÃ¶ megjelenik a collection-ban.
-	 * A metÃ³dus visszatÃ©r.
+	 * Ekkorra minden szomszédosság fel van építve és minden mezö megjelenik a collection-ban.
+	 * A metódus visszatér.
 	 *  
 	 */
 	
 	private static void buildFromFile(String filename) throws IOException{
-		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: buildFromFile\t Param: "+filename+"\t Betoltes.");
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: buildFromFile\t Param: "+filename+"\t Betoltes."); /* Kiíratás a Szkeleton vezérlésének */
 		
-		/*Kezdetben megÃ¡llÃ­tjk a jÃ¡tÃ©kot Ã©s tÃ¶rÃ¶ljÃ¼k azelÃ¶zÃ¶ listÃ¡kat*/
+		/*Kezdetben megállítjk a játékot és töröljük azelözö listákat*/
 		isTheGameRunning=false;
 		railCollection.clear();
 		trainCollection.clear();
-		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: railCollection.clear");
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: railCollection.clear"); /* Kiíratás a Szkeleton vezérlésének */
 		
 		
-		String in; /*Egy beolvasott sort tÃ¡rol, ebbe olvasunk*/
-		String[] line; /*FeltÃ¶rdeljÃ¼k az elÃ¶zÃ¶leg olvasott sort*/
+		String in; /*Egy beolvasott sort tárol, ebbe olvasunk*/
+		String[] line; /*Feltördeljük az elözöleg olvasott sort*/
 		
 		
-		BufferedReader brMap = new BufferedReader(new FileReader(new File(filename))); /*TÃ©rkÃ©p File olvasÃ³*/
+		BufferedReader brMap = new BufferedReader(new FileReader(new File(filename))); /*Térkép File olvasó*/
 		
 		String tunnelFilename=filename.substring(0,filename.length()-4)+"tunnelmap.txt";
-		line=brMap.readLine().split(";"); /*Kiolvassuk a pÃ¡lya mÃ©retÃ©t*/
+		line=brMap.readLine().split(";"); /*Kiolvassuk a pálya méretét*/
 		
 		
-		int width = Integer.parseInt(line[0]); /*PÃ¡lya szÃ©lessÃ©ge*/
-		int height = Integer.parseInt(line[1]); /*PÃ¡lya magassÃ¡ga*/
-		Rail[][] tempMap = new Rail[width][height]; /*PÃ¡lyaelem tÃ¡rolÃ³ mÃ¡trix*/
-		String[][] tempView = new String[width][height]; /*PÃ¡lyaelem leÃ­rÃ³ mÃ¡trix*/
+		int width = Integer.parseInt(line[0]); /*Pálya szélessége*/
+		int height = Integer.parseInt(line[1]); /*Pálya magassága*/
+		Rail[][] tempMap = new Rail[width][height]; /*Pályaelem tároló mátrix*/
+		String[][] tempView = new String[width][height]; /*Pályaelem leíró mátrix*/
 		
 
-		int x=0; /*SegÃ©dvÃ¡ltozÃ³ szÃ©lessÃ©ghez*/
-		int y=0; /*SegÃ©dvÃ¡ltpzÃ³ magassÃ¡ghoz*/
-		while((in=brMap.readLine())!=null){ /*Ã–sszes maradÃ©k sort kiolvassuk*/
+		int x=0; /*Segédváltozó szélességhez*/
+		int y=0; /*Segédváltpzó magassághoz*/
+		while((in=brMap.readLine())!=null){ /*Összes maradék sort kiolvassuk*/
 			line=in.split("");	
-			for(String s: line){ /*Minden karaktert megnÃ©zÃ¼nk*/
-				tempMap[x][y] = elementReader(s); /*LÃ©trehozzuk a tÃ­pust*/
+			for(String s: line){ /*Minden karaktert megnézünk*/
+				tempMap[x][y] = elementReader(s); /*Létrehozzuk a típust*/
 				if(tempMap[x][y]!=null){
 					tempMap[x][y].setX(x);
 					tempMap[x][y].setY(y);
 				}
 
-				tempView[x][y]=s; /*MentjÃ¼k a vÃ¡zlatÃ¡t*/		
+				tempView[x][y]=s; /*Mentjük a vázlatát*/		
 				x++;
 			}
 			x=0;
@@ -163,126 +161,128 @@ public class GameController {
 		}
 		
 		
-		System.out.println("\nClass: GameController\t Object: GameController@STATIC\t SÃ­nek kÃ¶zÃ¶tti kapcsolatok lÃ©trehozÃ¡sa.");
-		for(int i=0;i<width;i++){ /*VÃ©gignÃ©zzÃ¼k a pÃ¡lyÃ¡t szÃ©lessÃ©gben...*/
-			for(int j=0;j<height;j++){	/*... Ã©s magassÃ¡gban*/
-				if(tempMap[i][j]!=null){		/*Ha az aktuÃ¡lis elem nem Ã¼res, akkor lehetnek szomszÃ©dai*/		
-					ArrayList<Rail> tmp = new ArrayList<Rail>(); /*Ãºj "szomszÃ©d tÃ¡rolÃ³"*/
-					if(i-1>0 && tempMap[i-1][j]!=null) tmp.add(tempMap[i-1][j]); /*Ha balra lÃ©vÃ¶ mezÃ¶ a pÃ¡lya rÃ©sze Ã©s Rail akkor a szomszÃ©dja*/
-					if(i+1<width && tempMap[i+1][j]!=null) tmp.add(tempMap[i+1][j]);/*Ha jobbra lÃ©vÃ¶ mezÃ¶ a pÃ¡lya rÃ©sze Ã©s Rail akkor a szomszÃ©dja*/
-					if(j-1>0 && tempMap[i][j-1]!=null) tmp.add(tempMap[i][j-1]);/*Ha felette lÃ©vÃ¶ mezÃ¶ a pÃ¡lya rÃ©sze Ã©s Rail akkor a szomszÃ©dja*/
-					if(j+1<height && tempMap[i][j+1]!=null) tmp.add(tempMap[i][j+1]);/*Ha alatta lÃ©vÃ¶ mezÃ¶ a pÃ¡lya rÃ©sze Ã©s Rail akkor a szomszÃ©dja*/
+		System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Sínek közötti kapcsolatok létrehozása."); /* Kiíratás a Szkeleton vezérlésének */
+		for(int i=0;i<width;i++){ /*Végignézzük a pályát szélességben...*/
+			for(int j=0;j<height;j++){	/*... és magasságban*/
+				if(tempMap[i][j]!=null){		/*Ha az aktuális elem nem üres, akkor lehetnek szomszédai*/		
+					ArrayList<Rail> tmp = new ArrayList<Rail>(); /*új "szomszéd tároló"*/
+					if(i-1>0 && tempMap[i-1][j]!=null) tmp.add(tempMap[i-1][j]); /*Ha balra lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(i+1<width && tempMap[i+1][j]!=null) tmp.add(tempMap[i+1][j]);/*Ha jobbra lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(j-1>0 && tempMap[i][j-1]!=null) tmp.add(tempMap[i][j-1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(j+1<height && tempMap[i][j+1]!=null) tmp.add(tempMap[i][j+1]);/*Ha alatta lévö mezö a pálya része és Rail akkor a szomszédja*/
 					
-					tempMap[i][j].setNeighbourRails(tmp); /*HozzÃ¡adjuk az Ãºjonnan felvett szomszÃ©dokat*/
+					tempMap[i][j].setNeighbourRails(tmp); /*Hozzáadjuk az újonnan felvett szomszédokat*/
 				}
 			}
 		}
 		
-		for(int i=0;i<width;i++){ /*BejÃ¡rjuk a tÃ¡blÃ¡t*/
+		for(int i=0;i<width;i++){ /*Bejárjuk a táblát*/
 			for(int j=0;j<height;j++){
-				if(tempMap[i][j]!=null)railCollection.add(tempMap[i][j]); /*Ha van Rail tipus, akkor a kollekciÃ³nk rÃ©sze kell hogy legyen, felvesszÃ¼k.*/
+				if(tempMap[i][j]!=null)railCollection.add(tempMap[i][j]); /*Ha van Rail tipus, akkor a kollekciónk része kell hogy legyen, felvesszük.*/
 				}
 		}
 
 		brMap.close();
-		System.out.println("Class: GameController\t Object: GameController@STATIC\t LÃ©trehozott pÃ¡lyaelemek szÃ¡ma: "+railCollection.size()); /*MegnÃ©zzÃ¼k hogy vÃ¡ltozott e valam*/
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Létrehozott pályaelemek száma: "+railCollection.size()); /*Megnézzük hogy változott e valam*/
 	}
 	
 
 	
 	 /**
-     * A map-ben minden egyes mezÃµ egy betÃ»vel van megadva.
-     * Mindegy egyes betÃ» egy bizonyos cellatÃ­pusnak felel meg.
-     * AlÃ¡bbi fÃ¼ggvÃ©ny a megkapott betÃ»nek megfelelÃµ sÃ­ntÃ­pust hoz lÃ©tre, Ã©s visszaadja mely bekerÃ¼l a railCollection-be.
+     * A map-ben minden egyes mezõ egy betûvel van megadva.
+     * Mindegy egyes betû egy bizonyos cellatípusnak felel meg.
+     * Alábbi függvény a megkapott betûnek megfelelõ síntípust hoz létre, és visszaadja mely bekerül a railCollection-be.
      *
-     * @param mapChar   A map-ban szereplÃµ karakter, mely egy sÃ­ntÃ­pust takar.
-     * @return  A lÃ©trehozott sÃ­n.
+     * @param mapChar   A map-ban szereplõ karakter, mely egy síntípust takar.
+     * @return  A létrehozott sín.
      */
     private static Rail elementReader(String mapChar){
-    	System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Method: elementReader\t Param: "+mapChar+"\t Elem dekodolasa fajlbol"); /* A jobb olvashatÃ³sÃ¡g Ã©rdekÃ©ben ezelÃµtt egy Ãºj sor van. */
+    	System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Method: elementReader\t Param: "+mapChar+"\t Elem dekodolasa fajlbol"); /* A jobb olvashatóság érdekében ezelõtt egy új sor van. */
         switch(mapChar){
         case "E":
         	System.out.println("Beolvasott elem: EnterPoint");
-            return new EnterPoint(); /* LÃ©trehozunk egy Ãºj enterPointot. */
+            return new EnterPoint(); /* Létrehozunk egy új enterPointot. */
            
         case "R":
         	System.out.println("Beolvasott elem: Rail");
-            return new Rail(); /* LÃ©trehozunk egy Ãºj Railt. */
+            return new Rail(); /* Létrehozunk egy új Railt. */
            
         case "S":
         	System.out.println("Beolvasott elem: Switch");
-            return new Switch(); /* LÃ©trehozunk egy Ãºj Switchet. */
+            return new Switch(); /* Létrehozunk egy új Switchet. */
            
         case "U":
         	System.out.println("Beolvasott elem: TunnelEntrance");
-            return new TunnelEntrance(); /* LÃ©trehozunk egy Ãºj TunnelEntrance-t. */
+            return new TunnelEntrance(); /* Létrehozunk egy új TunnelEntrance-t. */
            
         case "1":
         	System.out.println("Beolvasott elem: Red TrainStation");
-            return new TrainStation(Color.RED); /* LÃ©trehozunk egy Ãºj TrainStation-t, mely piros szÃ­nÃ» lesz. */
+            return new TrainStation(Color.RED); /* Létrehozunk egy új TrainStation-t, mely piros színû lesz. */
            
         case "2":
         	System.out.println("Beolvasott elem: Green TrainStation");
-            return new TrainStation(Color.GREEN); /* LÃ©trehozunk egy Ãºj TrainStation-t, mely zÃ¶ld szÃ­nÃ» lesz. */
+            return new TrainStation(Color.GREEN); /* Létrehozunk egy új TrainStation-t, mely zöld színû lesz. */
            
         case "3":
         	System.out.println("Beolvasott elem: Blue TrainStation");
-            return new TrainStation(Color.BLUE); /* LÃ©trehozunk egy Ãºj TrainStation-t, mely kÃ©k szÃ­nÃ» lesz. */
+            return new TrainStation(Color.BLUE); /* Létrehozunk egy új TrainStation-t, mely kék színû lesz. */
            
         default:
         	System.out.println("Beolvasott elem: ures");
-            return null; /* Ez a lehetÃµsÃ©g akkor fut le ha nem ismert betÃ¼ van a szÃ¶vegÃ¼nben, mely ilyenkor egy Ã¼res mezÃ¶ lesz */
+            return null; /* Ez a lehetõség akkor fut le ha nem ismert betü van a szövegünben, mely ilyenkor egy üres mezö lesz */
         }
     }
     
     /**
-     * Meg kell nÃ©zni minden lÃ©ptetÃ©s utÃ¡n hogy a vonatok kiÃ¼rÃ¼ltek e
+     * Meg kell nézni minden léptetés után hogy a vonatok kiürültek e
      */ 
     private boolean hasTheGameEnded(){
-    	System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: hasTheGameEnded\t Vonatok uressegenek ellenorzese");
-    	Boolean isAllEmpty = trainCollection.isAllEmpty();
-    	System.out.println("Class: GameController\t Object: GameController@STATIC\t Returned: "+isAllEmpty);
+    	System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: hasTheGameEnded\t Vonatok uressegenek ellenorzese"); /* Kiíratás a Szkeleton vezérlésének */
+    	Boolean isAllEmpty = trainCollection.isAllEmpty(); /* Ha mindegyik vonat kiürült, akkor igazzal térünk vissza, egyébként hamissal. */
+    	System.out.println("Class: GameController\t Object: GameController@STATIC\t Returned: "+isAllEmpty); /* Kiíratás a Szkeleton vezérlésének */
     	return isAllEmpty;
     }
    
 	
 	/**
-	 * KizÃ¡rÃ³lag a tesztelÃ©shez lÃ©trehozott metÃ³dus.
-	 * Annyi alagÃºtszÃ¡lyat tud aktivÃ¡lni, ahÃ¡nyat megadunk neki. (ennek mennyisÃ©gÃ©t nem ellenÃµrzi, hiszen azt a Main megfelelÃµ rÃ©sze mÃ¡r megtette.
+	 * Kizárólag a teszteléshez létrehozott metódus.
+	 * Annyi alagútszályat tud aktiválni, ahányat megadunk neki. (ennek mennyiségét nem ellenõrzi, hiszen azt a Main megfelelõ része már megtette.
 	 * 
-	 * A getClass fv csak azÃ©rt kell bele, mert a vÃ©gsÃµ verziÃ³ban a GUI-n tÃ¶rtÃ©nÃµ kattintÃ¡sbÃ³l egybÃµl meg fogjuk tudni az eventet kivÃ¡ltÃ³ objektum id-jÃ©t,
-	 * GUI hiÃ¡nyÃ¡ban azonban erre nincs lehetÃµsÃ©gÃ¼nk. Ha nagyon szÃ¼ksÃ©ges, meg tudjuk oldani enÃ©lkÃ¼l is (de az ocsmÃ¡nyabb lenne) ezÃ©rt ennÃ©l maradtunk.
+	 * A getClass fv csak azért kell bele, mert a végsõ verzióban a GUI-n történõ kattintásból egybõl meg fogjuk tudni az eventet kiváltó objektum id-jét,
+	 * GUI hiányában azonban erre nincs lehetõségünk. Ha nagyon szükséges, meg tudjuk oldani enélkül is (de az ocsmányabb lenne) ezért ennél maradtunk.
 	 * 
-	 * @param tunnelEntranceCounterToBeActivated	HÃ¡ny alagÃºtszÃ¡lyat akarunk aktivÃ¡lni.
+	 * @param tunnelEntranceCounterToBeActivated	Hány alagútszályat akarunk aktiválni.
 	 */
 	public void skeletonTesterActivateTunnelEntrance(int tunnelEntranceCounterToBeActivated){
-		for(int i=0; i < tunnelEntranceCounterToBeActivated; i++){
-			Boolean notActivatedTunnelEntranceFound = false;
-			while(!notActivatedTunnelEntranceFound){
+		for(int i=0; i < tunnelEntranceCounterToBeActivated; i++){ /* Annyi alagútszájat keresünk, amennyit paraméterül megadtak */
+			Boolean notActivatedTunnelEntranceFound = false; 
+			while(!notActivatedTunnelEntranceFound){ /* amíg nem találunk egy nem aktivált alagútszájat */
 				for(Rail oneRail:railCollection){
-					if(oneRail.getClass() == TunnelEntrance.class){  /*  Az ilyenÃ©rt lehet kibasznak tbh.. :D */
-						TunnelEntrance oneTunnel = (TunnelEntrance) oneRail; /* EzÃ©rt meg fÃµleg. */
-						if(!oneTunnel.checkIfActivated()){
-							oneTunnel.activate();
+					if(oneRail.getClass() == TunnelEntrance.class){  /* megnézzük TunnelEntrance-e a sín. */
+						TunnelEntrance oneTunnel = (TunnelEntrance) oneRail;  /* Ha igen, akkor átkasztoljuk */
+						if(!oneTunnel.checkIfActivated()){ /* Ha még nincs aktiválva */
+							oneTunnel.activate(); /* Aktiváljuk, és megnöveljük az aktív alagútszájak számát eggyel */
 							activeEntranceCounter++;
 							notActivatedTunnelEntranceFound = true;
-							break;
+							break; /* Break, kezdõdik a következõ keresésése, ha erre szükség van. */
 						}
 					}
 				}
 			}
 			
 		}
-		System.out.println("Class: GameController\t Object: GameController@STATIC\t AktÃ­v alagÃºtszÃ¡jak szÃ¡ma: "+activeEntranceCounter);
-		if(activeEntranceCounter == 2){
-			System.out.println("\nClass: GameController\t Object: GameController@STATIC\t AlagÃºt lÃ©trehozÃ¡sa");
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Aktív alagútszájak száma: "+activeEntranceCounter);/* Kiíratás a Szkeleton vezérlésének */
+		if(activeEntranceCounter == 2){ /* Ha két aktív alagútszájunk van, akkor kezdeményezzük az alagút létrehozását. */
+			System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Alagút létrehozása");/* Kiíratás a Szkeleton vezérlésének */
+			
+			/*  Disclaimer: Az alábbi kódot Long csinálta, szóval God have mercy on your soul, if you want to understand this. */
 			Rail entrance1, entrance2;
 			entrance1 = null;
 			entrance2 = null;
 			
 			
 			
-			/*KikeressÃ¼k a kettÃ¶t*/
+			/*Kikeressük a kettöt*/
 			for(Rail rail:railCollection){
 				if(rail.getClass() == TunnelEntrance.class){
 					if(entrance1==null){
@@ -292,7 +292,7 @@ public class GameController {
 					}
 				}
 			}
-			/*SegÃ©dvÃ¡ltozÃ³k*/
+			/*Segédváltozók*/
 			int e1X=entrance1.getX();
 			int e1Y=entrance1.getY();
 			int e2X=entrance2.getX();
@@ -301,103 +301,101 @@ public class GameController {
 			ArrayList<Rail> newTunnels= new ArrayList<Rail>();
 			Tunnel tmp;
 			
-			/*Az elsÅ‘ rÃ©sze a belÃ©pÃ©si pont lesz*/
+			/*Az elsõ része a belépési pont lesz*/
 			newTunnels.add(entrance1);
 			
-			/*Viszintes tengelyen vizsgÃ¡ljuk*/
-			/*Ha az elsÃ¶ alagut jobbrÃ¡bb van*/
+			/*Viszintes tengelyen vizsgáljuk*/
+			/*Ha az elsö alagut jobbrább van*/
 			
-			System.out.println("mifasz");
 			if(e1X>e2X){										
-				while(e1X>e2X){									/*Amig nem Ã©rÃ¼nk egy szintre a kijÃ¡rattal*/
-					if(e1X-1==e2X && e1Y==e2Y){ 				/*Pont tÅ‘le jobbra van a kijÃ¡rat*/
-						newTunnels.add(entrance2);				/*BekÃ¶tjÃ¼k a kijÃ¡rathoz*/
+				while(e1X>e2X){									/*Amig nem érünk egy szintre a kijárattal*/
+					if(e1X-1==e2X && e1Y==e2Y){ 				/*Pont tõle jobbra van a kijárat*/
+						newTunnels.add(entrance2);				/*Bekötjük a kijárathoz*/
 						e1X--;
-					}else{ 										/*Ha ez mÃ©g csak egy alagut*/
-						e1X--; 									/*KÃ¶zelebb hozzuk*/
-						tmp=new Tunnel();						/*LÃ©trehozzuk Ã©s beÃ¡llÃ­tjuk az adatait*/
+					}else{ 										/*Ha ez még csak egy alagut*/
+						e1X--; 									/*Közelebb hozzuk*/
+						tmp=new Tunnel();						/*Létrehozzuk és beállítjuk az adatait*/
 						tmp.setX(e1X);
 						tmp.setY(e1Y);
-						newTunnels.add(tmp); 					/*FelÃ©pitjÃ¼k*/
+						newTunnels.add(tmp); 					/*Felépitjük*/
 					}
 				}
 			}
-			/*Ha az elsÃ¶ alagut balrÃ¡bb van*/
+			/*Ha az elsö alagut balrább van*/
 			else if(e1X<e2X){
-				while(e1X<e2X){									/*Amig nem Ã©rÃ¼nk egy szintre a kijÃ¡rattal*/
-					if(e1X+1==e2X && e1Y==e2Y){				/*Pont tÅ‘le balrara van a kijÃ¡rat*/
-						newTunnels.add(entrance2);				/*BekÃ¶tjÃ¼k a kijÃ¡rathoz*/
+				while(e1X<e2X){									/*Amig nem érünk egy szintre a kijárattal*/
+					if(e1X+1==e2X && e1Y==e2Y){				/*Pont tõle balrara van a kijárat*/
+						newTunnels.add(entrance2);				/*Bekötjük a kijárathoz*/
 						e1X++;
-					}else{ 										/*Ha ez mÃ©g csak egy alagut*/
-						e1X++; 									/*KÃ¶zelebb hozzuk*/
-						tmp=new Tunnel();						/*LÃ©trehozzuk Ã©s beÃ¡llÃ­tjuk az adatait*/
+					}else{ 										/*Ha ez még csak egy alagut*/
+						e1X++; 									/*Közelebb hozzuk*/
+						tmp=new Tunnel();						/*Létrehozzuk és beállítjuk az adatait*/
 						tmp.setX(e1X);
 						tmp.setY(e1Y);
-						newTunnels.add(tmp); 					/*FelÃ©pitjÃ¼k*/
+						newTunnels.add(tmp); 					/*Felépitjük*/
 					}
 				}
 			}
 			
-			/*FÃ¼ggÃ¶leges tengelyen vizsgÃ¡ljuk*/
-			/*Ha az elsÃ¶ alagut feljebb van*/
+			/*Függöleges tengelyen vizsgáljuk*/
+			/*Ha az elsö alagut feljebb van*/
 			if(e1Y>e2Y){										
-				while(e1Y>e2Y){									/*Amig nem Ã©rÃ¼nk egy szintre a kijÃ¡rattal*/
-					if(e1Y-1==e2Y && e1X==e2X){ 				/*Pont felette van a kijÃ¡rat*/
-						newTunnels.add(entrance2);				/*BekÃ¶tjÃ¼k a kijÃ¡rathoz*/
+				while(e1Y>e2Y){									/*Amig nem érünk egy szintre a kijárattal*/
+					if(e1Y-1==e2Y && e1X==e2X){ 				/*Pont felette van a kijárat*/
+						newTunnels.add(entrance2);				/*Bekötjük a kijárathoz*/
 						e1Y--;
-					}else{ 										/*Ha ez mÃ©g csak egy alagut*/
-						e1Y--; 									/*KÃ¶zelebb hozzuk*/
-						tmp=new Tunnel();						/*LÃ©trehozzuk Ã©s beÃ¡llÃ­tjuk az adatait*/
+					}else{ 										/*Ha ez még csak egy alagut*/
+						e1Y--; 									/*Közelebb hozzuk*/
+						tmp=new Tunnel();						/*Létrehozzuk és beállítjuk az adatait*/
 						tmp.setX(e1X);
 						tmp.setY(e1Y);
-						newTunnels.add(tmp); 					/*FelÃ©pitjÃ¼k*/
+						newTunnels.add(tmp); 					/*Felépitjük*/
 					}
 				}
 			}
-			/*Ha az elsÃ¶ alagut lejjebb van*/
+			/*Ha az elsö alagut lejjebb van*/
 			else if(e1Y<e2Y){
-				while(e1Y<e2Y){									/*Amig nem Ã©rÃ¼nk egy szintre a kijÃ¡rattal*/
-					if(e1Y+1==e2Y && e1X==e2X){ 				/*Pont alatta van a kijÃ¡rat*/
-						newTunnels.add(entrance2);				/*BekÃ¶tjÃ¼k a kijÃ¡rathoz*/
+				while(e1Y<e2Y){									/*Amig nem érünk egy szintre a kijárattal*/
+					if(e1Y+1==e2Y && e1X==e2X){ 				/*Pont alatta van a kijárat*/
+						newTunnels.add(entrance2);				/*Bekötjük a kijárathoz*/
 						e1Y++;
-					}else{ 										/*Ha ez mÃ©g csak egy alagut*/
-						e1Y++;									/*KÃ¶zelebb hozzuk*/
-						tmp=new Tunnel();						/*LÃ©trehozzuk Ã©s beÃ¡llÃ­tjuk az adatait*/
+					}else{ 										/*Ha ez még csak egy alagut*/
+						e1Y++;									/*Közelebb hozzuk*/
+						tmp=new Tunnel();						/*Létrehozzuk és beállítjuk az adatait*/
 						tmp.setX(e1X);
 						tmp.setY(e1Y);
-						newTunnels.add(tmp); 					/*FelÃ©pitjÃ¼k*/
+						newTunnels.add(tmp); 					/*Felépitjük*/
 					}
 				}
 			}
 			
-			/*Minden alagutelemet felvettÃ¼nk*/			
-			/*Ã–sszekÃ¶tjÃ¼k Ã¶ket*/
+			/*Minden alagutelemet felvettünk*/			
+			/*Összekötjük öket*/
 			for(int i=0;i<newTunnels.size();i++){
 				if(i-1>=0)newTunnels.get(i).addNeighbourRail(newTunnels.get(i-1));
 				if(i+1<newTunnels.size())newTunnels.get(i).addNeighbourRail(newTunnels.get(i+1));
 				if(i>0&&i<newTunnels.size()-1)railCollection.add(newTunnels.get(i));
 			}
-			System.out.println("mifasz");
 		}
 	}
 	
 	
 	/**
-	 * KizÃ¡rÃ³lag a tesztelÃ©shez lÃ©trehozott metÃ³dus.
-	 * EllenÃµrzi hÃ¡ny aktÃ­v alagÃºtszÃ¡j van. Ha kettÃµ, akkor lebontja az alagutat, Ã©s deaktivÃ¡l egyet.
+	 * Kizárólag a teszteléshez létrehozott metódus.
+	 * Ellenõrzi hány aktív alagútszáj van. Ha kettõ, akkor lebontja az alagutat, és deaktivál egyet.
 	 * 
-	 * A getClass fv csak azÃ©rt kell bele, mert a vÃ©gsÃµ verziÃ³ban a GUI-n tÃ¶rtÃ©nÃµ kattintÃ¡sbÃ³l egybÃµl meg fogjuk tudni az eventet kivÃ¡ltÃ³ objektum id-jÃ©t,
-	 * GUI hiÃ¡nyÃ¡ban azonban erre nincs lehetÃµsÃ©gÃ¼nk. Ha nagyon szÃ¼ksÃ©ges, meg tudjuk oldani enÃ©lkÃ¼l is (de az ocsmÃ¡nyabb lenne) ezÃ©rt ennÃ©l maradtunk.
+	 * A getClass fv csak azért kell bele, mert a végsõ verzióban a GUI-n történõ kattintásból egybõl meg fogjuk tudni az eventet kiváltó objektum id-jét,
+	 * GUI hiányában azonban erre nincs lehetõségünk. Ha nagyon szükséges, meg tudjuk oldani enélkül is (de az ocsmányabb lenne) ezért ennél maradtunk.
 	 */
 	public void skeletonTesterDeActivateATunnelEntrance(){
 				
 		Boolean activatedTunnelEntranceFound = false;
-		while(!activatedTunnelEntranceFound){
+		while(!activatedTunnelEntranceFound){ /* amíg nem találunk egy aktivált  */
 			for(Rail oneRail:railCollection){
-				if(oneRail.getClass() == TunnelEntrance.class){  
-					TunnelEntrance oneTunnel = (TunnelEntrance) oneRail; 
-					if(oneTunnel.checkIfActivated()){
-						oneTunnel.deActivate();
+				if(oneRail.getClass() == TunnelEntrance.class){   /* Megkeressük a TunnelEntrancet */
+					TunnelEntrance oneTunnel = (TunnelEntrance) oneRail; /* átkasztoljuk */
+					if(oneTunnel.checkIfActivated()){ /* Ellenõrizzük, hogy aktiválva van-e */
+						oneTunnel.deActivate(); /* Deaktiváljuk, mely során kitörlõdik a szomszédlistájából a referencia az alagútra */
 						activatedTunnelEntranceFound = true;
 						break;
 					}
@@ -405,50 +403,50 @@ public class GameController {
 			}
 		}
 		
-		if(activeEntranceCounter == 2){ /* Ha kÃ©t aktÃ­v TunnelEntrance volt */
-			System.out.println("\nClass: GameController\t Object: GameController@STATIC\t AlagÃºt lerombolÃ¡sa");
+		if(activeEntranceCounter == 2){ /* Ha két aktív TunnelEntrance volt */
+			System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Alagút lerombolása"); /* Kiíratás a Szkeleton vezérlésének */
 			
-			Boolean railCollectionIsFreeOfTunnels = false; /* A railCollectionben mÃ©g vannak Tunnelek. Mivel deaktivÃ¡ltunk egy alagÃºtszÃ¡jat, az eddigi alagutat meg kell szÃ»ntetni. */
+			Boolean railCollectionIsFreeOfTunnels = false; /* A railCollectionben még vannak Tunnelek. Mivel deaktiváltunk egy alagútszájat, az eddigi alagutat meg kell szûntetni. */
 			
-			while(!railCollectionIsFreeOfTunnels){ /* AmÃ­g nem lesz Tunnel mentes a railCollection */
-				railCollectionIsFreeOfTunnels = true; /* FeltesszÃ¼k, hogy Ã¼res, ha nem volt az akkor ezt a for-ban Ã¡tÃ­rjuk. */
-				Rail railToGetDeleted = null; /* Ezt akarjuk majd tÃ¶rÃ¶lni */
+			while(!railCollectionIsFreeOfTunnels){ /* Amíg nem lesz Tunnel mentes a railCollection */
+				railCollectionIsFreeOfTunnels = true; /* Feltesszük, hogy üres, ha nem volt az akkor ezt a for-ban átírjuk. */
+				Rail railToGetDeleted = null; /* Ezt akarjuk majd törölni */
 				
-				for(Rail rail:railCollection){ /* VÃ©gigmegyÃ¼nk az Ã¶sszes sÃ­nen */
-					if(rail.getClass() == Tunnel.class){ /* Ha talÃ¡ltunk egy tunnelt, azt megjelÃ¶ljÃ¼k mint tÃ¶rlendÃµ sÃ­n Ã©s beÃ¡llÃ­tjuk, hogy mÃ©g nem volt tiszta a railCollection */
+				for(Rail rail:railCollection){ /* Végigmegyünk az összes sínen */
+					if(rail.getClass() == Tunnel.class){ /* Ha találtunk egy tunnelt, azt megjelöljük mint törlendõ sín és beállítjuk, hogy még nem volt tiszta a railCollection */
 						railToGetDeleted = rail;
 						railCollectionIsFreeOfTunnels = false;
 					}
 				}
 				
-				if(!railCollectionIsFreeOfTunnels){ /* Ha talÃ¡tunk tÃ¶rlendÃµ elemet akkor azt itt most ki is tÃ¶rÃ¶ljÃ¼k. */
-					railCollection.remove(railToGetDeleted); /* KitÃ¶rÃ¶ljÃ¼k */
+				if(!railCollectionIsFreeOfTunnels){ /* Ha talátunk törlendõ elemet akkor azt itt most ki is töröljük. */
+					railCollection.remove(railToGetDeleted); /* Kitöröljük */
 				}
 			}
 			
 		}
 		
-		activeEntranceCounter--;
-		System.out.println("Class: GameController\t Object: GameController@STATIC\t AktÃ­v alagÃºtszÃ¡jak szÃ¡ma: "+activeEntranceCounter);
+		activeEntranceCounter--; /* eggyel kevesebb aktív alagútszáj lett. */
+		System.out.println("Class: GameController\t Object: GameController@STATIC\t Aktív alagútszájak száma: "+activeEntranceCounter); /* Kiíratás a Szkeleton vezérlésének */
 	}
 	
 	
 	/**
-	 * KizÃ¡rÃ³lag a tesztelÃ©shez lÃ©trehozott metÃ³dus.
-	 * A pÃ¡lyÃ¡n megkeresi az elsÃµ vÃ¡ltÃ³t amit talÃ¡l Ã©s beÃ¡llÃ­tja a kÃ­vÃ¡nt Ã¡llapotra.
+	 * Kizárólag a teszteléshez létrehozott metódus.
+	 * A pályán megkeresi az elsõ váltót amit talál és beállítja a kívánt állapotra.
 	 * 
-	 * A getClass fv csak azÃ©rt kell bele, mert a vÃ©gsÃµ verziÃ³ban a GUI-n tÃ¶rtÃ©nÃµ kattintÃ¡sbÃ³l egybÃµl meg fogjuk tudni az eventet kivÃ¡ltÃ³ objektum id-jÃ©t,
-	 * GUI hiÃ¡nyÃ¡ban azonban erre nincs lehetÃµsÃ©gÃ¼nk. Ha nagyon szÃ¼ksÃ©ges, meg tudjuk oldani enÃ©lkÃ¼l is (de az ocsmÃ¡nyabb lenne) ezÃ©rt ennÃ©l maradtunk.
+	 * A getClass fv csak azért kell bele, mert a végsõ verzióban a GUI-n történõ kattintásból egybõl meg fogjuk tudni az eventet kiváltó objektum id-jét,
+	 * GUI hiányában azonban erre nincs lehetõségünk. Ha nagyon szükséges, meg tudjuk oldani enélkül is (de az ocsmányabb lenne) ezért ennél maradtunk.
 	 */
 	public void skeletonTesterSwitchASwitch(){
 		Boolean switchFound = false;
-		while(!switchFound){
+		while(!switchFound){ /* Amíg nem találunk egy switch-et */
 			for(Rail oneRail:railCollection){
-				if(oneRail.getClass() == Switch.class){  
-					Switch oneSwitch = (Switch) oneRail; 
-					oneSwitch.switchRail();
+				if(oneRail.getClass() == Switch.class){  /* végignézzük melyik a switch */
+					Switch oneSwitch = (Switch) oneRail;  /* átkasztoljuk */
+					oneSwitch.switchRail(); /* változtatunk az állapotán egyet */
 					switchFound = true;
-					break;
+					break; /* ha szükséges keresünk egy következõt. */ 
 					
 				}
 			}
@@ -457,21 +455,21 @@ public class GameController {
 	
 	
 	/**
-	 * KizÃ¡rÃ³lag a tesztelÃ©shez lÃ©trehozott metÃ³dus.
-	 * A pÃ¡lyÃ¡n megkeresi az elsÃµ tunnelEntrancet amit talÃ¡l Ã©s beÃ¡llÃ­tja a kÃ­vÃ¡nt Ã¡llapotra.
+	 * Kizárólag a teszteléshez létrehozott metódus.
+	 * A pályán megkeresi az elsõ tunnelEntrancet amit talál és beállítja a kívánt állapotra.
 	 * 
-	 * A getClass fv csak azÃ©rt kell bele, mert a vÃ©gsÃµ verziÃ³ban a GUI-n tÃ¶rtÃ©nÃµ kattintÃ¡sbÃ³l egybÃµl meg fogjuk tudni az eventet kivÃ¡ltÃ³ objektum id-jÃ©t,
-	 * GUI hiÃ¡nyÃ¡ban azonban erre nincs lehetÃµsÃ©gÃ¼nk. Ha nagyon szÃ¼ksÃ©ges, meg tudjuk oldani enÃ©lkÃ¼l is (de az ocsmÃ¡nyabb lenne) ezÃ©rt ennÃ©l maradtunk.
+	 * A getClass fv csak azért kell bele, mert a végsõ verzióban a GUI-n történõ kattintásból egybõl meg fogjuk tudni az eventet kiváltó objektum id-jét,
+	 * GUI hiányában azonban erre nincs lehetõségünk. Ha nagyon szükséges, meg tudjuk oldani enélkül is (de az ocsmányabb lenne) ezért ennél maradtunk.
 	 */
 	public void skeletonTesterSwitchATunnelEntrance(){
 		Boolean tunnelEntranceFound = false;
-		while(!tunnelEntranceFound){
+		while(!tunnelEntranceFound){ /* Keresünk egy TunnelEntrance-t */
 			for(Rail oneRail:railCollection){
-				if(oneRail.getClass() == TunnelEntrance.class){  
-					TunnelEntrance oneTunnelEntrance = (TunnelEntrance) oneRail; 
-					oneTunnelEntrance.switchRail();
+				if(oneRail.getClass() == TunnelEntrance.class){  /* végignézzük melyik a TunnelEntrance */
+					TunnelEntrance oneTunnelEntrance = (TunnelEntrance) oneRail; /* átkasztoljuk */
+					oneTunnelEntrance.switchRail();/* változtatunk az állapotán egyet */
 					tunnelEntranceFound = true;
-					break;
+					break;/* ha szükséges keresünk egy következõt. */ 
 					
 				}
 			}
@@ -480,19 +478,19 @@ public class GameController {
 	
 	
 	/**
-	 * KizÃ¡rÃ³lag a tesztelÃ©shez lÃ©trehozott metÃ³dus
-	 * A Main-tÃµl megadott paramÃ©terekkel lÃ©trehoz egy vonatot,
+	 * Kizárólag a teszteléshez létrehozott metódus
+	 * A Main-tõl megadott paraméterekkel létrehoz egy vonatot,
 	 * 
 	 * @param cabinColors
 	 */
 	public void skeletonTesterAddNewTrain(ArrayList<Color> cabinColors){
 		
-		System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Ãšj vonat hozzÃ¡adÃ¡sa");
-		Train testTrain = new Train(cabinColors);
+		System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Új vonat hozzáadása");/* Kiíratás a Szkeleton vezérlésének */
+		Train testTrain = new Train(cabinColors); /* A megadott paraméterekkel létrehozunk egy új vonatot */
 		
 		EnterPoint enterPoint = null;
 		
-		Boolean enterPointFound = false;
+		Boolean enterPointFound = false; /* Kikeressük melyik a railCollection-ben az EnterPoint és azt eltároljuk, hogy utána beállítsuk elsõ sínként a vonatnak. */
 		while(!enterPointFound){
 			for(Rail oneRail:railCollection){
 				if(oneRail.getClass() == EnterPoint.class){ 
@@ -502,20 +500,18 @@ public class GameController {
 			}
 		}
 		
-		
-		testTrain.setNextRail(enterPoint);
-		
-		trainCollection.addNewTrain(testTrain);
+		testTrain.setNextRail(enterPoint); /* Beállítjuk elsõ sínnek a belépési pontot */
+		trainCollection.addNewTrain(testTrain); /* Hozzáadjuk a trainCollection-be az új vonatot. */
 	}
 	
 	public void skeletonTesterMakeTrainsMove(){
-		System.out.println("\nClass: GameController\t Object: GameController@STATIC\t ÃœtkÃ¶zÃ©shez szÃ¼ksÃ©ges vonat hossz szÃ¡mlÃ¡lÃ³k csÃ¶kkentÃ©se");
-		for(Rail oneRail: railCollection){
+		System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Ütközéshez szükséges vonat hossz számlálók csökkentése");/* Kiíratás a Szkeleton vezérlésének */
+		for(Rail oneRail: railCollection){ /* Minden eggyes sínnek csökkentjük eggyel a rajta még áthaladó kabinok számát, mivel lép egyet minden vonat. */
 			oneRail.lowerTrainLenghtCounter();
 		}
 		
-		System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Vonatok lÃ©ptetÃ©se");
-		trainCollection.moveAllTrains();
+		System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Vonatok léptetése"); /* Kiíratás a Szkeleton vezérlésének */
+		trainCollection.moveAllTrains(); /* Minden egyes vonatot léptetünk eggyel. Késõbb ezt egy thread fogja csinálni, jelen szkeletonban elég ennyi. */
 	}
 
 }
