@@ -103,6 +103,7 @@ public class Rail {
 	 */
 	public void addNeighbourRail(Rail newNeighbourRail){
 		System.out.println("Class: Rail\t\t Object: "+this+"\t\t\t Method: setNeighbourRails\t Param: "+newNeighbourRail);
+		if(neighbourRails==null)neighbourRails=new ArrayList<Rail>();
 		neighbourRails.add(newNeighbourRail);
 	}
 	
