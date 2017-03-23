@@ -188,9 +188,25 @@ public class Train implements Visitor{
 			} else {
 				System.out.println("Class: Train\t\t Object: "+this+"\t\t\t Az állomás és a vonat színe nem egyezik!");
 			}
+		
+			/**Itt ellenörizzük hogy valaki fel akar-e szállni*/		
+			Color passengersColor= rail.getPassengersColor();	/*Utasok színe segédváltozóba*/
+			if(passengersColor!=Color.BLACK){ 					/*Ha van utasunk*/			
+				for(Cab cab: cabins){							/*Minden cab-et átnézünk*/
+					if(cab.addPassenger(passengersColor)){ 		/*Ha sikerült felültetni öket*/
+						rail.boardPassengers(); 				/*Eltüntetjük a megálló utasait*/
+						cab.addPassenger(passengersColor);		/*Megtöltjük a vagont*/
+						break;									/*Megállitjuk a keresést*/
+					}
+				}
+			}	
+			/**Itt ér véget a felszállítás*/
+			
 		} else {
 			GameController.loseEvent(); /* Ha foglalt a sín, akkor a vonat ütközött, ezért meghívjuk a GameController loseEvent-jét, 
 										 * mely során egy Michael Bay Effekt keretében véget ér a játék. */
 		}
 	}
+	
+	
 }

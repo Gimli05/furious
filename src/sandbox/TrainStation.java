@@ -10,7 +10,7 @@ public class TrainStation extends Rail{
 	private Color color; /* Az állomás színe. 
 						  * Ahhoz hogy egy adott vagonból leugorjanak az utasok az állomásnak és a mozdonytól hátrafelé elsõ nem üres kabinnak a színe meg kell egyezzen. */
 	
-	
+	private Color passengersColor; /*Van e utas a megállóban, ha fekete akkor nincs, ha bármi más akkor van*/
 	/**
 	 * A megálló konstruktora.
 	 * 
@@ -42,5 +42,18 @@ public class TrainStation extends Rail{
 	public void accept(Visitor visitor){
 		System.out.println("Class: TrainStation\t\t Object: "+this+"\t\t\t Method: Accept\t Param: "+visitor); /* Kiíratás a Szkeleton vezérlésének */
 		visitor.visit(this); /* Elfogadjuk a visitort, és átadjuk magunkat, hogy nézzen meg minket. */
+	}
+	
+	/**
+	 * Megadja hogy van e utas a megállóban, és ha igen akkor milyen színü.
+	 * Ha nincs utas akkor feketével jelezzük;
+	 */
+	public Color getPassengersColor(){
+		return passengersColor;
+	}
+	
+	/**Ha valaki felszáll akkor eltüntetjük a pályaudvarról**/
+	public void boardPassengers(){
+		passengersColor=Color.BLACK;
 	}
 }

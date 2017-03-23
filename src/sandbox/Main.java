@@ -73,7 +73,13 @@ public class Main {
 						GameController gc12 = new GameController();
 						gc12.startNewGame(2);  /* elindítjuk a gameControllert az 2-es pályával-  */
 						break;
-						
+/**LONG TESZTEL--------------------------*/
+						case 69: System.out.println("\nXRail Teszt...");
+						/* Ez a programrész akkor fut le, ha a felhasználó a 69. pályát választja. Létrejön egy GameController. */
+						GameController gc169 = new GameController();
+						gc169.startNewGame(69);  /* elindítjuk a gameControllert az 69-es pályával-  */
+						break;
+/**LONG TESZTEL--------------------------*/						
 						/* Ez a programrész akkor fut le, ha a felhasználó nem 1-est vagy kettest adott meg bemenetként. 
 						 * Ilyen pálya ugyanis nincs. Ekkor a program visszatér a fõmenübe. */
 						default: System.out.println("Csak 1. és 2. pálya van. Az elvárt bemenet az '1' vagy a '2'");

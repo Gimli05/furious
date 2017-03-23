@@ -166,12 +166,18 @@ public class GameController {
 			for(int j=0;j<height;j++){	/*... és magasságban*/
 				if(tempMap[i][j]!=null){		/*Ha az aktuális elem nem üres, akkor lehetnek szomszédai*/		
 					ArrayList<Rail> tmp = new ArrayList<Rail>(); /*új "szomszéd tároló"*/
-					if(i-1>0 && tempMap[i-1][j]!=null) tmp.add(tempMap[i-1][j]); /*Ha balra lévö mezö a pálya része és Rail akkor a szomszédja*/
+					
+					
+					
+					if(i-1>=0 && tempMap[i-1][j]!=null) tmp.add(tempMap[i-1][j]); /*Ha balra lévö mezö a pálya része és Rail akkor a szomszédja*/
 					if(i+1<width && tempMap[i+1][j]!=null) tmp.add(tempMap[i+1][j]);/*Ha jobbra lévö mezö a pálya része és Rail akkor a szomszédja*/
-					if(j-1>0 && tempMap[i][j-1]!=null) tmp.add(tempMap[i][j-1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
+					if(j-1>=0 && tempMap[i][j-1]!=null) tmp.add(tempMap[i][j-1]);/*Ha felette lévö mezö a pálya része és Rail akkor a szomszédja*/
 					if(j+1<height && tempMap[i][j+1]!=null) tmp.add(tempMap[i][j+1]);/*Ha alatta lévö mezö a pálya része és Rail akkor a szomszédja*/
 					
+					/*Itt a sorrend számít, mert az XRail az elsö kettöt és a második kettöt kapcsolja párba*/
+					
 					tempMap[i][j].setNeighbourRails(tmp); /*Hozzáadjuk az újonnan felvett szomszédokat*/
+					
 				}
 			}
 		}
@@ -214,6 +220,10 @@ public class GameController {
         case "U":
         	System.out.println("Beolvasott elem: TunnelEntrance");
             return new TunnelEntrance(); /* Létrehozunk egy új TunnelEntrance-t. */
+            
+        case "X":
+        	System.out.println("Beolvasott elem: XRail");
+            return new XRail(); /* Létrehozunk egy új XRail-t. */
            
         case "1":
         	System.out.println("Beolvasott elem: Red TrainStation");
