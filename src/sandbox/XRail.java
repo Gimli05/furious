@@ -42,7 +42,7 @@ public class XRail extends Rail{
 		if(idx%2==0){ 							/*Páros indexen vagyunk*/
 			tmp = neighbourRails.get(idx+1);	/*Utána lévõ a párja*/
 		}else{ 									/*Páratlan indexen vagyunk*/
-			tmp =  neighbourRails.get(idx+1); 	/*Elõtte lévõ a párja*/
+			tmp = neighbourRails.get(idx-1); 	/*Elõtte lévõ a párja*/
 		}
 												/* Ha nincs hova lépnie, akkor null-t adunk vissza */
 		
