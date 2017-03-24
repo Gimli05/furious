@@ -1,54 +1,54 @@
 package sandbox;
 /**
- * EgymÃ¡st keresztezÅ‘ sÃ­nek aminek leÃ­rÃ¡sÃ¡t majd
+ * Egymást keresztezõ sínek aminek leírását majd
  * CSOOOONGIIIII
- * megÃ­rja mert Long jelenleg Anya SpagettiÃ©t eszi
+ * megírja mert Long jelenleg Anya Spagettiét eszi
  */
 public class XRail extends Rail{
 	
 	/**
-	 * A vonat a visitje sorÃ¡n meghÃ­vja ezt a fÃ¼ggvÃ©nyt, mely a vonat elÃµzÃµ pozÃ­ciÃ³ja alapjÃ¡n egyÃ©rtelmÃ»en megadja melyik sÃ­nre kell tovÃ¡bb mennie. 
-	 * Ezt a vonat eltÃ¡rolja, Ã©s kÃ¶vetkezÃµ kÃ¶rben oda fog majd lÃ©pni.
+	 * A vonat a visitje során meghívja ezt a függvényt, mely a vonat elõzõ pozíciója alapján egyértelmûen megadja melyik sínre kell tovább mennie. 
+	 * Ezt a vonat eltárolja, és kõvetkezõ kõrben oda fog majd lépni.
 	 * 
-	 * Az XRail az elsÃ¶ kettÃ¶ Ã©s a mÃ¡sodik kettÃ¶ sint kapcsolja pÃ¡ra, ezÃ¡ltal megengedi hogy kÃ©t irÃ¡nyba
+	 * Az XRail az elsõ kettõ és a második kettõ sint kapcsolja pára, ezáltal megengedi hogy két irányba
 	 * haladjanak rajtam, mig figyeli hogy csak egy vonatelem lehessen rajta.
-	 * Az kÃ¶vetkezÃ¼ sÃ­n visszaadÃ¡sa is ezen pÃ¡rok alapjÃ¡n tÃ¶rtÃ©nik.
+	 * Az kõvetkezü sín visszaadása is ezen párok alapján tõrténik.
 	 * 
-	 * @param trainPreviousRail	Az elÃµzÃµ sÃ­n, ahol a vonat Ã¡llt.
-	 * @return	A kÃ¶vetkezÃµ sÃ­n ahova lÃ©pni fog a vonat.
+	 * @param trainPreviousRail	Az elõzõ sín, ahol a vonat állt.
+	 * @return	A kõvetkezõ sín ahova lépni fog a vonat.
 	 */
 	@Override
 	public Rail getNextRail(Rail trainPreviousRail){
-		System.out.println("Class: XRail\t\t Object: "+this+"\t\t\t Method: getNextRail\t Param: "+trainPreviousRail+"\t A kovetkezo sin."); /* KiÃ­ratÃ¡s a Szkeleton vezÃ©rlÃ©sÃ©nek */
+		System.out.println("Class: XRail\t\t Object: "+this+"\t\t\t Method: getNextRail\t Param: "+trainPreviousRail+"\t A kovetkezo sin."); /* Kiíratás a Szkeleton vezérlésének */
 		
-		int idx=0; 											/*Index jegyzÃ¶ segÃ©dvÃ¡ltozÃ³*/
-		while(neighbourRails.get(idx)!=trainPreviousRail){ 	/*MegkeressÃ¼k a bejÃ¶vÅ‘ Rail-t*/
-			idx++;							 				/*MegkeressÃ¼k hogy hÃ¡nyadik indexen van*/
+		int idx=0; 											/*Index jegyzõ segédváltozó*/
+		while(neighbourRails.get(idx)!=trainPreviousRail){ 	/*Megkeressük a bejõvõ Rail-t*/
+			idx++;							 				/*Megkeressük hogy hányadik indexen van*/
 		}
 		
 		/**
-		 * Ezen a ponton Ã©rdemes belegondolni hogy hogy is mÅ±kÃ¶dik.
-		 * Mivel a sinek pÃ¡rokba vannak rendezve ezÃ©rt a lehetsÃ©ges pÃ¡rok:
+		 * Ezen a ponton érdemes belegondolni hogy hogy is mÅ±kõdik.
+		 * Mivel a sinek párokba vannak rendezve ezért a lehetséges párok:
 		 * 01,23,45,... indexek
 		 * 
-		 * EzÃ¡ltal ha az "idx" pÃ¡ratlan, akkor az elÃ¶tte lÃ©vÃ¶t kell visszadunk,
-		 * ha pÃ¡ros akkor az utÃ¡na lÃ©vÃ¶t.
-		 *(EzÃ¡ltal akÃ¡r tÃ¶bbes elÃ¡gazÃ¡s is Ã©pÃ­thetÃ¶ lenne)
+		 * Ezáltal ha az "idx" páratlan, akkor az elõtte lévõt kell visszadunk,
+		 * ha páros akkor az utána lévõt.
+		 *(Ezáltal akár tõbbes elágazás is építhetõ lenne)
 		 * 
 		 * Ezt is fogjuk tenni.
 		 */
 		
-		Rail tmp=null; 							/*SegÃ©dvÃ¡ltozÃ³, arra az esetre ha rosszul lenne megadva a Rail*/
-		if(idx%2==0){ 							/*PÃ¡ros indexen vagyunk*/
-			tmp = neighbourRails.get(idx+1);	/*UtÃ¡na lÃ©vÃ¶ a pÃ¡rja*/
-		}else{ 									/*PÃ¡ratlan indexen vagyunk*/
-			tmp =  neighbourRails.get(idx+1); 	/*ElÃ¶tte lÃ©vÃ¶ a pÃ¡rja*/
+		Rail tmp=null; 							/*Segédváltozó, arra az esetre ha rosszul lenne megadva a Rail*/
+		if(idx%2==0){ 							/*Páros indexen vagyunk*/
+			tmp = neighbourRails.get(idx+1);	/*Utána lévõ a párja*/
+		}else{ 									/*Páratlan indexen vagyunk*/
+			tmp =  neighbourRails.get(idx+1); 	/*Elõtte lévõ a párja*/
 		}
-												/* Ha nincs hova lÃ©pnie, akkor null-t adunk vissza */
+												/* Ha nincs hova lépnie, akkor null-t adunk vissza */
 		
 		/**CSONGI EZ IDE MIFASZNAK KELL ? :D */
-		System.out.println("Class: Rail\t\t Object: "+this+"\t\t\t Returned: null"); /* KiÃ­ratÃ¡s a Szkeleton vezÃ©rlÃ©sÃ©nek */
+		System.out.println("Class: Rail\t\t Object: "+this+"\t\t\t Returned: null"); /* Kiíratás a Szkeleton vezérlésének */
 		
-		return tmp; 							/*VisszatÃ©rÃ¼nk*/
+		return tmp; 							/*Visszatérünk*/
 	}
 }
