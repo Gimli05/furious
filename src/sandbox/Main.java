@@ -187,7 +187,7 @@ public class Main {
 					 * ehhez elõbb ki kell billenteni az alternatív helyzetbe, majd onnan vissza.
 					 */
 					GameController gc41 = new GameController();
-					gc41.startNewGame(3);  /* elindítjuk a gameControllert az 3-as pályával  */
+					gc41.startNewGame(1);  /* elindítjuk a gameControllert az 3-as pályával  */
 					gc41.skeletonTesterSwitchASwitch(); /* Beállítjuk a váltót, hogy a feladat kiírásnak megfelelõ alaphelyzetben álljon. */
 					
 					System.out.println("Váltó állítása alaphelyzetbe..."); 
@@ -200,7 +200,7 @@ public class Main {
 					 * és mi szeretnénk a másik állapotába helyezni. Ez majd GUI-n eventekkel történik majd a jövõben.
 					 */
 					GameController gc42 = new GameController();
-					gc42.startNewGame(3);  /* elindítjuk a gameControllert az 3-as pályával  */
+					gc42.startNewGame(1);  /* elindítjuk a gameControllert az 3-as pályával  */
 					
 					
 					System.out.println("Váltó állítása alternatív helyzetbe..."); /*A váltó alapból alap helyzetben van, így csak egy váltás szükséges rajta */
