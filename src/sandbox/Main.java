@@ -79,6 +79,13 @@ public class Main {
 						GameController gc169 = new GameController();
 						gc169.startNewGame(69);  /* elindítjuk a gameControllert az 69-es pályával-  */
 						break;
+						
+						case 70: System.out.println("\nSaveMap Teszt...");
+						/* Ez a programrész akkor fut le, ha a felhasználó a 69. pályát választja. Létrejön egy GameController. */
+						GameController gc170 = new GameController();
+						gc170.startNewGame(1);  /* elindítjuk a gameControllert az 69-es pályával-  */
+						gc170.createMapTestFile(1, "LongTest1");
+						break;
 /**LONG TESZTEL--------------------------*/						
 						/* Ez a programrész akkor fut le, ha a felhasználó nem 1-est vagy kettest adott meg bemenetként. 
 						 * Ilyen pálya ugyanis nincs. Ekkor a program visszatér a fõmenübe. */

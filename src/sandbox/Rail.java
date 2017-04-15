@@ -154,4 +154,16 @@ public class Rail {
 		System.out.println("Class: Rail\t\t Object: "+this+"\t\t\t Method: setTrainLenghtCounter\t Param: "+newCounter+"\t Vonat lépett a sínre."); /* Kiíratás a Szkeleton vezérlésének */
 		trainLenghtCounter = newCounter; /* beállítjuk az új számlálót, hogy még hány kabin kell áthaladjon az adott sínen. Ennyi léptetés ciklusig lesz foglalt. */
 	}
+	
+	
+	/**
+	 * Tesztelésre használt függvény
+	 * 
+	 * Le tudjuk kérni az összes szomszédját egy sinnek
+	 * @return 
+	 */
+	
+	public ArrayList<Rail> getNeighbourRails(){
+		return neighbourRails;
+	}
 }

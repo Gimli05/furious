@@ -3,9 +3,9 @@ package sandbox;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -522,6 +522,52 @@ public class GameController {
 		
 		System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Vonatok léptetése"); /* Kiíratás a Szkeleton vezérlésének */
 		trainCollection.moveAllTrains(); /* Minden egyes vonatot léptetünk eggyel. Késõbb ezt egy thread fogja csinálni, jelen szkeletonban elég ennyi. */
+	}
+	
+	/**
+	 * Kizárólag a teszteléshez létrehozott metódus
+	 * 
+	 * Kiiratjuk a felépített pálya adatait egy fájla hogy késöbb elelnörizhessük öket
+	 * @throws IOException 
+	 */
+	
+	public void createMapTestFile(int mapNumber, String name) throws IOException{
+		PrintWriter writer = new PrintWriter(name+".txt", "UTF-8");
+		
+		String[] splitresult;
+		String result;
+		for(Rail rail:railCollection){
+			splitresult=rail.toString().split("@");
+			result=rail.getClass().getSimpleName();
+			
+			System.out.println(rail.getClass().getSimpleName());
+			
+			/*Ha állomásunk volt, annak szine is van*/
+			if(rail.getClass().getSimpleName().toString().trim().equals("TrainStation")){
+				Color c =((TrainStation)rail).getColor();
+				if (c.equals(Color.RED)) result+= "1";
+				if (c.equals(Color.GREEN)) result+= "2";
+				if (c.equals(Color.BLUE)) result+= "3";
+			}
+			
+			result+=" ["+ rail.getX() +","+rail.getY()+"]"+
+					" ("+ splitresult[1] +")";
+			result+=" {";
+			int comacounter=rail.getNeighbourRails().size() -1; /*Elemszám -1 vesszöt kell letennünk majd a fájlba*/
+			for(Rail neighbour:rail.getNeighbourRails()){
+				splitresult=neighbour.toString().split("@");
+				result+=splitresult[1];
+				if(comacounter>0){
+					comacounter--;
+					result+=",";
+				}
+			}
+			result+="}";
+			writer.println(result);
+		}
+		writer.close();
+		System.out.println("Save Done");
+		MapCreationTest.main("maps/map" + mapNumber + ".txt", name+".txt");
 	}
 
 }
