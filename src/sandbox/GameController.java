@@ -488,6 +488,10 @@ public class GameController {
 	
 	/**
 	 * Váltót lehet vele állítani, meg alagutat építeni.
+	 * Ha a paraméterül kapott helyen lévõ elemrõl kideríti, hogy alagútszáj-e; ha igen, akkor aktiválva van-e.
+	 * Ha igen, deaktiválja, ha nem , aktiválja. Ha ez alagút építést/bontást von maga után, akkor megteszi.
+	 * Ezzel egyidõben átállítja az alagútszáj váltóját is (aktiválás -> be az alagútba, deaktiválás -> alaphelyzetbe).
+	 * Ha a kattintott elem váltó, akkor átállítja.
 	 * Jelenleg nincs TELJESEN kész, a grafikus részben ezt fel kell majd iratkoztatni a kattintásra.
 	 * Jelenleg a kapott koordináta így nem a kattintásé, hanem a konkrét elemé amire kattintani akarunk.
 	 * Ha mondjuk a cellák 20*20 pixelesek lesznek és ide az érkezik, hogy 33, 21, akkor ebbõl még le kell hozni, hogy ez az 1-1-es indexû cella.
@@ -780,5 +784,101 @@ public class GameController {
 		System.out.println("Save Done");
 		MapCreationTest.main("maps/map" + mapNumber + ".txt", name+".txt");
 	}
+	
+	
+	/**
+	 * kirajzolja a pályát a konzolra
+	 */
+	public void drawToConsole(){
+		
+		int maxX = 0;		/* mi a legnagyobb x index ( = pályaszélesség - 1) */
+		int maxY = 0;		/* mi a legnagyobb y index ( = pályamagasság - 1) */
+		for (Rail rail : railCollection) {
+			if (rail.getY() > maxY) {
+				maxY = rail.getY();
+			}
+			if (rail.getX() > maxX) {
+				maxX = rail.getX();
+			}
+		}
+		
+		Rail[][] mapToDraw = new Rail[maxY + 1][maxX + 1];	/* sajnos a railcollectionben nem sorfojtonosan egymás
+														után vannak az elemek. Kell egy map helyette */
+		for (Rail rail : railCollection) {
+			mapToDraw[rail.getY()][rail.getX()] = rail;	/*feltöltjük a mapet */
+		}
+		
+		char[][] charMap = new char[maxY + 1][maxX + 1]; /* ebben vannak a konkrét karakterek amiket ki fogunk írni */
+		for (char[] cs : charMap) {
+			for (char c : cs) {
+				c = ' '; 								/* kezdetben minden legyen üres, majd felül lesznek írva elemekkel */	
+			}
+		}
+		
+		
+		for (int line = 0; line < maxY + 1; line++) {	/* charmap feltöltése kiírandó betûkkel a mapToDraw alapján */
+			for (int col = 0; col < maxX + 1; col++) {
+				if (mapToDraw[line][col] == null) {		/* Ha egy cella üres a mapToDraw-ban, akkor az a charMap-ben ' ' marad */
+					continue;
+				}
+				switch (mapToDraw[line][col].getClass().getSimpleName()) {
+				case "Rail":
+					charMap[line][col] = 'R';
+					break;
+				case "EnterPoint":
+					charMap[line][col] = 'E';
+					break;
+				case "Switch":
+					charMap[line][col] = 'S';
+					break;
+				case "Tunnel":
+					charMap[line][col] = 'T';
+					break;
+				case "TunnelEntrance":
+					charMap[line][col] = 'U';
+					break;
+				case "XRail":
+					charMap[line][col] = 'X';
+					break;
+				case "TrainStation":
+					TrainStation ts = (TrainStation)mapToDraw[line][col];
+					if (ts.getColor() == Color.RED) {
+						charMap[line][col] = '1';
+					}
+					if (ts.getColor() == Color.GREEN){
+						charMap[line][col] = '2';
+					}
+					if (ts.getColor() == Color.BLUE){
+						charMap[line][col] = '3';
+					}
 
+				default:
+					break;
+				}
+			}
+		}
+		
+		/*------------------- Idáig csak a statikus pálya kiírása volt, innetõl jön a vonat berakása -------------------*/
+		
+		for (int line = 0; line < maxY + 1; line++) {	/* foglalt sínt átírjuk 'V'-re (V mint Vonat) Sajnos a síneknek fogalmuk sincs pontosan mi lépett rájuk */
+			for (int col = 0; col < maxX + 1; col++) {
+				if (mapToDraw[line][col] == null) {
+					continue;
+				}
+				if (mapToDraw[line][col].checkIfOccupied()) {
+					if (charMap[line][col] != 'T') {		/* Alagútban nem látszódhat a vonat. Ha a betû eredetilet 'T' volt, meghagyjuk */
+						charMap[line][col] = 'V';
+					}
+				}
+			}
+		}
+		
+		
+		for (char[] cs : charMap) {			/* maga a konzolra írás */
+			for (char c : cs) {
+				System.out.print(c);
+			}
+			System.out.println();
+		}
+	}
 }
