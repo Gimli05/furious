@@ -9,9 +9,21 @@ import java.util.ArrayList;
  * vagy egy leszármazottját, megtudható a getNextrRail metódus segítségével és a vonat previousRail attribútumával együtt, hogy a vonatnak merre kell továbblépnie.
  */
 public class Rail {
-	protected ArrayList<Rail> neighbourRails; /* Egy lista a szomszédos sínekre mutató pointerekrõl, mely az adott sín közvetlen közelében találhatóak. */
-	protected int trainLenghtCounter; /* Ebben tároljuk, hogy hány kabin fog még áthaladni a sínen (mivel a Train entity csak 1 mezõt foglal el konkrétan) */
-	protected int x,y; /*Pozício két koordinátája. Ez az alagút létrehozása miatt fontos, mivel akár több alagútszály is lehet, melyek között procedurálisan jön létre az alagút.*/
+	
+	/**
+	 * Egy lista a szomszédos sínekre mutató pointerekrõl, mely az adott sín közvetlen közelében találhatóak.
+	 */
+	protected ArrayList<Rail> neighbourRails;
+	
+	/**
+	 * Ebben tároljuk, hogy hány kabin fog még áthaladni a sínen (mivel a Train entity csak 1 mezõt foglal el konkrétan)
+	 */
+	protected int trainLenghtCounter;
+	
+	/**
+	 * Pozício két koordinátája. Ez az alagút létrehozása miatt fontos, mivel akár több alagútszály is lehet, melyek között procedurálisan jön létre az alagút.
+	 */
+	protected int x,y;
 	
 	/**
 	 * A Rail konstruktora. Beállítjaa countert 0-ra.
@@ -25,22 +37,27 @@ public class Rail {
 	
 	/**
 	 *  X koordinátát kérjük le
+	 *  
+	 *  @return a sín X koordinátája
 	 */
-	public int getX(){/* Visszatér az X koordinátával */
+	public int getX(){
 		return x;
 	}
 		
 	
 	/**
 	 *  Y koordinátát kérjük le
+	 *  
+	 *  @return a sín Y koordinátája
 	 */
-	public int getY(){ /* Visszatér az Y koordinátával */
+	public int getY(){
 		return y;
 	}
 	
 	
 	/**
 	 * X koordinátát beállító függvény.
+	 * 
 	 * @param x2	az új X koordináta
 	 */
 	public void setX(int x2) {
@@ -51,6 +68,7 @@ public class Rail {
 	
 	/**
 	 * Y koordinátát beállító függvény.
+	 * 
 	 * @param y2	az új Y koordináta
 	 */
 	public void setY(int y2){
@@ -158,9 +176,9 @@ public class Rail {
 	
 	/**
 	 * Tesztelésre használt függvény
-	 * 
 	 * Le tudjuk kérni az összes szomszédját egy sinnek
-	 * @return 
+	 * 
+	 * @return a szomszédok
 	 */
 	
 	public ArrayList<Rail> getNeighbourRails(){

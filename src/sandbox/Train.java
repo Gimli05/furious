@@ -11,21 +11,34 @@ import java.util.ArrayList;
  * Le tudja szállítani az utasokat a vagonjairól, ha az állomás amire rálép a mozdony, olyan színû mint a legelsõ nem üres vagonnak.
  */
 public class Train implements Visitor{
-	private Rail nextRail;  /* A következõ sínre mutató pointer. A következõ léptetéskor ezen fog meghívódni a rail accept() függvénye. */
 	
-	private Rail previousRail; /* Ez tárolja, hogy honnan jött a vonat. Ennek segítségével a Railek könnyedén meg tudják mondani, 
-								* hogy a lehetséges útvonalak közül melyik az, amerre tovább kell haladnia a vonatnak. */
+	/**
+	 * A következõ sínre mutató pointer. A következõ léptetéskor ezen fog meghívódni a rail accept() függvénye.
+	 */
+	private Rail nextRail;
 	
-	private Engine engine; /* A mozdony a vonatban. */
+	/**
+	 * Ez tárolja, hogy honnan jött a vonat. Ennek segítségével a Railek könnyedén meg tudják mondani,
+	 * hogy a lehetséges útvonalak közül melyik az, amerre tovább kell haladnia a vonatnak.
+	 */
+	private Rail previousRail;
 	
-	private ArrayList<Cab> cabins; /* A vonatban található kabinok listája. Mindegyik kabin egy saját színnel rendelkezik, 
-									* melyek a mozdonytól hátrafelé tudnak kiürülni, 
-									* amennyiben az elõttük levõ kabin már üres és a saját színükkel egyezõ színû állomásra értek. */
+	/**
+	 * A mozdony a vonatban.
+	 */
+	private Engine engine;
 	
+	/**
+	 * A vonatban található kabinok listája. Mindegyik kabin egy saját színnel rendelkezik,
+	 * melyek a mozdonytól hátrafelé tudnak kiürülni,
+	 * amennyiben az elõttük levõ kabin már üres és a saját színükkel egyezõ színû állomásra értek.
+	 */
+	private ArrayList<Cab> cabins;
 	
 	/**
 	 * A vonat konstruktora. Listában megkapja a kabinok színeit.
 	 * Ahány kabin színt kap, annyi kabint fog létrehozni, mindegyik kabint tele tölti utassal.
+	 * 
 	 * @param cabColors	A kabinok színeit tartalmazó lista.
 	 */
 	public Train(ArrayList<Color> cabColors){
@@ -189,7 +202,7 @@ public class Train implements Visitor{
 				System.out.println("Class: Train\t\t Object: "+this+"\t\t\t Az állomás és a vonat színe nem egyezik!");
 			}
 		
-			/**Itt ellenörizzük hogy valaki fel akar-e szállni*/		
+			/*Itt ellenörizzük hogy valaki fel akar-e szállni*/		
 			Color passengersColor= rail.getPassengersColor();	/*Utasok színe segédváltozóba*/
 			if(passengersColor!=Color.BLACK){ 					/*Ha van utasunk*/			
 				for(Cab cab: cabins){							/*Minden cab-et átnézünk*/
@@ -200,7 +213,7 @@ public class Train implements Visitor{
 					}
 				}
 			}	
-			/**Itt ér véget a felszállítás*/
+			/*Itt ér véget a felszállítás*/
 			
 		} else {
 			GameController.loseEvent(); /* Ha foglalt a sín, akkor a vonat ütközött, ezért meghívjuk a GameController loseEvent-jét, 

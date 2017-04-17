@@ -8,8 +8,14 @@ import java.util.ArrayList;
  * Ekkor a vonat nextRail attribútuma kezdõértékként arra az enterPointra mutat ahonnan a vonatot indítani szeretnénk.
  */
 public class TrainCollection {
-	private ArrayList<Train> trains; /* Ebben a listában tároljuk a vonatokat. */
 	
+	/** Ebben a listában tároljuk a vonatokat. **/
+	private ArrayList<Train> trains;
+	
+	/**
+	 * A TrainCollection konstruktora
+	 * Létrehoz egy új listát ami vonatokat tartalmaz.
+	 */
 	public TrainCollection (){
 		System.out.println("Class: TrainCollection\t Object: "+this+"\t Method: Constructor\t "); /* Kiíratás a Szkeleton vezérlésének */
 		trains = new ArrayList<Train>(); /* létrehozunk egy új listát */
@@ -55,7 +61,7 @@ public class TrainCollection {
 	
 	/**
 	 * Megnézzük hogy még van e nem üres vagon bármelyik vonatban.
-	 * Ha van, akkor hamissal, ha nincs akkor igazzal térünk vissza.
+	 * @param	Ha van, akkor hamissal, ha nincs akkor igazzal térünk vissza.
 	 */
 	public boolean isAllEmpty(){
 		System.out.println("Class: TrainCollection\t Object: "+this+"\t Method: isAllEmpty\t "); /* Kiíratás a Szkeleton vezérlésének */

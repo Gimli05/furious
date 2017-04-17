@@ -7,16 +7,23 @@ import java.util.ArrayList;
  * Ha van két aktív alagútszáj a pályán, akkor váltóként mûködik, aminek a két lehetséges állása van. Az egyik az eddig is létezõ irány, a másik a létrejött alagút felé mutat.
  */
 public class TunnelEntrance extends Switch{
-	private Boolean isActivated; /* Megadja, hogy az adott alagút száj aktiválva van-e. Ha nincs aktiválva, akkor false az értéke, ha aktiválva van, akkor true. 
-								  * Amíg inaktív, addig egyszerû sínként mûködik az alagút száj, és tovább engedi egyenes irányba az érkezõ vonatokat. 
-								  * Amint két alagútszájat aktivál a játékos, a két alagútszájat alagút köti össze. Amikor a felhasználó aktiválja, lefut az activate() függvény, 
-								  * mely hatására a bool igazzá válik. Aktív állapotban a funkcióját tekintve váltóként üzemel, ugyanis ebben az esetben egyenesen, 
-								  * vagy oldalra is el tudja irányítani a vonatot (bele az alagútba).*/
 	
+	/**
+	 * Megadja, hogy az adott alagút száj aktiválva van-e. Ha nincs aktiválva, akkor false az értéke, ha aktiválva van, akkor true. 
+	 * Amíg inaktív, addig egyszerû sínként mûködik az alagút száj, és tovább engedi egyenes irányba az érkezõ vonatokat. 
+	 * Amint két alagútszájat aktivál a játékos, a két alagútszájat alagút köti össze. Amikor a felhasználó aktiválja, lefut az activate() függvény, 
+	 * mely hatására a bool igazzá válik. Aktív állapotban a funkcióját tekintve váltóként üzemel, ugyanis ebben az esetben egyenesen, 
+	 * vagy oldalra is el tudja irányítani a vonatot (bele az alagútba).
+	 */
+	private Boolean isActivated; 
 	
+	/**
+	 * TunnelEntrance konstruktora. 
+	 * alapértelmezetten egyik alagútszáj sincs aktiválva.
+	 */
 	public TunnelEntrance(){
 		System.out.println("Class: TunnelEntrance\t Object: "+this+"\t Method: Constructor\t"); /* Kiíratás a Szkeleton vezérlésének */
-		isActivated = false; /* alapértelmezetten egyik alagútszáj sincs aktiválva. */
+		isActivated = false;
 	}
 	
 	/**
@@ -48,6 +55,7 @@ public class TunnelEntrance extends Switch{
 	
 	/**
 	 * Megmondja, hogy aktív-e az alagútszáj.
+	 * 
 	 * @return	Aktív-e az alagútszáj.
 	 */
 	public Boolean checkIfActivated(){
@@ -63,6 +71,7 @@ public class TunnelEntrance extends Switch{
 	 * 
 	 * @param visitor A látogató, melyet fogadni tud.
 	 */
+	@Override
 	public void accept(Visitor visitor){
 		System.out.println("Class: TunnelEntrance\t\t Object: "+this+"\t\t\t Method: Accept\t Param: "+visitor); /* Kiíratás a Szkeleton vezérlésének */
 		visitor.visit(this); /* Elfogadjuk a visitort, és átadjuk magunkat, hogy nézzen meg minket. */

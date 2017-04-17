@@ -11,12 +11,19 @@ import java.util.Scanner;
  */
 public class Main {
 	public static void main(String[] args) throws IOException{
+		
+		/**
+		 * Ezzel történik a konzolon felhasználó által bemeneten megadott karakter beolvasása
+		 */
 		 Scanner scanner = new Scanner(System.in);
 		 /* Ezzel történik majd a konzolon felhasználó által bemeneten megadott karakter beolvasása */
 		 
+		 
+		 /**
+		  * Ez a boolean változó felel azért, hogy a fõciklus ami a teszteket tartalmazza folyamatosan fusson egészen
+		  * addig amíg az értékét át nem állítják false-ba
+		  */
 		 boolean run = true;
-		 /* Ez a boolean változó felel azért, hogy a fõciklus ami a teszteket tartalmazza folyamatosan fusson egészen */
-		 /* addig amíg az értékét át nem állítják false-ba */
 		 
 		 /* A skeleton tesztelõ fõciklusa. Folyamatosan fut, amíg a run értékét át nem írják false-ba. Ezt a kilépésre
 		  * szolgáló billentyû lenyomásával lehet parancsba adni.

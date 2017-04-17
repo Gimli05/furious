@@ -9,12 +9,15 @@ import java.awt.Color;
  * Megnézi, hogy megegyezik-e ennek a vagonnak a színe a színe az állomáséval, és ha igen, akkor kiüríti a vagont (emptyCab).
  */
 public class Cab extends TrainElement{
-	protected Boolean hasPassenger;/* Ebben a változóban tároljuk, hogy az adott vagonban vannak-e még utasok. True ha vannak benne utasok, false ha nincsenek. */
+	/**
+	 * Ebben a változóban tároljuk, hogy az adott vagonban vannak-e még utasok. True ha vannak benne utasok, false ha nincsenek.
+	 */
+	protected Boolean hasPassenger;
 	
 	
 	/**
 	 * A kabin konstruktora. 
-	 * 
+	 * Kezdetben teli, a paraméterben lapott színre lesz beállítva
 	 * @param cabColor	Az adott kabin színe.
 	 */
 	public Cab(Color cabColor){
@@ -50,6 +53,9 @@ public class Cab extends TrainElement{
 	 * Ha a kocsink üres lehetöségünk van felszállítani rá utasokat.
 	 * A függvény feladatoa, hogy amennyiben fel tudja rá tenni az utasokat felrakja.
 	 * Ez akkor lehetséges ha a vagon üres és az utasok színe megegyezik a vonatével.
+	 * 
+	 * @param passengersColor	az utas színe
+	 * @return	sikerült-e felszállítani az utast vagy sem
 	 */
 	
 	public boolean addPassenger(Color passengersColor){

@@ -26,7 +26,7 @@ public class XRail extends Rail{
 			idx++;							 				/*Megkeressük hogy hányadik indexen van*/
 		}
 		
-		/**
+		/*
 		 * Ezen a ponton érdemes belegondolni hogy hogy is mûködik.
 		 * Mivel a sinek párokba vannak rendezve ezért a lehetséges párok:
 		 * 01,23,45,... indexek
@@ -46,9 +46,20 @@ public class XRail extends Rail{
 		}
 												/* Ha nincs hova lépnie, akkor null-t adunk vissza */
 		
-		/**CSONGI EZ IDE MIFASZNAK KELL ? :D */
 		System.out.println("Class: Rail\t\t Object: "+this+"\t\t\t Returned: null"); /* Kiíratás a Szkeleton vezérlésének */
 		
 		return tmp; 							/*Visszatérünk*/
+	}
+	
+	/**
+	 * A visitor tervezési minta egyik függvénye. 
+	 * Ennek segítségével Bármelyik sín típus könnyedén fogadhat látogatót, melyek ezen overloadolt függvény segítségével mindegyik végre tudja hajtani a saját funkcióját.
+	 * 
+	 * @param visitor A látogató, melyet fogadni tud.
+	 */
+	@Override
+	public void accept(Visitor visitor){
+		System.out.println("Class: Switch\t\t Object: "+this+"\t\t\t Method: Accept\t Param: "+visitor); /* Kiíratás a Szkeleton vezérlésének */
+		visitor.visit(this); /* Elfogadjuk a visitort, és átadjuk magunkat, hogy nézzen meg minket. */
 	}
 }

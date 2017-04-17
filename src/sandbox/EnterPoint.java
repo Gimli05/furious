@@ -8,6 +8,8 @@ import java.util.ArrayList;
  * a szerelvény egy Michael Bay Effekt keretében felrobban, és a játékos veszít.
  */
 public class EnterPoint extends Rail {
+	
+	/** Belépési pont konstruktora **/
 	public EnterPoint(){
 		System.out.println("Class: EnterPoint\t Object: "+this+"\t\t Method: Constructor\t "); /* Kiíratás a Szkeleton vezérlésének */
 	}
@@ -18,6 +20,7 @@ public class EnterPoint extends Rail {
 	 * 
 	 * @param visitor A látogató, melyet fogadni tud.
 	 */
+	@Override
 	public void accept(Visitor visitor){
 		System.out.println("Class: EnterPoint\t\t Object: "+this+"\t\t\t Method: Accept\t Param: "+visitor); /* Kiíratás a Szkeleton vezérlésének */
 		visitor.visit(this); /* Elfogadjuk a visitort, és átadjuk magunkat, hogy nézzen meg minket. */

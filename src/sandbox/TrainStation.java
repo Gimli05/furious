@@ -7,10 +7,18 @@ import java.util.ArrayList;
  * Speciális sín. Van színe. Amennyiben egy vagon halad el rajta megegyezõ színnel, a vagonról az utasok leszállnak.
  */
 public class TrainStation extends Rail{
-	private Color color; /* Az állomás színe. 
-						  * Ahhoz hogy egy adott vagonból leugorjanak az utasok az állomásnak és a mozdonytól hátrafelé elsõ nem üres kabinnak a színe meg kell egyezzen. */
 	
-	private Color passengersColor; /*Van e utas a megállóban, ha fekete akkor nincs, ha bármi más akkor van*/
+	/**
+	 * Az állomás színe. 
+	 * Ahhoz hogy egy adott vagonból leugorjanak az utasok az állomásnak és a mozdonytól hátrafelé elsõ nem üres kabinnak a színe meg kell egyezzen.
+	 */
+	private Color color;
+	
+	/**
+	 * Van e utas a megállóban, ha fekete akkor nincs, ha bármi más akkor van
+	 */
+	private Color passengersColor;
+	
 	/**
 	 * A megálló konstruktora.
 	 * 
@@ -24,6 +32,7 @@ public class TrainStation extends Rail{
 	
 	/**
 	 * Megadja az állomás színét. Amikor visitel a vonat, a vonat lekérdezi milyen színû az állomás majd ez alapján cselekszik. 
+	 * 
 	 * @return	Az állomás színe
 	 */
 	public Color getColor(){
@@ -39,6 +48,7 @@ public class TrainStation extends Rail{
 	 * 
 	 * @param visitor A látogató, melyet fogadni tud.
 	 */
+	@Override
 	public void accept(Visitor visitor){
 		System.out.println("Class: TrainStation\t\t Object: "+this+"\t\t\t Method: Accept\t Param: "+visitor); /* Kiíratás a Szkeleton vezérlésének */
 		visitor.visit(this); /* Elfogadjuk a visitort, és átadjuk magunkat, hogy nézzen meg minket. */
@@ -47,6 +57,8 @@ public class TrainStation extends Rail{
 	/**
 	 * Megadja hogy van e utas a megállóban, és ha igen akkor milyen színü.
 	 * Ha nincs utas akkor feketével jelezzük;
+	 * 
+	 * @return A megállóban lévõ utasok színe
 	 */
 	public Color getPassengersColor(){
 		return passengersColor;

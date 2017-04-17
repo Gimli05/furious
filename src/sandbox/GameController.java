@@ -14,15 +14,32 @@ import java.util.ArrayList;
  * és a játék kimenetelének eldöntéséért és ennek lekezeléséért. Felelõs továbbá annak felügyeléséért, hogy csak két alagútszáj lehessen egyszerre aktív.
  */
 public class GameController {
-	private static Boolean isTheGameRunning; /* Megadja, hogy éppen folyamatban van-e játék. True, ha igen, false ha nem. */
 	
-	private static ArrayList<Rail> railCollection; /* A síneket tároló arraylist. A pálya betöltése után ebben tároljuk el a teljes sínhálózatot */
+	/**
+	 * Megadja, hogy éppen folyamatban van-e játék. True, ha igen, false ha nem.
+	 */
+	private static Boolean isTheGameRunning;
 	
-	private static TrainCollection trainCollection; /* A vonatokat tároló kollekció. A játék futása során az adott pályához tartozó ütemezés szerint adagoljuk 
-											  * a pályához tartozó hosszúságú vonatokat a tárolóba a tároló addTrain(Train) metódusával.*/
+	/**
+	 * A síneket tároló arraylist. A pálya betöltése után ebben tároljuk el a teljes sínhálózatot
+	 */
+	private static ArrayList<Rail> railCollection;
 	
-	private static int activeEntranceCounter; /* Az aktív alagútszályak számát tárolja. Segítségével, ha két aktív alagútszály van, akkor létrejöhet az alagút közöttük. */
-	private static int lastPlayedMapNumber; /* Ebben tároljuk, melyik pályát indítottuk el legutoljára. */
+	/**
+	 * A vonatokat tároló kollekció. A játék futása során az adott pályához tartozó ütemezés szerint adagoljuk 
+	 * a pályához tartozó hosszúságú vonatokat a tárolóba a tároló addTrain(Train) metódusával.
+	 */
+	private static TrainCollection trainCollection;
+	
+	/**
+	 * Az aktív alagútszályak számát tárolja. Segítségével, ha két aktív alagútszály van, akkor létrejöhet az alagút közöttük.
+	 */
+	private static int activeEntranceCounter;
+	
+	/**
+	 * Ebben tároljuk, melyik pályát indítottuk el legutoljára.
+	 */
+	private static int lastPlayedMapNumber;
 	
 	
 	/**
@@ -40,6 +57,8 @@ public class GameController {
 	 * Új játék indítására szolgáló függvény. Megjeleníti a játékosnak a választható pályák listáját. 
 	 * Miután a játékos kiválasztotta melyik pályán akar játszani, betölti a pályához tartozó sínhálózatot és vonat ütemezést. 
 	 * Ezután elindítja a vonatok léptetéséért felelõs szálat.
+	 * 
+	 * @param mapNumber	a betöltendõ pálya sorszáma
 	 */
 	public static void startNewGame(int mapNumber){
 		System.out.println("Class: GameController\t Object: Object: GameController@STATIC\t Method: startNewGame\t Param: "+mapNumber); /* Kiíratás a Szkeleton vezérlésének */
@@ -113,6 +132,8 @@ public class GameController {
 	 *  
 	 * Ekkorra minden szomszédosság fel van építve és minden mezö megjelenik a collection-ban.
 	 * A metódus visszatér.
+	 *  
+	 *  @param	filename	a beolvasandó file neve
 	 *  
 	 */
 	
@@ -245,6 +266,8 @@ public class GameController {
     
     /**
      * Meg kell nézni minden léptetés után hogy a vonatok kiürültek e
+     * 
+     * @return Ha mindegyik vonat kiürült, akkor igazzal térünk vissza, egyébként hamissal.
      */ 
     private boolean hasTheGameEnded(){
     	System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: hasTheGameEnded\t Vonatok uressegenek ellenorzese"); /* Kiíratás a Szkeleton vezérlésének */
@@ -465,7 +488,7 @@ public class GameController {
 	
 	/**
 	 * Váltót lehet vele állítani, meg alagutat építeni.
-	 * FONTOS!!! Jelenleg nincs TELJESEN kész, a grafikus részben ezt fel kell majd iratkoztatni a kattintásra.
+	 * Jelenleg nincs TELJESEN kész, a grafikus részben ezt fel kell majd iratkoztatni a kattintásra.
 	 * Jelenleg a kapott koordináta így nem a kattintásé, hanem a konkrét elemé amire kattintani akarunk.
 	 * Ha mondjuk a cellák 20*20 pixelesek lesznek és ide az érkezik, hogy 33, 21, akkor ebbõl még le kell hozni, hogy ez az 1-1-es indexû cella.
 	 * Ha ez megvan onnantól viszont ez már jó kell hogy legyen
@@ -674,7 +697,7 @@ public class GameController {
 	 * Kizárólag a teszteléshez létrehozott metódus
 	 * A Main-tõl megadott paraméterekkel létrehoz egy vonatot,
 	 * 
-	 * @param cabinColors
+	 * @param cabinColors	A kabinok színének listája amibõl a vonat felépül
 	 */
 	public void skeletonTesterAddNewTrain(ArrayList<Color> cabinColors){
 		
@@ -697,6 +720,10 @@ public class GameController {
 		trainCollection.addNewTrain(testTrain); /* Hozzáadjuk a trainCollection-be az új vonatot. */
 	}
 	
+	/**
+	 * Kizárólag a teszteléshez létrehozott metódus
+	 * Lépteti a vonatokat egyszer.
+	 */
 	public void skeletonTesterMakeTrainsMove(){
 		System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Ütközéshez szükséges vonat hossz számlálók csökkentése");/* Kiíratás a Szkeleton vezérlésének */
 		for(Rail oneRail: railCollection){ /* Minden eggyes sínnek csökkentjük eggyel a rajta még áthaladó kabinok számát, mivel lép egyet minden vonat. */
@@ -711,9 +738,10 @@ public class GameController {
 	 * Kizárólag a teszteléshez létrehozott metódus
 	 * 
 	 * Kiiratjuk a felépített pálya adatait egy fájla hogy késöbb elelnörizhessük öket
+	 * @param mapNumber	a betöltendõ pálya száma
+	 * @param name ez lesz a létrehozott fájl neve
 	 * @throws IOException 
 	 */
-	
 	public void createMapTestFile(int mapNumber, String name) throws IOException{
 		PrintWriter writer = new PrintWriter(name+".txt", "UTF-8");
 		
