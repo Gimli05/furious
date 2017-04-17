@@ -463,6 +463,189 @@ public class GameController {
 		}
 	}
 	
+	/**
+	 * Váltót lehet vele állítani, meg alagutat építeni.
+	 * FONTOS!!! Jelenleg nincs TELJESEN kész, a grafikus részben ezt fel kell majd iratkoztatni a kattintásra.
+	 * Jelenleg a kapott koordináta így nem a kattintásé, hanem a konkrét elemé amire kattintani akarunk.
+	 * Ha mondjuk a cellák 20*20 pixelesek lesznek és ide az érkezik, hogy 33, 21, akkor ebbõl még le kell hozni, hogy ez az 1-1-es indexû cella.
+	 * Ha ez megvan onnantól viszont ez már jó kell hogy legyen
+	 * 
+	 * @param X	Kattintás X koordinátája
+	 * @param Y	Kattintás Y koordinátája
+	 */
+	
+	public void clickHandler(int X, int Y){
+		for(Rail rail:railCollection){
+			if(rail.getX() == X && rail.getY() == Y){  /* Megkeressük a kattintott elemet */
+				try {
+					TunnelEntrance thisEntrance = (TunnelEntrance)rail;			/* megpróbáljuk átkasztolni */
+					thisEntrance.switchRail();					/* ha sikerült, átállítjuk */
+					
+					if (thisEntrance.checkIfActivated()) {
+						thisEntrance.deActivate();
+						activeEntranceCounter--;
+						if (activeEntranceCounter == 1) {				/* bontani kell */
+							for (Rail rail2 : railCollection) {			/* kikeressük a másik nyitott alagútszájat */
+								try {
+									TunnelEntrance otherEntrance = (TunnelEntrance)rail2;
+									if (otherEntrance.checkIfActivated() == false) {
+										continue;						/* ha zárt, folytatjuk a keresést */
+									}
+									
+									/* +  +  +  +  Innentõl Long kódja a skeletonTesterbõl +  +  +  +  */
+									
+									System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Alagút lerombolása"); /* Kiíratás a Szkeleton vezérlésének */
+									
+									Boolean railCollectionIsFreeOfTunnels = false; /* A railCollectionben még vannak Tunnelek. Mivel deaktiváltunk egy alagútszájat, az eddigi alagutat meg kell szûntetni. */
+									
+									while(!railCollectionIsFreeOfTunnels){ /* Amíg nem lesz Tunnel mentes a railCollection */
+										railCollectionIsFreeOfTunnels = true; /* Feltesszük, hogy üres, ha nem volt az akkor ezt a for-ban átírjuk. */
+										Rail railToGetDeleted = null; /* Ezt akarjuk majd törölni */
+										
+										for(Rail rail3:railCollection){ /* Végigmegyünk az összes sínen */
+											if(rail3.getClass() == Tunnel.class){ /* Ha találtunk egy tunnelt, azt megjelöljük mint törlendõ sín és beállítjuk, hogy még nem volt tiszta a railCollection */
+												railToGetDeleted = rail3;
+												railCollectionIsFreeOfTunnels = false;
+											}
+										}
+										
+										if(!railCollectionIsFreeOfTunnels){ /* Ha talátunk törlendõ elemet akkor azt itt most ki is töröljük. */
+											railCollection.remove(railToGetDeleted); /* Kitöröljük */
+										}
+									}
+									break;
+									
+								} catch (Exception e) {
+									// TODO: handle exception
+								}
+							}
+						}
+					} 
+					
+					else {
+						thisEntrance.activate();
+						activeEntranceCounter++;
+						if (activeEntranceCounter == 2) {				/* építeni kell */
+							for (Rail rail2 : railCollection) {			/* kikeressük a másik nyitott alagútszájat */
+								try {
+									TunnelEntrance otherEntrance = (TunnelEntrance)rail2;
+									if (thisEntrance.equals(otherEntrance) || otherEntrance.checkIfActivated() == false) {
+										continue;						/* ha ugyanazt az alagútszájat találtuk meg megint, vagy zárt, folytatjuk a keresést */
+									}
+									
+									/* +  +  +  +  Innentõl Long kódja a skeletonTesterbõl +  +  +  +  */
+									
+									/*Segédváltozók*/
+									int e1X=thisEntrance.getX();
+									int e1Y=thisEntrance.getY();
+									int e2X=otherEntrance.getX();
+									int e2Y=otherEntrance.getY();
+									
+									ArrayList<Rail> newTunnels= new ArrayList<Rail>();
+									Tunnel tmp;
+									
+									/*Az elsõ része a belépési pont lesz*/
+									newTunnels.add(thisEntrance);
+									
+									/*Viszintes tengelyen vizsgáljuk*/
+									/*Ha az elsö alagut jobbrább van*/
+									
+									if(e1X>e2X){										
+										while(e1X>e2X){									/*Amig nem érünk egy szintre a kijárattal*/
+											if(e1X-1==e2X && e1Y==e2Y){ 				/*Pont tõle jobbra van a kijárat*/
+												newTunnels.add(otherEntrance);				/*Bekötjük a kijárathoz*/
+												e1X--;
+											}else{ 										/*Ha ez még csak egy alagut*/
+												e1X--; 									/*Közelebb hozzuk*/
+												tmp=new Tunnel();						/*Létrehozzuk és beállítjuk az adatait*/
+												tmp.setX(e1X);
+												tmp.setY(e1Y);
+												newTunnels.add(tmp); 					/*Felépitjük*/
+											}
+										}
+									}
+									/*Ha az elsö alagut balrább van*/
+									else if(e1X<e2X){
+										while(e1X<e2X){									/*Amig nem érünk egy szintre a kijárattal*/
+											if(e1X+1==e2X && e1Y==e2Y){				/*Pont tõle balrara van a kijárat*/
+												newTunnels.add(otherEntrance);				/*Bekötjük a kijárathoz*/
+												e1X++;
+											}else{ 										/*Ha ez még csak egy alagut*/
+												e1X++; 									/*Közelebb hozzuk*/
+												tmp=new Tunnel();						/*Létrehozzuk és beállítjuk az adatait*/
+												tmp.setX(e1X);
+												tmp.setY(e1Y);
+												newTunnels.add(tmp); 					/*Felépitjük*/
+											}
+										}
+									}
+									
+									/*Függöleges tengelyen vizsgáljuk*/
+									/*Ha az elsö alagut feljebb van*/
+									if(e1Y>e2Y){										
+										while(e1Y>e2Y){									/*Amig nem érünk egy szintre a kijárattal*/
+											if(e1Y-1==e2Y && e1X==e2X){ 				/*Pont felette van a kijárat*/
+												newTunnels.add(otherEntrance);				/*Bekötjük a kijárathoz*/
+												e1Y--;
+											}else{ 										/*Ha ez még csak egy alagut*/
+												e1Y--; 									/*Közelebb hozzuk*/
+												tmp=new Tunnel();						/*Létrehozzuk és beállítjuk az adatait*/
+												tmp.setX(e1X);
+												tmp.setY(e1Y);
+												newTunnels.add(tmp); 					/*Felépitjük*/
+											}
+										}
+									}
+									/*Ha az elsö alagut lejjebb van*/
+									else if(e1Y<e2Y){
+										while(e1Y<e2Y){									/*Amig nem érünk egy szintre a kijárattal*/
+											if(e1Y+1==e2Y && e1X==e2X){ 				/*Pont alatta van a kijárat*/
+												newTunnels.add(otherEntrance);				/*Bekötjük a kijárathoz*/
+												e1Y++;
+											}else{ 										/*Ha ez még csak egy alagut*/
+												e1Y++;									/*Közelebb hozzuk*/
+												tmp=new Tunnel();						/*Létrehozzuk és beállítjuk az adatait*/
+												tmp.setX(e1X);
+												tmp.setY(e1Y);
+												newTunnels.add(tmp); 					/*Felépitjük*/
+											}
+										}
+									}
+									
+									/*Minden alagutelemet felvettünk*/			
+									/*Összekötjük öket*/
+									for(int i=0;i<newTunnels.size();i++){
+										if(i-1>=0)newTunnels.get(i).addNeighbourRail(newTunnels.get(i-1));
+										if(i+1<newTunnels.size())newTunnels.get(i).addNeighbourRail(newTunnels.get(i+1));
+										if(i>0&&i<newTunnels.size()-1)railCollection.add(newTunnels.get(i));
+									}
+									
+									break;
+								} catch (Exception e) {
+									// TODO: handle exception
+								}
+							}
+						}
+					}
+					rail = thisEntrance;
+					break;								/* Itt ki kell breakelni mert egy szívdobbanás alatt átkonvertálná switchre a köv. try-ban */
+				} catch (Exception e) {
+					System.out.println("A kattintott elem nem tunnelEntrance");
+				}
+				
+				/*  Megnézzük switchre kattintott e a játékos és ha igen akkor mit kell tenni */
+				try {
+					Switch sw = (Switch)rail;			/* megpróbáljuk átkasztolni */
+					sw.switchRail();					/* ha sikerült, átállítjuk */
+					rail = sw;
+				} catch (Exception e) {
+					System.out.println("A kattintott elem nem switch");
+				}
+				break;
+			}
+		}
+	}
+	
 	
 	/**
 	 * Kizárólag a teszteléshez létrehozott metódus.
