@@ -88,10 +88,17 @@ public class Main {
 						break;
 						
 						case 70: System.out.println("\nSaveMap Teszt...");
-						/* Ez a programrész akkor fut le, ha a felhasználó a 69. pályát választja. Létrejön egy GameController. */
+						/* Ez a programrész akkor fut le, ha a felhasználó a 70. pályát választja. Létrejön egy GameController. */
 						GameController gc170 = new GameController();
-						gc170.startNewGame(1);  /* elindítjuk a gameControllert az 69-es pályával-  */
+						gc170.startNewGame(1);  /* elindítjuk a gameControllert az 1-es pályával-  */
 						gc170.createMapTestFile(1, "LongTest1");
+						break;
+						
+						case 71: System.out.println("\nThread Teszt...");
+						/* Ez a programrész akkor fut le, ha a felhasználó a 71. pályát választja. Létrejön egy GameController. */
+						GameController gc171 = new GameController();
+						gc171.startNewGame(1);  /* elindítjuk a gameControllert az 1-es pályával-  */
+						gc171.runThreadTest();
 						break;
 /**LONG TESZTEL--------------------------*/						
 						/* Ez a programrész akkor fut le, ha a felhasználó nem 1-est vagy kettest adott meg bemenetként. 

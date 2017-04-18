@@ -213,7 +213,6 @@ public class GameController {
 		System.out.println("Class: GameController\t Object: GameController@STATIC\t Létrehozott pályaelemek száma: "+railCollection.size()); /*Megnézzük hogy változott e valam*/
 	}
 	
-
 	
 	 /**
      * A map-ben minden egyes mezõ egy betûvel van megadva.
@@ -785,7 +784,46 @@ public class GameController {
 		MapCreationTest.main("maps/map" + mapNumber + ".txt", name+".txt");
 	}
 	
-	
+	public void runThreadTest(){
+		Thread testThread = new Thread(){
+			ArrayList<Color> testColors;
+			Train testTrain;
+			EnterPoint enterPoint;
+			
+			public void run() {
+				try {
+					testColors=new ArrayList<Color>();
+					testColors.add(Color.BLUE);
+					testTrain = new Train(testColors);
+		        
+					for(Rail oneRail:railCollection){
+						if(oneRail.getClass() == EnterPoint.class){ 
+							enterPoint = (EnterPoint) oneRail;	
+						}
+					}
+					
+					if(enterPoint==null){
+						System.out.println("Nincs belépési pont a pályán");
+					}
+					
+					testTrain.setNextRail(enterPoint); 
+					trainCollection.addNewTrain(testTrain);    
+					for(int i=0;i<16;i++){
+						trainCollection.moveAllTrains();				
+						drawToConsole();
+						Thread.sleep(1000);
+					}
+
+					
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		};
+		
+		testThread.start();
+	}
 	/**
 	 * kirajzolja a pályát a konzolra
 	 */
