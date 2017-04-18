@@ -902,6 +902,7 @@ public class GameController {
 					}
 
 				default:
+					charMap[line][col] = ' ';
 					break;
 				}
 			}
@@ -930,4 +931,5 @@ public class GameController {
 			System.out.println();
 		}
 	}
+
 }
