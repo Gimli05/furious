@@ -746,24 +746,26 @@ public class GameController {
 	 * @throws IOException 
 	 */
 	public void createMapTestFile(int mapNumber, String name) throws IOException{
-		PrintWriter writer = new PrintWriter(name+".txt", "UTF-8");
+		PrintWriter writer = new PrintWriter(name+".txt", "UTF-8"); /*Kell egy TXT íro*/
 		
-		String[] splitresult;
-		String result;
-		for(Rail rail:railCollection){
-			splitresult=rail.toString().split("@");
-			result=rail.getClass().getSimpleName();
+		String[] splitresult; 							/*Egyetlen sor felbontása*/
+		String result; 									/*Egy sor egy részletét tárolja*/
+		for(Rail rail:railCollection){         	 		/*Megnézünk minden sint*/
+			splitresult=rail.toString().split("@");		/*Felmbontjuk az objekumot a pointere mentén*/
+			result=rail.getClass().getSimpleName();		/*Elkérjük az objektum osztályát*/
 			
-			System.out.println(rail.getClass().getSimpleName());
 			
-			/*Ha állomásunk volt, annak szine is van*/
-			if(rail.getClass().getSimpleName().toString().trim().equals("TrainStation")){
+			/*Ha állomásunk volt, annak szine is van, akkor a színre is szükségünk lesz*/
+			if(rail.getClass().getSimpleName().toString().trim().equals("TrainStation")){ 
 				Color c =((TrainStation)rail).getColor();
-				if (c.equals(Color.RED)) result+= "1";
-				if (c.equals(Color.GREEN)) result+= "2";
-				if (c.equals(Color.BLUE)) result+= "3";
+				if (c.equals(Color.RED)) result+= "1";			/*Ha piros volt, a neve után írunk egy 1 est*/
+				if (c.equals(Color.GREEN)) result+= "2";		/*Ha zöld volt, a neve után írunk egy 2 est*/
+				if (c.equals(Color.BLUE)) result+= "3";			/*Ha kék volt, a neve után írunk egy 3 mast*/
 			}
 			
+			
+			/*Egyebe füzzük az adatokat a következö séma szerint:*/
+			/*név [x,y] (pointer) {szomszéd1, szomszéd2,...} */
 			result+=" ["+ rail.getX() +","+rail.getY()+"]"+
 					" ("+ splitresult[1] +")";
 			result+=" {";
@@ -771,46 +773,54 @@ public class GameController {
 			for(Rail neighbour:rail.getNeighbourRails()){
 				splitresult=neighbour.toString().split("@");
 				result+=splitresult[1];
-				if(comacounter>0){
+				if(comacounter>0){ /*Számoljuk hogy hány vesszöt tettünk le a szomszdok utána*/
 					comacounter--;
 					result+=",";
 				}
 			}
-			result+="}";
-			writer.println(result);
+			result+="}"; /*Lezárjuk*/
+			writer.println(result); /*Kiiratjuk a fájlba*/
 		}
-		writer.close();
+		writer.close(); /*Bezárjuk az olvasást*/
 		System.out.println("Save Done");
-		MapCreationTest.main("maps/map" + mapNumber + ".txt", name+".txt");
+		MapCreationTest.main("maps/map" + mapNumber + ".txt", name+".txt"); /*Indítjuk a tesztet*/
 	}
-	
+	/**
+	 * A száékezelés tesztelésére írt egyszerü program, fix idöközönként generál egy történést.
+	 * 
+	 */
 	public void runThreadTest(){
-		Thread testThread = new Thread(){
-			ArrayList<Color> testColors;
-			Train testTrain;
-			EnterPoint enterPoint;
+		Thread testThread = new Thread(){ 	/*Új Thread hgoy a háttérben fusson*/
+			ArrayList<Color> testColors; 	/*Vonat kocsiszíneit tárolja*/
+			Train testTrain;				/*Egy teszt vonat*/
+			EnterPoint enterPoint;			/*Egy véletlenül talált belépési pont*/
 			
-			public void run() {
+			public void run() {				/*Megírjuk az esemnyeket*/
 				try {
-					testColors=new ArrayList<Color>();
-					testColors.add(Color.BLUE);
-					testTrain = new Train(testColors);
+					testColors=new ArrayList<Color>();  /*Inicializáljuk a listát*/
+					testColors.add(Color.BLUE);			/*Színt adunk hozzá*/
+					testTrain = new Train(testColors);	/*A szinekkel inicializálunk egy vonatot*/
 		        
-					for(Rail oneRail:railCollection){
+					for(Rail oneRail:railCollection){	/*Kikeresünk egy belépésíi pontot*/
 						if(oneRail.getClass() == EnterPoint.class){ 
 							enterPoint = (EnterPoint) oneRail;	
 						}
 					}
 					
-					if(enterPoint==null){
+					if(enterPoint==null){ /*Amennyiben null az objektumunk, nem volt belépési pont a pályán*/
 						System.out.println("Nincs belépési pont a pályán");
+						return;		/*Ilyenkor vége a futásnak*/
 					}
 					
-					testTrain.setNextRail(enterPoint); 
-					trainCollection.addNewTrain(testTrain);    
+					/*A belépési pontra rakjuk a vonatunk*/
+					testTrain.setNextRail(enterPoint); 	
+					trainCollection.addNewTrain(testTrain);
+					
+					
+					/*16 léptetést hajtunk végre*/
 					for(int i=0;i<16;i++){
 						trainCollection.moveAllTrains();				
-						drawToConsole();
+						drawToConsole();	/*Közben frissítjuk a nézetet*/
 						Thread.sleep(1000);
 					}
 
@@ -822,8 +832,9 @@ public class GameController {
 		    }
 		};
 		
-		testThread.start();
+		testThread.start(); /*Indítuk a szálat*/
 	}
+	
 	/**
 	 * kirajzolja a pályát a konzolra
 	 */
