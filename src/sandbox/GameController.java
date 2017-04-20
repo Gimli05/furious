@@ -832,6 +832,9 @@ public class GameController {
 					
 					/*16 léptetést hajtunk végre*/
 					for(int i=0;i<16;i++){
+						for(Rail oneRail: railCollection){ /* Minden eggyes sínnek csökkentjük eggyel a rajta még áthaladó kabinok számát, mivel lép egyet minden vonat. */
+							oneRail.lowerTrainLenghtCounter();
+						}
 						trainCollection.moveAllTrains();				
 						drawToConsole();	/*Közben frissítjuk a nézetet*/
 						Thread.sleep(1000);
