@@ -1,0 +1,10 @@
+17;9
+RRRRxxR1Rxxxxxxxx
+RxxRxxRxRxxUxxxxx
+RxxSRSRxRRRSRRxxx
+RSRRxRxxxxxxx3xxx
+xRxxxRRxxxUxxRxxx
+xRRRRxRSRRRxxSRRE
+xxxxRxxRxxxxxRxxx
+xxxxRxxSRRR2RRxxx
+ERRRSRRRxxxxxxxxx
