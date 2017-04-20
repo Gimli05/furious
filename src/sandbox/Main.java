@@ -81,10 +81,10 @@ public class Main {
 						gc12.startNewGame(2);  /* elindítjuk a gameControllert az 2-es pályával-  */
 						break;
 /**LONG TESZTEL--------------------------*/
-						case 69: System.out.println("\nXRail Teszt...");
-						/* Ez a programrész akkor fut le, ha a felhasználó a 69. pályát választja. Létrejön egy GameController. */
-						GameController gc169 = new GameController();
-						gc169.startNewGame(69);  /* elindítjuk a gameControllert az 69-es pályával-  */
+						case 7: System.out.println("\nLongMap indítása...");
+						/* Ez a programrész akkor fut le, ha a felhasználó a 7. pályát választja. Létrejön egy GameController. */
+						GameController gc17 = new GameController();
+						gc17.startNewGame(7);  /* elindítjuk a gameControllert az 7-es pályával-  */
 						break;
 						
 						case 70: System.out.println("\nSaveMap Teszt...");
@@ -100,6 +100,7 @@ public class Main {
 						gc171.startNewGame(1);  /* elindítjuk a gameControllert az 1-es pályával-  */
 						gc171.runThreadTest();
 						break;
+
 /**LONG TESZTEL--------------------------*/						
 						/* Ez a programrész akkor fut le, ha a felhasználó nem 1-est vagy kettest adott meg bemenetként. 
 						 * Ilyen pálya ugyanis nincs. Ekkor a program visszatér a fõmenübe. */

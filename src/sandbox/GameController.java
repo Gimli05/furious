@@ -41,6 +41,11 @@ public class GameController {
 	 */
 	private static int lastPlayedMapNumber;
 	
+	//LOOOOOOOOOOOOONG
+	private static GUI gui;
+	private static Thread mainThread; 
+	//LOOOOOOOOOOOOONG
+	
 	
 	/**
 	 * A GameController konstruktora.
@@ -50,6 +55,8 @@ public class GameController {
 		isTheGameRunning = false; /* Alapból nem fut a játék */
 		railCollection=new ArrayList<Rail>(); /* Új listát hozunk létre */
 		trainCollection = new TrainCollection(); /* új kollekciót hozunk létre. */
+		
+		gui = new GUI();
 	}
 	
 	
@@ -67,6 +74,9 @@ public class GameController {
 		try {
 			buildFromFile(mapName); /* Megpróbáljuk a fájlból felépíteni a pályát */
 			isTheGameRunning=true; /*Elinditjuka játkot*/
+			
+			startMainThread();
+			
 			System.out.println("\nClass: GameController\t Object: GameController@STATIC\t A játék elindult\n"); /* Kiíratás a Szkeleton vezérlésének */
 			lastPlayedMapNumber = mapNumber; /* Elmentjük melyik pályát töltöttük be utoljára. */
 		} catch (IOException e) {
@@ -162,6 +172,7 @@ public class GameController {
 		Rail[][] tempMap = new Rail[width][height]; /*Pályaelem tároló mátrix*/
 		String[][] tempView = new String[width][height]; /*Pályaelem leíró mátrix*/
 		
+		gui.init(width, height);
 
 		int x=0; /*Segédváltozó szélességhez*/
 		int y=0; /*Segédváltpzó magassághoz*/
@@ -173,7 +184,8 @@ public class GameController {
 					tempMap[x][y].setX(x);
 					tempMap[x][y].setY(y);
 				}
-
+				
+				gui.setBaseTileMap(x, y, s);
 				tempView[x][y]=s; /*Mentjük a vázlatát*/		
 				x++;
 			}
@@ -500,7 +512,7 @@ public class GameController {
 	 * @param Y	Kattintás Y koordinátája
 	 */
 	
-	public void clickHandler(int X, int Y){
+	public static void clickHandler(int X, int Y){
 		for(Rail rail:railCollection){
 			if(rail.getX() == X && rail.getY() == Y){  /* Megkeressük a kattintott elemet */
 				try {
@@ -662,7 +674,8 @@ public class GameController {
 				/*  Megnézzük switchre kattintott e a játékos és ha igen akkor mit kell tenni */
 				try {
 					Switch sw = (Switch)rail;			/* megpróbáljuk átkasztolni */
-					sw.switchRail();					/* ha sikerült, átállítjuk */
+					sw.switchRail();
+					/* ha sikerült, átállítjuk */
 					rail = sw;
 				} catch (Exception e) {
 					System.out.println("A kattintott elem nem switch");
@@ -834,6 +847,47 @@ public class GameController {
 		
 		testThread.start(); /*Indítuk a szálat*/
 	}
+	
+	//Long
+	private static void startMainThread(){
+		mainThread = new Thread(){		
+			public void run() {
+				while(isTheGameRunning){
+					try {
+						
+						doGuiClickLogAction(gui.getClickLog());
+						Thread.sleep(50);
+						
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			};
+		};
+		gui.startRender();
+		mainThread.start();		
+	}
+	
+	
+	//Long
+	private static void doGuiClickLogAction(String log){
+		if(log==null || log.equals(""))return;
+		String changedTiles[];
+		if(log.contains(";")){
+			changedTiles = log.split(";");
+			
+		}else{
+			changedTiles = new String[1];
+			changedTiles[0]=log;
+		}
+		
+		for(String change: changedTiles){			
+			String coords[] = change.split(",");
+			clickHandler(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]));
+		}
+		
+	}
+	
 	
 	/**
 	 * kirajzolja a pályát a konzolra

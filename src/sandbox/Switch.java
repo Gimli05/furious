@@ -40,25 +40,38 @@ public class Switch extends Rail{
 	}
 	
 	
+	//LONG MOKOLTA DE IGY JOBB
 	@Override
 	public Rail getNextRail(Rail trainPreviousRail){
-		System.out.println("Class: Switch\t\t Object: "+this+"\t Method: getNextRail\t Param: "+trainPreviousRail+"\t A következő sín."); /* Kiíratás a Szkeleton vezérlésének */
-		int counter=state?1:0; /* Ha módosítani akarjuk az irányt, akkor a count 1-lesz, ha nem akarjuk módosítani, akkor nulla */
+		System.out.println("Class: Switch\t\t Object: "+this+"\t Method: getNextRail\t Param: "+trainPreviousRail+"\t A következö sín."); /* Kiíratás a Szkeleton vezérlésének */		
 		
-		for(Rail oneNeighbourRail:neighbourRails){/* Minden sínt végignézünk. */
-			if(trainPreviousRail!=oneNeighbourRail){ /* Ha nem az a sín amit nézünk, ahonnan jött a vonat */
-				if(counter==0){
-					System.out.println("Class: Switch\t\t Object: "+this+"\t Returned: "+oneNeighbourRail); /* Kiíratás a Szkeleton vezérlésének */
-					return oneNeighbourRail; /* A counter 0, azaz ezt a sínt kell visszaadjuk. */
-				} else {
-					counter--; /* A counter még nem nulla, így nem ezt kell visszaadnunk. */
-				}		
+		Rail n2=null;
+		Rail n3=null;
+		
+		for(Rail oneNeighbourRail:neighbourRails){
+			if(trainPreviousRail!=oneNeighbourRail){
+				if(n2==null)n2=oneNeighbourRail;
+				else n3=oneNeighbourRail;
 			}
 		}
-		System.out.println("Class: Switch\t\t Object: "+this+"\t Returned: null\t Nincs következő sín");/* Kiíratás a Szkeleton vezérlésének */
-		return null; /* Nem találtunk következő sínt, így null-al tértünk vissza. */
+		
+		if(state){
+			if(trainPreviousRail.getX()==n2.getX() || trainPreviousRail.getY()==n2.getY())return n3;
+			if(n2.getX()==n2.getX() || n3.getY()==n3.getY())return n3;
+			if(trainPreviousRail.getX()==n3.getX() || trainPreviousRail.getY()==n3.getY())return n2;
+			
+		}else{
+			if(trainPreviousRail.getX()==n2.getX() || trainPreviousRail.getY()==n2.getY())return n2;
+			if(n2.getX()==n2.getX() || n3.getY()==n3.getY())return n2;
+			if(trainPreviousRail.getX()==n3.getX() || trainPreviousRail.getY()==n3.getY())return n3;
+		}
+		return null;
 	}
 	
+	public boolean getGUIState(){
+		return state;
+	}
+	//LONG EDDIG MOKOLTA
 	
 	/**
 	 * A visitor tervezési minta egyik függvénye. 
