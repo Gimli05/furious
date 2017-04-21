@@ -37,6 +37,7 @@ public class GUI extends JPanel {
 	private static boolean changeMap[][];
 	private static String clickLog = "";
 	private static Tile baseTileMap[][];
+	private static Tile detailsTileMap[][];
 
 	private static MouseListener MyMouseListener;
 
@@ -79,7 +80,8 @@ public class GUI extends JPanel {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-					callTileClick((int) Math.floor(e.getX() / TILEWIDTH), (int) Math.floor(e.getY() / TILEHEIGHT));			
+				callTileClick((int) Math.floor(e.getX() / TILEWIDTH), (int) Math.floor(e.getY() / TILEHEIGHT),
+						e.getButton() == MouseEvent.BUTTON3);
 			}
 
 			@Override
@@ -178,6 +180,54 @@ public class GUI extends JPanel {
 						|| (baseTileMap[x - 1][y].getType().equals("x")
 								&& !baseTileMap[x + 1][y].getType().equals("x"))) {
 					baseTileMap[x][y].setType("B");
+				}
+			}
+		}
+	}
+
+	private static void setTunnelVariantAndAngle(int x, int y) {
+		if (x == 0) {
+			baseTileMap[x][y].rotation(-90);
+		} else if (x == BOARDWIDTH - 1) {
+			baseTileMap[x][y].rotation(90);
+		} else {
+			if (y == 0) {
+				baseTileMap[x][y].rotation(180);
+			} else if (y == BOARDHEIGHT - 1) {
+				baseTileMap[x][y].rotation(0);
+			} else {
+				// Szemben
+				if (!baseTileMap[x][y - 1].getType().equals("x") && !baseTileMap[x][y + 1].getType().equals("x")) {
+					baseTileMap[x][y].setVariant(0);
+					baseTileMap[x][y].rotation(90);
+				}
+				if (!baseTileMap[x - 1][y].getType().equals("x") && !baseTileMap[x + 1][y].getType().equals("x")) {
+					baseTileMap[x][y].setVariant(0);
+					baseTileMap[x][y].rotation(0);
+				}
+				// Jobb
+				if (!baseTileMap[x + 1][y].getType().equals("x") && !baseTileMap[x][y - 1].getType().equals("x")) {
+					baseTileMap[x][y].setVariant(1);
+					baseTileMap[x][y].updateImage();
+					baseTileMap[x][y].rotation(90);
+				}
+				if (!baseTileMap[x - 1][y].getType().equals("x") && !baseTileMap[x][y + 1].getType().equals("x")) {
+					baseTileMap[x][y].setVariant(1);
+					baseTileMap[x][y].updateImage();
+					baseTileMap[x][y].rotation(-90);
+				}
+
+				// Bal
+				if (!baseTileMap[x - 1][y].getType().equals("x") && !baseTileMap[x][y - 1].getType().equals("x")) {
+					baseTileMap[x][y].setVariant(2);
+					baseTileMap[x][y].updateImage();
+					baseTileMap[x][y].rotation(180);
+				}
+
+				if (!baseTileMap[x - 1][y].getType().equals("x") && !baseTileMap[x][y + 1].getType().equals("x")) {
+					baseTileMap[x][y].setVariant(2);
+					baseTileMap[x][y].updateImage();
+					baseTileMap[x][y].rotation(-90);
 				}
 			}
 		}
@@ -316,41 +366,23 @@ public class GUI extends JPanel {
 			}
 			break;
 		case "U":
-			if (x > 0 && !baseTileMap[x - 1][y].getType().equals("x"))
-				baseTileMap[x][y].rotation(-90);
-			else if (x < FRAMEWIDTH - 1 && !baseTileMap[x + 1][y].getType().equals("x"))
-				baseTileMap[x][y].rotation(90);
-			else if (y > 0 && !baseTileMap[x][y - 1].getType().equals("x"))
-				baseTileMap[x][y].rotation(0);
-			else if (y < FRAMEHEIGHT - 1 && !baseTileMap[x][y + 1].getType().equals("x"))
-				baseTileMap[x][y].rotation(180);
-			break;
-
-		case "E":
-			if (x > 0 && !baseTileMap[x - 1][y].getType().equals("x"))
-				baseTileMap[x][y].rotation(180);
-			else if (x < FRAMEWIDTH - 1 && !baseTileMap[x + 1][y].getType().equals("x"))
-				baseTileMap[x][y].rotation(0);
-			else if (y > 0 && !baseTileMap[x][y - 1].getType().equals("x"))
-				baseTileMap[x][y].rotation(90);
-			else if (y < FRAMEHEIGHT - 1 && !baseTileMap[x][y + 1].getType().equals("x"))
-				baseTileMap[x][y].rotation(-90);
+			setTunnelVariantAndAngle(x, y);
 			break;
 		default:
 			break;
 		}
 	}
 
-	private static void callTileClick(int x, int y) {
-		baseTileMap[x][y].switchState(x, y);
-		writeClickLog(x, y);
+	private static void callTileClick(int x, int y, boolean btn) {
+		baseTileMap[x][y].switchState(x, y, btn);
+		writeClickLog(x, y, btn);
 	}
 
-	public static void writeClickLog(int x, int y) {
+	public static void writeClickLog(int x, int y, boolean btn) {
 		if (clickLog == "") {
-			clickLog += x + "," + y;
+			clickLog += x + "," + y + "," + (btn == false ? 0 : 1);
 		} else {
-			clickLog += ";" + x + "," + y;
+			clickLog += ";" + x + "," + y + "," + (btn == false ? 0 : 1);
 		}
 
 	}
@@ -366,19 +398,25 @@ public class GUI extends JPanel {
 		private String type;
 		private boolean interactive;
 		private boolean state;
+		private boolean active;
+		private int variant;
 
 		public Tile(String t) {
 			type = t.toString().trim().substring(0, 1);
-			
-			if (type.contains("S")){
+			variant = 0;
+			active = false;
+			state = false;
+			interactive = false;
+
+			if (type.contains("S")) {
 				interactive = true;
-				img = getImage(type+"0").getImage();
-			}else if (type.contains("U")){
+				img = getImage(type + "0").getImage();
+			} else if (type.contains("U")) {
 				interactive = true;
-				img = getImage(type+"0").getImage();
-			}else img = getImage(type).getImage();
-			
-			state = false;		
+				img = getImage(type + variant + "0" + "0").getImage();
+			} else
+				img = getImage(type).getImage();
+
 		}
 
 		public void rotation(double d) {
@@ -388,21 +426,66 @@ public class GUI extends JPanel {
 		public void setType(String t) {
 			type = t.toString().trim().substring(0, 1);
 			img = getImage(type).getImage();
+			state = false;
+			active = false;
+		}
 
+		public void setVariant(int v) {
+			variant = v;
+		}
+
+		public int getVariant() {
+			return variant;
 		}
 
 		public String getType() {
 			return type;
 		}
 
-		public void switchState(int x, int y) {
+		public void switchState(int x, int y, boolean btn) {
 			if (interactive) {
-				state = !state;
-				img = getImage(type + (state == false ? 0 : 1)).getImage();
-				setTileAngle(x, y);
+				if (!btn && type.equals("U")) {
+					if (!active) {
+						active = true;
+						System.out.println(type + variant + active + state);
+						changeMap[x][y] = true;
+						img = getImage(type + variant + (active == false ? 0 : 1) + (state == false ? 0 : 1))
+								.getImage();
+						setTileAngle(x, y);
 
-				changeMap[x][y] = true;
+					} else {
+						state = !state;
+						changeMap[x][y] = true;
+						img = getImage(type + variant + (active == false ? 0 : 1) + (state == false ? 0 : 1))
+								.getImage();
+						setTileAngle(x, y);
+					}
+
+				} else if (btn && type.equals("U")) {
+					if (active) {
+						state = false;
+						active = !active;
+						changeMap[x][y] = true;
+						img = getImage(type + variant + (active == false ? 0 : 1) + (state == false ? 0 : 1))
+								.getImage();
+						setTileAngle(x, y);
+					}
+				} else {
+					if (!btn) {
+						state = !state;
+						changeMap[x][y] = true;
+						img = getImage(type + (state == false ? 0 : 1)).getImage();
+						setTileAngle(x, y);
+					}
+				}
 			}
+		}
+
+		public void updateImage() {
+			if (type.equals("U"))
+				img = getImage(type + variant + (active == false ? 0 : 1) + (state == false ? 0 : 1)).getImage();
+			else
+				img = getImage(type + (state == false ? 0 : 1)).getImage();
 		}
 
 		private ImageIcon getImage(String object) {
@@ -419,10 +502,24 @@ public class GUI extends JPanel {
 				return new ImageIcon(imageURL + "Switch0.png");
 			case ("S1"):
 				return new ImageIcon(imageURL + "Switch1.png");
-			case ("U0"):
-				return new ImageIcon(imageURL + "Tunnel0.png");
-			case ("U1"):
-				return new ImageIcon(imageURL + "Tunnel1.png");
+			case ("U000"):
+				return new ImageIcon(imageURL + "Tunnel000.png");
+			case ("U010"):
+				return new ImageIcon(imageURL + "Tunnel010.png");
+			case ("U011"):
+				return new ImageIcon(imageURL + "Tunnel011.png");
+			case ("U100"):
+				return new ImageIcon(imageURL + "Tunnel100.png");
+			case ("U110"):
+				return new ImageIcon(imageURL + "Tunnel110.png");
+			case ("U111"):
+				return new ImageIcon(imageURL + "Tunnel111.png");
+			case ("U200"):
+				return new ImageIcon(imageURL + "Tunnel200.png");
+			case ("U210"):
+				return new ImageIcon(imageURL + "Tunnel210.png");
+			case ("U211"):
+				return new ImageIcon(imageURL + "Tunnel211.png");
 			case ("E"):
 				return new ImageIcon(imageURL + "EnterPoint.png");
 			case ("1"):

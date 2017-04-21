@@ -512,14 +512,13 @@ public class GameController {
 	 * @param Y	Kattintás Y koordinátája
 	 */
 	
-	public static void clickHandler(int X, int Y){
+	public static void clickHandler(int X, int Y, int btn){
 		for(Rail rail:railCollection){
 			if(rail.getX() == X && rail.getY() == Y){  /* Megkeressük a kattintott elemet */
 				try {
 					TunnelEntrance thisEntrance = (TunnelEntrance)rail;			/* megpróbáljuk átkasztolni */
-					thisEntrance.switchRail();					/* ha sikerült, átállítjuk */
 					
-					if (thisEntrance.checkIfActivated()) {
+					if (thisEntrance.checkIfActivated() && btn==0) { //aktív jobb klikk
 						thisEntrance.deActivate();
 						activeEntranceCounter--;
 						if (activeEntranceCounter == 1) {				/* bontani kell */
@@ -560,7 +559,7 @@ public class GameController {
 						}
 					} 
 					
-					else {
+					else if (!thisEntrance.checkIfActivated() && btn==1){ //inaktív bal klikk
 						thisEntrance.activate();
 						activeEntranceCounter++;
 						if (activeEntranceCounter == 2) {				/* építeni kell */
@@ -664,7 +663,10 @@ public class GameController {
 								}
 							}
 						}
+					}else if (thisEntrance.checkIfActivated() && btn==1){ //aktív bal klikk
+						thisEntrance.switchRail();
 					}
+					
 					rail = thisEntrance;
 					break;								/* Itt ki kell breakelni mert egy szívdobbanás alatt átkonvertálná switchre a köv. try-ban */
 				} catch (Exception e) {
@@ -886,7 +888,7 @@ public class GameController {
 		
 		for(String change: changedTiles){			
 			String coords[] = change.split(",");
-			clickHandler(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]));
+			clickHandler(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]), Integer.parseInt(coords[1]));
 		}
 		
 	}
