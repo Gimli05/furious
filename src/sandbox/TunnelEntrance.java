@@ -77,4 +77,41 @@ public class TunnelEntrance extends Switch{
 		visitor.visit(this); /* Elfogadjuk a visitort, és átadjuk magunkat, hogy nézzen meg minket. */
 	}
 	
+
+	//LONG MOKOLTA DE IGY JOBB
+	@Override
+	public Rail getNextRail(Rail trainPreviousRail){
+		System.out.println("Class: Switch\t\t Object: "+this+"\t Method: getNextRail\t Param: "+trainPreviousRail+"\t A következö sín."); /* Kiíratás a Szkeleton vezérlésének */		
+		
+		Rail n2=null;
+		Rail n3=null;
+		
+		for(Rail oneNeighbourRail:neighbourRails){
+			if(trainPreviousRail!=oneNeighbourRail){
+				if(n2==null)n2=oneNeighbourRail;
+				else n3=oneNeighbourRail;
+			}
+		}
+		
+		if(isActivated){
+			//Ha aktív akkor egy sima váltó, amiben már fel van építve az alagut
+			if(state){
+				if(trainPreviousRail.getX()==n2.getX() || trainPreviousRail.getY()==n2.getY())return n3;
+				if(n2.getX()==n2.getX() || n3.getY()==n3.getY())return n3;
+				if(trainPreviousRail.getX()==n3.getX() || trainPreviousRail.getY()==n3.getY())return n2;
+				
+			}else{
+				if(trainPreviousRail.getX()==n2.getX() || trainPreviousRail.getY()==n2.getY())return n2;
+				if(n2.getX()==n2.getX() || n3.getY()==n3.getY())return n2;
+				if(trainPreviousRail.getX()==n3.getX() || trainPreviousRail.getY()==n3.getY())return n3;
+			}
+		}else{
+			//Ha nem aktív akkor viszont csak a két sín között mehetünk át
+			if(n2!=null)return n2;
+			else return n3;
+		}
+		
+		return null;
+	}
+	
 }

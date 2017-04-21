@@ -14,7 +14,7 @@ public class Switch extends Rail{
 	 * Ha módosítja, akkor true az értéke, ha nem módosítja az irány, akkor false. Ha módosítja az irányt, 
 	 * akkor a menetirány szerinti jobb vagy bal oldalra irányítja át a vonatot, ha nem módosítja, akkor egyenesen küldi tovább.
 	 */
-	private Boolean state;
+	protected Boolean state;
 	
 	
 	/**
