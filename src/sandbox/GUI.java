@@ -206,29 +206,30 @@ public class GUI extends JPanel {
 					baseTileMap[x][y].rotation(0);
 				}
 				// Jobb
+
 				if (!baseTileMap[x + 1][y].getType().equals("x") && !baseTileMap[x][y - 1].getType().equals("x")) {
-					baseTileMap[x][y].setVariant(1);
+					baseTileMap[x][y].setVariant(2);
 					baseTileMap[x][y].updateImage();
-					baseTileMap[x][y].rotation(90);
+					baseTileMap[x][y].rotation(0);
+				}
+				if (!baseTileMap[x + 1][y].getType().equals("x") && !baseTileMap[x][y + 1].getType().equals("x")) {
+					baseTileMap[x][y].setVariant(2);
+					baseTileMap[x][y].updateImage();
+					baseTileMap[x][y].rotation(180);
+				}
+				// Bal
+
+				if (!baseTileMap[x - 1][y].getType().equals("x") && !baseTileMap[x][y - 1].getType().equals("x")) {
+					baseTileMap[x][y].setVariant(2);
+					baseTileMap[x][y].updateImage();
+					baseTileMap[x][y].rotation(0);
 				}
 				if (!baseTileMap[x - 1][y].getType().equals("x") && !baseTileMap[x][y + 1].getType().equals("x")) {
-					baseTileMap[x][y].setVariant(1);
-					baseTileMap[x][y].updateImage();
-					baseTileMap[x][y].rotation(-90);
-				}
-
-				// Bal
-				if (!baseTileMap[x - 1][y].getType().equals("x") && !baseTileMap[x][y - 1].getType().equals("x")) {
 					baseTileMap[x][y].setVariant(2);
 					baseTileMap[x][y].updateImage();
 					baseTileMap[x][y].rotation(180);
 				}
 
-				if (!baseTileMap[x - 1][y].getType().equals("x") && !baseTileMap[x][y + 1].getType().equals("x")) {
-					baseTileMap[x][y].setVariant(2);
-					baseTileMap[x][y].updateImage();
-					baseTileMap[x][y].rotation(-90);
-				}
 			}
 		}
 	}
