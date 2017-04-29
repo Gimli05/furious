@@ -21,7 +21,6 @@ public class GUI extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static JFrame frame;
 	private static GUI gui;
-	private static GameController gc;
 
 	private static String FRAMENAME = "Michael Bay's TRAINZ";
 	private static int FRAMEWIDTH;
@@ -31,15 +30,37 @@ public class GUI extends JPanel {
 	private static int BOARDWIDTH;
 	private static int BOARDHEIGHT;
 
+	private static int TILEINTERVAL = 1000;
+	private static int TRAINBLOCKWIDTH = 40;
+	private static int TRAINBLOCKHEIGHT = 40;
+
 	private static String imageURL = "raw/";
 	private static Thread renderThread;
+	private static long renderTime = 100;
+	private static int time;
+	private static int hopTime = 100;
+
+	private static int tilePositionCount = (TILEINTERVAL / hopTime) - 1;
 
 	private static boolean changeMap[][];
 	private static String clickLog = "";
 	private static Tile baseTileMap[][];
-	private static Tile detailsTileMap[][];
+
+	private static TrainBlock testBlock = new TrainBlock();
 
 	private static MouseListener MyMouseListener;
+
+	// Test
+	private static int testCnt=0;
+	private static int testX = 0;
+	private static int testY = 0;
+	private static int testNX = 0;
+	private static int testNY = 0;
+	private static int testLX=0;
+	private static int testLY=0;
+	private static int testA=0;
+	private static int fix = 0;
+	private static int angleFix=85;
 
 	public GUI() {
 		baseTileMap = new Tile[BOARDWIDTH][BOARDHEIGHT];
@@ -56,6 +77,8 @@ public class GUI extends JPanel {
 		BOARDHEIGHT = height;
 		FRAMEWIDTH = BOARDWIDTH * TILEWIDTH;
 		FRAMEHEIGHT = BOARDHEIGHT * TILEHEIGHT;
+
+		time = 0;
 
 		frame = new JFrame(FRAMENAME);
 		frame.pack();
@@ -93,37 +116,39 @@ public class GUI extends JPanel {
 		gui.setPreferredSize(new Dimension(FRAMEWIDTH, FRAMEHEIGHT));
 		frame.add(gui);
 		frame.pack();
+
+		frame.toFront();
+		frame.requestFocus();
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
+		// BaseDraw
+
+		// RANDOM FIX
+		if (fix < 2) {
+			changeMap[0][0] = true;
+			fix++;
+		}
+
 		for (int x = 0; x < BOARDWIDTH; x++) {
 			for (int y = 0; y < BOARDHEIGHT; y++) {
 				if (baseTileMap[x][y] != null && changeMap[x][y]) {
 					g.drawImage(baseTileMap[x][y].img, x * TILEWIDTH, y * TILEHEIGHT, null);
-					changeMap[x][y] = false;
 				}
+			}
+		}
+		testBlock.draw(g);
+
+		for (int x = 0; x < BOARDWIDTH; x++) {
+			for (int y = 0; y < BOARDHEIGHT; y++) {
+				changeMap[x][y] = false;
 			}
 		}
 	}
 
 	public void startRender() {
-		renderThread = new Thread() {
-			@Override
-			public void run() {
-
-				while (true) {
-					try {
-						if (gui != null)
-							gui.repaint();
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}
-		};
+		renderThread = new mainRenderThread();
 		buildBaseMap();
 		renderThread.start();
 	}
@@ -133,7 +158,7 @@ public class GUI extends JPanel {
 		changeMap[x][y] = true;
 	}
 
-	public void buildBaseMap() {
+	private void buildBaseMap() {
 		for (int y = 0; y < BOARDHEIGHT; y++) {
 			for (int x = 0; x < BOARDWIDTH; x++) {
 
@@ -379,7 +404,7 @@ public class GUI extends JPanel {
 		writeClickLog(x, y, btn);
 	}
 
-	public static void writeClickLog(int x, int y, boolean btn) {
+	private static void writeClickLog(int x, int y, boolean btn) {
 		if (clickLog == "") {
 			clickLog += x + "," + y + "," + (btn == false ? 0 : 1);
 		} else {
@@ -394,6 +419,148 @@ public class GUI extends JPanel {
 		return ret;
 	}
 
+	public static void doTurnTest(int cnt){
+		if(cnt==0){
+			testLX=0;
+			testLY=0;
+			testX=1;
+			testY=0;
+			testNX=1;
+			testNY=1;		
+			testA=0;
+		}else if(cnt==1){
+			testLX=1;
+			testLY=0;
+			testX=1;
+			testY=1;
+			testNX=1;
+			testNY=2;
+			testA=90;
+		}else if(cnt==2){
+			testLX=1;
+			testLY=1;
+			testX=1;
+			testY=2;
+			testNX=1;
+			testNY=3;
+			testA=90;
+		}else if(cnt==3){
+			testLX=1;
+			testLY=2;
+			testX=1;
+			testY=3;
+			testNX=2;
+			testNY=3;
+			testA=90;
+		}else if(cnt==4){
+			testLX=1;
+			testLY=3;
+			testX=2;
+			testY=3;
+			testNX=3;
+			testNY=3;
+			testA=0;
+		}else if(cnt==5){
+			testLX=2;
+			testLY=3;
+			testX=3;
+			testY=3;
+			testNX=3;
+			testNY=2;
+			testA=0;
+		}else if(cnt==6){
+			testLX=3;
+			testLY=3;
+			testX=3;
+			testY=2;
+			testNX=3;
+			testNY=1;
+			testA=270;
+		}else if(cnt==7){
+			testLX=3;
+			testLY=2;
+			testX=3;
+			testY=1;
+			testNX=4;
+			testNY=1;
+			testA=270;
+		}else if(cnt==8){
+			testLX=3;
+			testLY=1;
+			testX=4;
+			testY=1;
+			testNX=4;
+			testNY=2;
+			testA=0;
+		}else if(cnt==9){
+			testLX=4;
+			testLY=1;
+			testX=4;
+			testY=2;
+			testNX=4;
+			testNY=3;
+			testA=90;
+		}else if(cnt==10){
+			testLX=4;
+			testLY=2;
+			testX=4;
+			testY=3;
+			testNX=4;
+			testNY=4;
+			testA=90;
+		}else if(cnt==11){
+			testLX=4;
+			testLY=3;
+			testX=4;
+			testY=4;
+			testNX=4;
+			testNY=5;
+			testA=90;
+		}else if(cnt==12){
+			testLX=4;
+			testLY=4;
+			testX=4;
+			testY=5;
+			testNX=4;
+			testNY=6;
+			testA=90;
+		}else if(cnt==13){
+			testLX=4;
+			testLY=5;
+			testX=4;
+			testY=6;
+			testNX=3;
+			testNY=6;
+			testA=90;
+		}else if(cnt==14){
+			testLX=4;
+			testLY=6;
+			testX=3;
+			testY=6;
+			testNX=3;
+			testNY=5;
+			testA=180;
+		}else if(cnt==15){
+			testLX=3;
+			testLY=6;
+			testX=3;
+			testY=5;
+			testNX=2;
+			testNY=5;
+			testA=270;
+		}else if(cnt==16){
+			testLX=3;
+			testLY=5;
+			testX=2;
+			testY=5;
+			testNX=1;
+			testNY=5;
+			testA=180;
+		}
+		
+		
+	}
+	
 	public static class Tile {
 		private Image img;
 		private String type;
@@ -448,7 +615,6 @@ public class GUI extends JPanel {
 				if (!btn && type.equals("U")) {
 					if (!active) {
 						active = true;
-						System.out.println(type + variant + active + state);
 						changeMap[x][y] = true;
 						img = getImage(type + variant + (active == false ? 0 : 1) + (state == false ? 0 : 1))
 								.getImage();
@@ -535,4 +701,267 @@ public class GUI extends JPanel {
 		}
 	}
 
+	// Train
+
+	private static void hopTrains() {
+		time = (time + hopTime) % TILEINTERVAL;
+		testBlock.updatePosition(testX,testY,testNX,testNY, time);
+
+	}
+
+	public static class TrainBlock {
+		public String type;
+		// Elözö indexek
+		public int currentMapX, currentMapY;
+		public int lastMapX, lastMapY;
+		public int nextMapX, nextMapY;
+		// Konkrét hely
+		public int posX, posY;
+
+		// Forgatási adatok
+		public boolean isTurning;
+		public double angle;
+		public double startAngle;
+		int rotateDir;
+		double circleStartAngle;
+		int correctedX, correctedY;
+		// Raw Data
+		public Image currentImg;
+		public Image baseImg;
+
+		public TrainBlock() {
+			// UI Block & Position Update
+			lastMapX = -1;
+			lastMapY = -1;
+			currentMapX = -1;
+			currentMapY = -1;
+			nextMapX = -1;
+			nextMapY = -1;
+
+			// Position Calculation
+			posX = -1;
+			posY = -1;
+			rotateDir = 0;
+			angle = 0;
+			isTurning = false;
+
+			// Raw Data
+			currentImg = new ImageIcon(imageURL + "Engine.png").getImage();
+			baseImg = new ImageIcon(imageURL + "Engine.png").getImage();
+		}
+
+		public void updatePosition(int currentX, int currentY, int nextX, int nextY, int currentTime) {
+			double percent = ((double) currentTime / TILEINTERVAL);
+			
+			
+			
+			// Update ha nem cska idöben van változás
+			if (nextMapX != nextX || nextMapY != nextY) {
+				// Blokk poziciok
+				lastMapX = currentMapX;
+				lastMapY = currentMapY;
+				currentMapX = nextMapX;
+				currentMapY = nextMapY;
+				nextMapX = nextX;
+				nextMapY = nextY;
+				
+				//TESSST			
+				lastMapX=testLX;
+				lastMapY=testLY;
+				currentMapX=testX;
+				currentMapY=testY;
+				nextMapX=testNX;
+				nextMapY=testNY;
+				angle=testA;
+				startAngle=angle;
+				//TEESZT
+				
+				// Forgatás adatai
+				rotateDir = 1;
+				circleStartAngle = 0;
+				
+				// Irányszámítás
+				
+				// Nem kanyarodik, mert két koordináta egyezik...
+				if (lastMapX == nextMapX || lastMapY == nextMapY) {
+					// Elfordulási szög nem változik.. csak léptetünk.
+					isTurning = false;
+					// Nincs dolgunk..
+				} else {
+					isTurning = true;
+					// Itt fordulunk
+					// Esetekre bontjuk egy elöre átbeszelt táblázat alapján,
+					// forgatási iránytol függöen
+					
+					if (nextMapX < lastMapX && nextMapY < lastMapY) {
+						// Megnézzük hogy hol van a forgatás középpontja
+						// (jelenlegi blokk felett vagy alatt)
+						if (currentMapY > nextMapY) {
+							System.out.println("A-");
+							rotateDir = 1;
+							circleStartAngle=90;
+							correctedX=1;
+							correctedY=0;
+						} else {
+							System.out.println("A+");
+							rotateDir = -1;
+							circleStartAngle=360;
+							correctedX=0;
+							correctedY=1;
+						}
+
+					} else if (nextMapX > lastMapX && nextMapY < lastMapY) {
+						if (currentMapY > nextMapY) {
+							System.out.println("B+");
+							rotateDir = -1;
+							circleStartAngle=90;
+							correctedX=0;
+							correctedY=0;
+						} else {
+							System.out.println("B-");
+							rotateDir = 1;
+							circleStartAngle=180;
+							correctedX=1;
+							correctedY=1;
+						}
+
+					} else if (nextMapX < lastMapX && nextMapY > lastMapY) {
+						if (currentMapX > nextMapX) {
+							System.out.println("C-");
+							rotateDir = 1;
+							circleStartAngle=0;
+							correctedX=0;
+							correctedY=0;
+						} else {
+							System.out.println("C+");
+							rotateDir = -1;
+							circleStartAngle=90;
+							correctedX=0;
+							correctedY=0;
+						}
+
+					} else if (nextMapX > lastMapX && nextMapY > lastMapY) {
+						if (currentMapX < nextMapX) {
+							System.out.println("D+");
+							rotateDir = -1;
+							circleStartAngle=180;
+							correctedX=1;
+							correctedY=0;
+						} else {
+							System.out.println("D-");
+							rotateDir = 1;
+							circleStartAngle=270;
+							correctedX=0;
+							correctedY=1;
+						}
+					}
+				}
+				// Megvan a forgatási irány és a középpontja, már csak el kell
+				// forgatni az idö függvenyeben
+
+			}
+
+			// Idöfüggö számítás
+			if (!isTurning) {			
+				System.out.println(angle);
+				int direction = (angle==180||angle==270)?-1:1;
+				// Az irány nem változik
+				if (angle == 90) {
+					// Függölegesen halad
+					posX = (int) Math.floor((currentMapX) * TILEWIDTH + TILEWIDTH / 2);
+					posY = (int) Math.floor((currentMapY) * TILEHEIGHT + direction * TILEHEIGHT * percent);
+				}else if(angle==270) {
+					// Függölegesen halad
+					posX = (int) Math.floor((currentMapX) * TILEWIDTH + TILEWIDTH / 2);
+					posY = (int) Math.floor((currentMapY+1) * TILEHEIGHT + direction * TILEHEIGHT * percent);
+				}else if(angle == 180){
+					// Vizszintesen halad
+					posX = (int) Math.floor((currentMapX+180) * TILEWIDTH + direction * percent * TILEWIDTH);
+					posY = (int) Math.floor((currentMapY) * TILEHEIGHT + TILEHEIGHT/2);
+				}else if(angle == 0){
+					posX = (int) Math.floor((currentMapX) * TILEWIDTH + direction * percent * TILEWIDTH);
+					posY = (int) Math.floor((currentMapY) * TILEHEIGHT + TILEHEIGHT/2);
+				}
+			}else{
+				//Fordulunk
+				//Forgatás közepe és iránya meg van adva, csak forgatunk...		
+				//Kép forgatás		
+				//Kép uj irányának számolása
+				double delta=rotateDir*90*percent;
+				angle=startAngle + delta;
+				
+				//Intervalluma foglalás
+				if(angle<0)angle+=360;
+				if(angle>360)angle-=360;
+				
+				//Pozicio számitás		
+				//Blokkonbelüli forgatás utáni pozicio
+				//Origo középpontu kör + eltolás;
+				double range = TILEWIDTH/2;
+				int circleX = (int) (range * Math.cos(Math.toRadians(circleStartAngle+delta)));
+				int circleY = (int) (range * Math.sin(Math.toRadians(circleStartAngle+delta)));
+				
+				posX = (int) Math.floor((currentMapX + correctedX) * TILEWIDTH + circleX);
+				posY = (int) Math.floor((currentMapY + correctedY)  * TILEHEIGHT +circleY);
+				
+			}
+
+			// Update
+			
+			if (currentMapX > 0 && currentMapY > 0) {
+				changeMap[currentMapX][currentMapY] = true;
+
+				if (lastMapX > 0 && lastMapY > 0) {
+					changeMap[lastMapX][lastMapY] = true;
+				}
+			}
+
+			if (currentMapX != currentX || currentMapY != currentY) {
+				lastMapX = currentMapX;
+				currentMapX = currentX;
+
+				lastMapY = currentMapY;
+				currentMapY = currentY;
+			}
+
+			changeMap[currentX][currentY] = true;
+		}
+
+		public void draw(Graphics g) {
+			AffineTransform trans = new AffineTransform();
+			trans.translate(posX - TRAINBLOCKWIDTH / 2, posY - TRAINBLOCKHEIGHT / 2);
+			trans.rotate(Math.toRadians(angle), TRAINBLOCKWIDTH / 2, TRAINBLOCKHEIGHT / 2);
+			Graphics2D g2d = (Graphics2D) g;
+			g2d.drawImage(currentImg, trans, null);
+		}
+
+	}
+
+	// Threads
+	private static class mainRenderThread extends Thread {
+		@Override
+		public void run() {
+			int cntr = 0;
+			while (true) {
+				try {
+					if (gui != null) {						
+						if (cntr == tilePositionCount) {
+							cntr = 0;
+							testCnt++;
+						} else {
+							cntr++;
+						}
+						doTurnTest(testCnt);
+						hopTrains();
+						gui.repaint();
+					}
+
+					Thread.sleep(renderTime);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }
