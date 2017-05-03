@@ -100,7 +100,7 @@ class TrainBlock {
 			else if(angle>=45 && angle<135)angle=90;			
 			else if(angle>=135 && angle<225)angle=180;		
 			else if(angle>=225 && angle<315)angle=270;		
-			else if(angle>=315 && angle<405)angle=360;
+			else if(angle>=315 && angle<405)angle=0;
 			
 			// Forgatás adatai
 			rotateDir = 1;

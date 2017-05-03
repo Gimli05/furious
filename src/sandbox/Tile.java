@@ -21,7 +21,7 @@ public class Tile{
 	
 	public Tile(String t) {
 		type = t.toString().trim().substring(0, 1);
-		variant = 0;
+		variant = 1;
 		active = false;
 		state = false;
 		interactive = false;
@@ -218,9 +218,9 @@ public class Tile{
 
 		case "S":
 			if (x == 0) {
-				baseTileMap[x][y].rotation(-90);
-			} else if (x == GUI.BOARDWIDTH - 1) {
 				baseTileMap[x][y].rotation(90);
+			} else if (x == GUI.BOARDWIDTH - 1) {
+				baseTileMap[x][y].rotation(-90);
 			} else {
 				if (y == 0) {
 					baseTileMap[x][y].rotation(180);

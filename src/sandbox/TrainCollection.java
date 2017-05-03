@@ -74,4 +74,14 @@ public class TrainCollection {
 		System.out.println("Class: TrainCollection\t Object: "+this+"\t Returned: true"); /* Kiíratás a Szkeleton vezérlésének */
 		return true; /* Nem találtunk megfelelõ vagont, ezért igazzal térünk vissza. */
 	}
+	
+	//Long
+	public String getNextCoords(){
+		String coords="";
+		for(Train train:trains){
+			if(train.getNextRail()!=null)
+				coords+=","+train.getNextRail().getX()+","+ train.getNextRail().getY();
+		}
+		return coords;
+	}
 }

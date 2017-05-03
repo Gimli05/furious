@@ -44,6 +44,7 @@ public class GameController {
 	//LOOOOOOOOOOOOONG
 	private static GUI gui;
 	private static Thread mainThread; 
+	private static int STEPTIME=1000;
 	//LOOOOOOOOOOOOONG
 	
 	
@@ -172,7 +173,7 @@ public class GameController {
 		Rail[][] tempMap = new Rail[width][height]; /*Pályaelem tároló mátrix*/
 		String[][] tempView = new String[width][height]; /*Pályaelem leíró mátrix*/
 		
-		gui.init(width, height);
+		gui.init(width, height, STEPTIME);
 
 		int x=0; /*Segédváltozó szélességhez*/
 		int y=0; /*Segédváltpzó magassághoz*/
@@ -831,15 +832,25 @@ public class GameController {
 					testTrain.setNextRail(enterPoint); 	
 					trainCollection.addNewTrain(testTrain);
 					
+					//GUI Init..
+					gui.addTrain("EB", enterPoint.getX(), enterPoint.getY(), enterPoint.getNextRail(null).getX(), enterPoint.getNextRail(null).getY());
 					
 					/*16 léptetést hajtunk végre*/
-					for(int i=0;i<16;i++){
+					for(int i=0;i<500;i++){
 						for(Rail oneRail: railCollection){ /* Minden eggyes sínnek csökkentjük eggyel a rajta még áthaladó kabinok számát, mivel lép egyet minden vonat. */
 							oneRail.lowerTrainLenghtCounter();
+						}												
+						trainCollection.moveAllTrains();
+						System.out.println(trainCollection.getNextCoords());
+						gui.moveAllTrain(trainCollection.getNextCoords());
+						//drawToConsole();	/*Közben frissítjuk a nézetet*/
+						
+						int stepParts=20;
+						int speed=2;
+						for(int j=0;j<stepParts;j++){
+							gui.updateTime(j*STEPTIME/stepParts);
+							Thread.sleep(STEPTIME/stepParts/speed);
 						}
-						trainCollection.moveAllTrains();				
-						drawToConsole();	/*Közben frissítjuk a nézetet*/
-						Thread.sleep(1000);
 					}
 
 					
@@ -861,7 +872,8 @@ public class GameController {
 					try {
 						
 						doGuiClickLogAction(gui.getClickLog());
-						Thread.sleep(50);
+						//gui.moveAllTrain();
+						Thread.sleep(100);
 						
 					} catch (InterruptedException e) {
 						e.printStackTrace();

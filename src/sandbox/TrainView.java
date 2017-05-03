@@ -27,7 +27,7 @@ public class TrainView {
 		}
 	}
 		
-	public void updatePos(int nextX, int nextY){		
+	public void updatePos(int nextX, int nextY){
 		for(int i=train.size()-1;i>0;i--){
 			TrainBlock next = train.get(i-1);
 			train.get(i).updatePos(next.getNextPosX(), next.getNextPosY());
