@@ -7,6 +7,8 @@ public class TrainView {
 	ArrayList<TrainBlock> train;
 	
 	private String changeLog="";
+	
+	private int nextVisibility=1; 
 
 	public TrainView(ArrayList<String> list) {
 		train=new ArrayList<TrainBlock>();
@@ -43,6 +45,16 @@ public class TrainView {
 		}
 	}
 	
+	public void setVisibility(int v){		
+		for(int i=train.size()-1;i>0;i--){
+			TrainBlock next = train.get(i-1);
+			train.get(i).setVisibility(next.getVisibility());
+		}	
+		train.get(0).setVisibility(nextVisibility);
+		nextVisibility=v;
+		
+	}
+	
 	public String getChangeLog(){
 		String log = changeLog;
 		changeLog="";
@@ -51,7 +63,7 @@ public class TrainView {
 
 	public void draw(Graphics g){
 		for(TrainBlock block:train){
-			block.draw(g);
+			if(block.getVisibility()==1)block.draw(g);
 		}
 	}
 }

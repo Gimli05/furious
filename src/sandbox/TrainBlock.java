@@ -31,6 +31,8 @@ class TrainBlock {
 	
 	// Raw Data
 	private Image img;
+	private double flip;
+	private boolean visible;
 	
 	//Változás könyvelés
 	
@@ -53,7 +55,8 @@ class TrainBlock {
 		rotateDir = 0;
 		angle = 0;
 		isTurning = false;
-
+		visible=true;
+		
 		// Raw Data
 		switch (type) {
 		case "E":
@@ -84,6 +87,15 @@ class TrainBlock {
 		angle=a;
 	}
 	
+	public void setVisibility(int v){
+		if(v==0)visible=false;
+		else visible=true;
+	}
+	
+	public int getVisibility(){
+		return visible?1:0;
+	}
+	
 	public void updatePos(int nextX, int nextY) {
 		// Update ha nem csak idöben van változás
 		if (nextMapX != nextX || nextMapY != nextY) {
@@ -105,10 +117,21 @@ class TrainBlock {
 			// Forgatás adatai
 			rotateDir = 1;
 			circleStartAngle = 0;
-
+			
+			if(flip>0){
+				angle+=flip;
+				flip=0;
+				if(angle>=360)angle-=360;
+			}
+			
 			// Irányszámítás
 
 			// Nem kanyarodik, mert két koordináta egyezik...
+			if(lastMapX == nextMapX && lastMapY ==nextMapY){
+				flip+=180;
+				if(flip>360)flip-=360;
+			}
+			
 			if (lastMapX == nextMapX || lastMapY == nextMapY) {
 				// Elfordulási szög nem változik.. csak léptetünk.
 				isTurning = false;
@@ -192,7 +215,8 @@ class TrainBlock {
 		double percent = ((double) currentTime / GUI.TILEINTERVAL);
 		// Idöfüggö számítás
 		if (!isTurning) {
-			int direction = (angle == 180 || angle == 270) ? -1 : 1;
+			int direction = (angle== 180 || angle == 270) ? -1 : 1;
+					
 			// Az irány nem változik
 			if (angle == 90) {
 				// Függölegesen halad
@@ -252,7 +276,7 @@ class TrainBlock {
 	public void draw(Graphics g) {
 		AffineTransform trans = new AffineTransform();
 		trans.translate(posX - TRAINBLOCKWIDTH / 2, posY - TRAINBLOCKHEIGHT / 2);
-		trans.rotate(Math.toRadians(angle), TRAINBLOCKWIDTH / 2, TRAINBLOCKHEIGHT / 2);
+		trans.rotate(Math.toRadians(angle+flip), TRAINBLOCKWIDTH / 2, TRAINBLOCKHEIGHT / 2);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.drawImage(img, trans, null);
 	}

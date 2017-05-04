@@ -32,6 +32,7 @@ public class TunnelEntrance extends Switch{
 	public void activate(){
 		System.out.println("Class: TunnelEntrance\t Object: "+this+"\t Method: Activate\t Aktivalta az alagutszajat"); /* Kiíratás a Szkeleton vezérlésének */
 		isActivated = true; /* aktiváljuk az alagútszájat */
+		state=false;
 	}
 	
 	
@@ -42,7 +43,7 @@ public class TunnelEntrance extends Switch{
 	public void deActivate(){
 		System.out.println("Class: TunnelEntrance\t Object: "+this+"\t Method: Deactivate\t Deaktivalta az alagutszajat"); /* Kiíratás a Szkeleton vezérlésének */
 		isActivated = false; /* Deaktiváljuk az alagútszájat. */
-		
+		state=false;
 		Rail neighbourRailToGetDeleted = null; /* Ebben fogjuk eltárolni a törlendõ Tunnel szomszédot. */
 		for(Rail rail:neighbourRails){  /* végignézünk minden szomszédot */
 			if(rail.getClass() == Tunnel.class){ /* amelyik tunnel, azt megjelöljük, mint törlendõ szomszédot. */
@@ -95,16 +96,116 @@ public class TunnelEntrance extends Switch{
 		
 		if(isActivated){
 			//Ha aktív akkor egy sima váltó, amiben már fel van építve az alagut
-			if(state){
-				if(trainPreviousRail.getX()==n2.getX() || trainPreviousRail.getY()==n2.getY())return n3;
-				if(n2.getX()==n2.getX() || n3.getY()==n3.getY())return n3;
-				if(trainPreviousRail.getX()==n3.getX() || trainPreviousRail.getY()==n3.getY())return n2;
-				
-			}else{
-				if(trainPreviousRail.getX()==n2.getX() || trainPreviousRail.getY()==n2.getY())return n2;
-				if(n2.getX()==n2.getX() || n3.getY()==n3.getY())return n2;
-				if(trainPreviousRail.getX()==n3.getX() || trainPreviousRail.getY()==n3.getY())return n3;
+			Rail np = trainPreviousRail;
+			
+			
+			for (Rail oneNeighbourRail : neighbourRails) {
+				if (trainPreviousRail != oneNeighbourRail) {
+					if (n2 == null)
+						n2 = oneNeighbourRail;
+					else
+						n3 = oneNeighbourRail;
+				}
 			}
+			
+			//Függöleges tagozodás
+			if (np.getX() == n2.getX()) {
+				if (n3.getX() > n2.getX()) {
+					if (!state) {
+						return n2;
+					} else {
+						return n3;
+					}
+				} else {
+					if (!state) {
+						return n2;
+					} else {
+						return n3;
+					}
+				}
+			} else if (n2.getX() == n3.getX()) {
+				if (np.getX() > n3.getX()) {
+					if (!state) {
+						if(n2.getY()>n3.getY())return n3;
+						else return n2;
+					} else {
+						if(n2.getY()>n3.getY())return n2;
+						else return n3;
+					}
+				} else {
+					if (!state) {
+						if(n2.getY()>n3.getY())return n3;
+						else return n3;
+					} else {
+						if(n2.getY()>n3.getY())return n3;
+						else return n2;
+					}
+				}
+			} else if (np.getX() == n3.getX()) {
+				if (n2.getX() > n3.getX()) {
+					if (!state) {
+						return n3;
+					} else {
+						return n2;
+					}
+				} else {
+					if (!state) {
+						return n3;
+					} else {
+						return n2;
+					}
+				}
+			}
+			//vizszintes tagozodás
+			if (np.getY() == n2.getY()) {
+				if (n3.getY() < n2.getY()) {
+					if (!state) {
+						return n2;
+					} else {
+						return n3;
+					}
+				} else {
+					if (!state) {
+						return n2;
+					} else {
+						return n3;
+					}
+				}
+			} else if (n2.getY() == n3.getY()) {
+				if (np.getY() < n3.getY()) {
+					if (!state) {
+						
+						if(n2.getX()>n3.getX())return n3;
+						else return n2;
+					} else {
+						if(n2.getX()>n3.getX())return n2;
+						else return n3;
+					}
+				} else {
+					if (!state) {
+						if(n2.getX()>n3.getX())return n2;
+						else return n3;
+					} else {
+						if(n2.getX()>n3.getX())return n3;
+						else return n2;
+					}
+				}
+			} else if (np.getY() == n3.getY()) {
+				if (n2.getY() < n3.getY()) {
+					if (!state) {
+						return n3;
+					} else {
+						return n2;
+					}
+				} else {
+					if (!state) {
+						return n3;
+					} else {
+						return n2;
+					}
+				}
+			}
+			
 		}else{
 			//Ha nem aktív akkor viszont csak a két sín között mehetünk át
 			if(n2!=null)return n2;

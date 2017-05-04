@@ -10,15 +10,14 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-public class Tile{
+public class Tile {
 	private Image img;
 	private String type;
 	private boolean interactive;
 	private boolean state;
 	private boolean active;
 	private int variant;
-	private String changeLog="";
-	
+
 	public Tile(String t) {
 		type = t.toString().trim().substring(0, 1);
 		variant = 1;
@@ -55,50 +54,39 @@ public class Tile{
 	public int getVariant() {
 		return variant;
 	}
-
+	
 	public String getType() {
 		return type;
 	}
-	
-	public Image getImage(){
+
+	public Image getImage() {
 		return img;
 	}
-	
-	public void switchState(Tile[][] baseTileMap, int x, int y, boolean btn) {
-		if (interactive) {
-			if (!btn && type.equals("U")) {
-				if (!active) {
-					active = true;
-					changeLog+=","+x+","+y;
-					img = loadImage(type + variant + (active == false ? 0 : 1) + (state == false ? 0 : 1))
-							.getImage();
-					setTileAngle(baseTileMap, x, y);
 
-				} else {
-					state = !state;
-					changeLog+=","+x+","+y;
-					img = loadImage(type + variant + (active == false ? 0 : 1) + (state == false ? 0 : 1))
-							.getImage();
-					setTileAngle(baseTileMap,x, y);
-				}
+	public void activate(Tile[][] baseTileMap, int x, int y) {
+		active = true;
+		state=false;
+		img = loadImage(type + variant + (active == false ? 0 : 1) + (state == false ? 0 : 1)).getImage();
+		setTileAngle(baseTileMap, x, y);
+	}
 
-			} else if (btn && type.equals("U")) {
-				if (active) {
-					state = false;
-					active = !active;
-					changeLog+=","+x+","+y;
-					img = loadImage(type + variant + (active == false ? 0 : 1) + (state == false ? 0 : 1))
-							.getImage();
-					setTileAngle(baseTileMap, x, y);
-				}
-			} else {
-				if (!btn) {
-					state = !state;
-					changeLog+=","+x+","+y;
-					img = loadImage(type + (state == false ? 0 : 1)).getImage();
-					setTileAngle(baseTileMap, x, y);
-				}
-			}
+	public void deactivate(Tile[][] baseTileMap, int x, int y) {
+		active = false;
+		state=false;
+		img = loadImage(type + variant + (active == false ? 0 : 1) + (state == false ? 0 : 1)).getImage();
+		setTileAngle(baseTileMap, x, y);
+	}
+
+	public void switchState(Tile[][] baseTileMap, int x, int y) {
+		if (interactive && type.equals("U") && active) {
+			state = !state;
+			img = loadImage(type + variant + (active == false ? 0 : 1) + (state == false ? 0 : 1)).getImage();
+			setTileAngle(baseTileMap, x, y);
+
+		} else if (interactive && type.equals("S")) {
+			state = !state;
+			img = loadImage(type + (state == false ? 0 : 1)).getImage();
+			setTileAngle(baseTileMap, x, y);
 		}
 	}
 
@@ -108,7 +96,7 @@ public class Tile{
 		else
 			img = loadImage(type + (state == false ? 0 : 1)).getImage();
 	}
-	
+
 	private static Image rotateImage(Image img, double angle) {
 		BufferedImage rotateImage = null;
 		try {
@@ -287,13 +275,13 @@ public class Tile{
 			}
 			break;
 		case "U":
-			setTunnelVariantAndAngle(baseTileMap,x, y);
+			setTunnelVariantAndAngle(baseTileMap, x, y);
 			break;
 		default:
 			break;
 		}
 	}
-	
+
 	public void markIfCorner(Tile[][] baseTileMap, int x, int y) {
 		if (!baseTileMap[x][y].getType().equals("R"))
 			return;
@@ -336,8 +324,7 @@ public class Tile{
 		}
 	}
 
-
-	private static void setTunnelVariantAndAngle(Tile[][] baseTileMap,int x, int y) {
+	public void setTunnelVariantAndAngle(Tile[][] baseTileMap, int x, int y) {
 		if (x == 0) {
 			baseTileMap[x][y].rotation(-90);
 		} else if (x == GUI.BOARDWIDTH - 1) {
@@ -348,49 +335,50 @@ public class Tile{
 			} else if (y == GUI.BOARDHEIGHT - 1) {
 				baseTileMap[x][y].rotation(0);
 			} else {
+				
+				// Bal
+				
+				
 				// Szemben
 				if (!baseTileMap[x][y - 1].getType().equals("x") && !baseTileMap[x][y + 1].getType().equals("x")) {
 					baseTileMap[x][y].setVariant(0);
+					baseTileMap[x][y].updateImage();
 					baseTileMap[x][y].rotation(90);
 				}
 				if (!baseTileMap[x - 1][y].getType().equals("x") && !baseTileMap[x + 1][y].getType().equals("x")) {
 					baseTileMap[x][y].setVariant(0);
+					baseTileMap[x][y].updateImage();
 					baseTileMap[x][y].rotation(0);
 				}
 				// Jobb
 
+				
+				if (!baseTileMap[x + 1][y].getType().equals("x") && !baseTileMap[x][y + 1].getType().equals("x")) {
+					baseTileMap[x][y].setVariant(1);
+					baseTileMap[x][y].updateImage();
+					baseTileMap[x][y].rotation(180);
+				}				
+
+				if (!baseTileMap[x - 1][y].getType().equals("x") && !baseTileMap[x][y - 1].getType().equals("x")) {
+					baseTileMap[x][y].setVariant(1);
+					baseTileMap[x][y].updateImage();
+					baseTileMap[x][y].rotation(0);
+				}
+				
+				// Bal
 				if (!baseTileMap[x + 1][y].getType().equals("x") && !baseTileMap[x][y - 1].getType().equals("x")) {
 					baseTileMap[x][y].setVariant(2);
 					baseTileMap[x][y].updateImage();
 					baseTileMap[x][y].rotation(0);
-				}
-				if (!baseTileMap[x + 1][y].getType().equals("x") && !baseTileMap[x][y + 1].getType().equals("x")) {
-					baseTileMap[x][y].setVariant(2);
-					baseTileMap[x][y].updateImage();
-					baseTileMap[x][y].rotation(180);
-				}
-				// Bal
-
-				if (!baseTileMap[x - 1][y].getType().equals("x") && !baseTileMap[x][y - 1].getType().equals("x")) {
-					baseTileMap[x][y].setVariant(2);
-					baseTileMap[x][y].updateImage();
-					baseTileMap[x][y].rotation(0);
+				
 				}
 				if (!baseTileMap[x - 1][y].getType().equals("x") && !baseTileMap[x][y + 1].getType().equals("x")) {
 					baseTileMap[x][y].setVariant(2);
 					baseTileMap[x][y].updateImage();
 					baseTileMap[x][y].rotation(180);
 				}
-
 			}
 		}
 	}
 
-	public String getChangeLog(){
-		String log = changeLog;
-		changeLog="";
-		return log;
-	}
-
-	
 }

@@ -17,7 +17,7 @@ public class TrainCollection {
 	 * Létrehoz egy új listát ami vonatokat tartalmaz.
 	 */
 	public TrainCollection (){
-		System.out.println("Class: TrainCollection\t Object: "+this+"\t Method: Constructor\t "); /* Kiíratás a Szkeleton vezérlésének */
+	//	System.out.println("Class: TrainCollection\t Object: "+this+"\t Method: Constructor\t "); /* Kiíratás a Szkeleton vezérlésének */
 		trains = new ArrayList<Train>(); /* létrehozunk egy új listát */
 	}
 	
@@ -28,7 +28,7 @@ public class TrainCollection {
 	 * vagy adott esetben csak beállítja a következõ lépés helyét a train setNextRail() függvényével.
 	 */
 	public void moveAllTrains(){
-		System.out.println("Class: TrainCollection\t Object: "+this+"\t Method: moveAllTrains\t  Minden vonat lép."); /* Kiíratás a Szkeleton vezérlésének */
+	//	System.out.println("Class: TrainCollection\t Object: "+this+"\t Method: moveAllTrains\t  Minden vonat lép."); /* Kiíratás a Szkeleton vezérlésének */
 		for(Train train: trains){ /* Minden vonatot a neki következõ sínre léptetünk */
 			Rail rail=train.getNextRail(); /* lekérjük a következõ sínt */
 			rail.accept(train); /* A visitor minta szerint elfogadtatjuk a sínnel a vonatot. */
@@ -45,7 +45,7 @@ public class TrainCollection {
 	 * @param train Az új hozzáadandó vonat referenciája.
 	 */
 	public void addNewTrain(Train train){
-		System.out.println("Class: TrainCollection\t Object: "+this+"\t Method: addNewTrain\t Param: "+ train); /* Kiíratás a Szkeleton vezérlésének */
+	//	System.out.println("Class: TrainCollection\t Object: "+this+"\t Method: addNewTrain\t Param: "+ train); /* Kiíratás a Szkeleton vezérlésének */
 		trains.add(train); /* hozzáadjuk az új vonatot a kollekcióhoz. */
 	}	
 	
@@ -54,7 +54,7 @@ public class TrainCollection {
 	 * Ürítjük a vonatokat listáját
 	 */
 	public void clear(){
-		System.out.println("Class: TrainCollection\t Object: "+this+"\t Method: clear\t "); /* Kiíratás a Szkeleton vezérlésének */
+	//	System.out.println("Class: TrainCollection\t Object: "+this+"\t Method: clear\t "); /* Kiíratás a Szkeleton vezérlésének */
 		trains.clear(); /* kiürítjük a kollekciót. */
 	}
 	
@@ -64,14 +64,14 @@ public class TrainCollection {
 	 * @param	Ha van, akkor hamissal, ha nincs akkor igazzal térünk vissza.
 	 */
 	public boolean isAllEmpty(){
-		System.out.println("Class: TrainCollection\t Object: "+this+"\t Method: isAllEmpty\t "); /* Kiíratás a Szkeleton vezérlésének */
+	//	System.out.println("Class: TrainCollection\t Object: "+this+"\t Method: isAllEmpty\t "); /* Kiíratás a Szkeleton vezérlésének */
 		for(Train train: trains){ /*Minden vonatot vizsgálunk*/
 			if(train.getFirstNotEmptyCabColor() != Color.BLACK){ /* ellenõrizzük melyiknek nem fekete a színe (Ha üres, akkor feketét ad vissza a meghívott fv) */
-				System.out.println("Class: TrainCollection\t Object: "+this+" Returned: false"); /* Kiíratás a Szkeleton vezérlésének */
+	//			System.out.println("Class: TrainCollection\t Object: "+this+" Returned: false"); /* Kiíratás a Szkeleton vezérlésének */
 				return false; /*Ha van aminek van nem fekete vagonja akkor van utas*/
 			}
 		}
-		System.out.println("Class: TrainCollection\t Object: "+this+"\t Returned: true"); /* Kiíratás a Szkeleton vezérlésének */
+	//	System.out.println("Class: TrainCollection\t Object: "+this+"\t Returned: true"); /* Kiíratás a Szkeleton vezérlésének */
 		return true; /* Nem találtunk megfelelõ vagont, ezért igazzal térünk vissza. */
 	}
 	
@@ -79,8 +79,11 @@ public class TrainCollection {
 	public String getNextCoords(){
 		String coords="";
 		for(Train train:trains){
-			if(train.getNextRail()!=null)
-				coords+=","+train.getNextRail().getX()+","+ train.getNextRail().getY();
+			if(train.getNextRail()!=null){
+				int visible=1;
+				if(train.getNextRail().getClass().equals(Tunnel.class))visible=0;
+				coords+=","+train.getNextRail().getX()+","+ train.getNextRail().getY()+","+visible;
+			}
 		}
 		return coords;
 	}

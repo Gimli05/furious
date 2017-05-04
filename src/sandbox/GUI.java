@@ -25,7 +25,6 @@ public class GUI extends JPanel {
 	protected static String imageURL = "raw/";
 	protected static long renderTime = 50;
 	protected static int hopTime = 100;
-	private static int tilePositionCount = (TILEINTERVAL / hopTime)-1;
 
 	private static Thread renderThread;
 	private static boolean changeMap[][];
@@ -37,9 +36,6 @@ public class GUI extends JPanel {
 	private static MouseListener MyMouseListener;
 
 	// Test
-	private static int testCnt = 0;
-	private static int testNX = 0;
-	private static int testNY = 0;
 	private static int FrameFix = 0;
 
 	public GUI() {
@@ -82,7 +78,7 @@ public class GUI extends JPanel {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				callTileClick((int) Math.floor(e.getX() / TILEWIDTH), (int) Math.floor(e.getY() / TILEHEIGHT),
+				writeClickLog((int) Math.floor(e.getX() / TILEWIDTH), (int) Math.floor(e.getY() / TILEHEIGHT),
 						e.getButton() == MouseEvent.BUTTON3);
 				changeMap[(int) Math.floor(e.getX() / TILEWIDTH)][(int) Math.floor(e.getY() / TILEHEIGHT)]=true;
 			}
@@ -159,11 +155,6 @@ public class GUI extends JPanel {
 		}
 	}
 
-	private static void callTileClick(int x, int y, boolean btn) {
-		baseTileMap[x][y].switchState(baseTileMap, x, y, btn);
-		writeClickLog(x, y, btn);
-	}
-
 	private static void writeClickLog(int x, int y, boolean btn) {
 		if (clickLog == "") {
 			clickLog += x + "," + y + "," + (btn == false ? 0 : 1);
@@ -178,70 +169,28 @@ public class GUI extends JPanel {
 		clickLog = "";
 		return ret;
 	}
-
-	public static void doTurnTest(int cnt) {
-		if (cnt == 0) {
-			testNX = 1;
-			testNY = 1;
-		} else if (cnt == 1) {
-			testNX = 1;
-			testNY = 2;
-		} else if (cnt == 2) {
-			testNX = 1;
-			testNY = 3;
-		} else if (cnt == 3) {
-			testNX = 2;
-			testNY = 3;
-		} else if (cnt == 4) {
-			testNX = 3;
-			testNY = 3;
-		} else if (cnt == 5) {
-			testNX = 3;
-			testNY = 2;
-		} else if (cnt == 6) {
-			testNX = 3;
-			testNY = 1;
-		} else if (cnt == 7) {
-			testNX = 4;
-			testNY = 1;
-		} else if (cnt == 8) {
-			testNX = 4;
-			testNY = 2;
-		} else if (cnt == 9) {
-			testNX = 4;
-			testNY = 3;
-		} else if (cnt == 10) {
-			testNX = 4;
-			testNY = 4;
-		} else if (cnt == 11) {
-			testNX = 4;
-			testNY = 5;
-		} else if (cnt == 12) {
-			testNX = 4;
-			testNY = 6;
-		} else if (cnt == 13) {
-			testNX = 3;
-			testNY = 6;
-		} else if (cnt == 14) {
-			testNX = 3;
-			testNY = 5;
-		} else if (cnt == 15) {
-			testNX = 2;
-			testNY = 5;
-		} else if (cnt == 16) {
-			testNX = 1;
-			testNY = 5;
-		} else if (cnt == 17) {
-			testNX = 0;
-			testNY = 5;
-		} else if (cnt == 18) {
-			testNX = 0;
-			testNY = 6;
+	
+	public void activateTunnel(int x, int y){
+		if(baseTileMap[x][y].getType().equals("U")){
+			baseTileMap[x][y].activate(baseTileMap, x, y);
+			changeMap[x][y]=true;
 		}
 	}
-
+	
+	public void deactivateTunnel(int x, int y){
+		if(baseTileMap[x][y].getType().equals("U")){
+			baseTileMap[x][y].deactivate(baseTileMap, x, y);
+			changeMap[x][y]=true;
+		}
+	}
+	
+	public void switchState(int x, int y){
+		baseTileMap[x][y].switchState(baseTileMap, x, y);
+		changeMap[x][y]=true;
+	}
+	
 	// Train
-
+	
 	public void updateTime(int time) {
 		//time = (time + hopTime) % TILEINTERVAL;
 
@@ -290,20 +239,21 @@ public class GUI extends JPanel {
 	}
 
 	public void moveAllTrain(String coordsString) {
-		if (coordsString.length() < 4)
+		if (coordsString.length() < 6)
 			return;
 		String[] coords = coordsString.split(",");
-		for (int idx = 1; idx < coords.length; idx += 2) {
-			trainContainer.get(idx / 2).updatePos(Integer.parseInt(coords[idx]), Integer.parseInt(coords[idx + 1]));
+		for (int idx = 1; idx < coords.length; idx += 3) {
+			trainContainer.get(idx / 3).updatePos(Integer.parseInt(coords[idx]), Integer.parseInt(coords[idx + 1]));
+			trainContainer.get(idx/3).setVisibility( Integer.parseInt(coords[idx + 2]));
 		}
 	}
 
-	private static void readAllChangeLog() {
+	private static void readAllChangeLog() {	
 		for (TrainView train : trainContainer) {
 			readChangeLog(train.getChangeLog());
 		}
 	}
-
+	
 	private static void readChangeLog(String log) {
 		if (log.length() < 4)
 			return;
@@ -314,41 +264,79 @@ public class GUI extends JPanel {
 		}
 	}
 
+	
 	// Render
+	public Tunnel getFirstTunnelPart(TunnelEntrance e){
+		int x = e.getX();
+		int y = e.getY();
+		int cx=0;
+		int cy=0;
+		
+		if (x == 0) {
+		} else if (x == GUI.BOARDWIDTH - 1) {
+		} else {
+			if (y == 0) {
+			} else if (y == GUI.BOARDHEIGHT - 1) {
+			} else {			
+				// Szemben
+				if (!baseTileMap[x][y - 1].getType().equals("x") && !baseTileMap[x][y + 1].getType().equals("x")) {
+					cy=0;
+					cx=1;
+				}
+				if (!baseTileMap[x - 1][y].getType().equals("x") && !baseTileMap[x + 1][y].getType().equals("x")) {
+					cy=0;
+					cx=-1;
+				}
+				// Jobb
+
+				
+				if (!baseTileMap[x + 1][y].getType().equals("x") && !baseTileMap[x][y + 1].getType().equals("x")) {
+					cy=0;
+					cx=-1;
+				}				
+
+				if (!baseTileMap[x - 1][y].getType().equals("x") && !baseTileMap[x][y - 1].getType().equals("x")) {
+					cy=0;
+					cx=1;
+				}
+				
+				// Bal
+				if (!baseTileMap[x + 1][y].getType().equals("x") && !baseTileMap[x][y - 1].getType().equals("x")) {
+					cy=0;
+					cx=-1;
+				
+				}
+				if (!baseTileMap[x - 1][y].getType().equals("x") && !baseTileMap[x][y + 1].getType().equals("x")) {
+					cy=0;
+					cx=1;
+				}
+			}
+		}
+		
+		Tunnel newTunnel = new Tunnel();
+		System.out.println("Prev:" +e.getX()+","+e.getY()+"   Next:"+(e.getX()+cx)+","+(e.getY()+cy));
+		newTunnel.setX(e.getX() + cx);
+		newTunnel.setY(e.getY() + cy);;
+		return newTunnel;
+	}
 
 	private static class mainRenderThread extends Thread {
 		@Override
 		public void run() {
-			int cntr = 0;
 			while (true) {
 				try {
 					if (gui != null) {
-						if (cntr == tilePositionCount) {
-							cntr = 0;
-							testCnt++;
-							//moveAllTrain("," + testNX + "," + testNY);
-
-						} else {
-							cntr++;
-
-						}
-						//doTurnTest(testCnt);
-						//updateTime();
 						readAllChangeLog();
 						gui.repaint();
 					}
 
 					Thread.sleep(renderTime);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
 	}
 
-	public void updateTimeInst() {
-		// TODO Auto-generated method stub
-		
-	}
+
 }

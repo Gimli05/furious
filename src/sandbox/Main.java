@@ -97,7 +97,7 @@ public class Main {
 						case 71: System.out.println("\nThread Teszt...");
 						/* Ez a programrész akkor fut le, ha a felhasználó a 71. pályát választja. Létrejön egy GameController. */
 						GameController gc171 = new GameController();
-						gc171.startNewGame(1);  /* elindítjuk a gameControllert az 1-es pályával-  */
+						gc171.startNewGame(9);  /* elindítjuk a gameControllert az 1-es pályával-  */
 						gc171.runThreadTest();
 						break;
 

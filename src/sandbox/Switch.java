@@ -55,7 +55,7 @@ public class Switch extends Rail {
 		System.out.println("Class: Switch\t\t Object: " + this + "\t\t New state: "
 				+ state); /* Kiíratás a Szkeleton vezérlésének */
 	}
-
+	
 	// LONG MOKOLTA DE IGY JOBB
 	@Override
 	public Rail getNextRail(Rail trainPreviousRail) {
@@ -66,7 +66,8 @@ public class Switch extends Rail {
 		Rail np = trainPreviousRail;
 		Rail n2 = null;
 		Rail n3 = null;
-
+		
+		
 		for (Rail oneNeighbourRail : neighbourRails) {
 			if (trainPreviousRail != oneNeighbourRail) {
 				if (n2 == null)
@@ -142,6 +143,7 @@ public class Switch extends Rail {
 		} else if (n2.getY() == n3.getY()) {
 			if (np.getY() < n3.getY()) {
 				if (!state) {
+					
 					if(n2.getX()>n3.getX())return n3;
 					else return n2;
 				} else {
@@ -173,19 +175,6 @@ public class Switch extends Rail {
 			}
 		}
 		
-		/*
-		 * if(!state){ if(trainPreviousRail.getX()==n2.getX() ||
-		 * trainPreviousRail.getY()==n2.getY())return n3;
-		 * if(n2.getX()==n2.getX() || n3.getY()==n3.getY())return n3;
-		 * if(trainPreviousRail.getX()==n3.getX() ||
-		 * trainPreviousRail.getY()==n3.getY())return n2;
-		 * 
-		 * }else{ if(trainPreviousRail.getX()==n2.getX() ||
-		 * trainPreviousRail.getY()==n2.getY())return n2;
-		 * if(n2.getX()==n2.getX() || n3.getY()==n3.getY())return n2;
-		 * if(trainPreviousRail.getX()==n3.getX() ||
-		 * trainPreviousRail.getY()==n3.getY())return n3; }
-		 */
 		return null;
 	}
 
