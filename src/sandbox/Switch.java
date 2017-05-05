@@ -1,6 +1,5 @@
 package sandbox;
 
-import java.util.ArrayList;
 
 /**
  * Speciális sín, két lehetséges továbbhaladási iránnyal. Összesen 3 másik

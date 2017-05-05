@@ -1,5 +1,6 @@
 package sandbox;
 
+import java.awt.AlphaComposite;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -34,9 +35,11 @@ public class GUI extends JPanel {
 	private static ArrayList<TrainView> trainContainer;
 
 	private static MouseListener MyMouseListener;
+	
+	private static Animation anim;
+	private static AnimManager animManager;
 
 	// Test
-	private static int FrameFix = 0;
 
 	public GUI() {
 		baseTileMap = new Tile[BOARDWIDTH][BOARDHEIGHT];
@@ -97,22 +100,13 @@ public class GUI extends JPanel {
 		frame.requestFocus();
 
 		trainContainer = new ArrayList<TrainView>();
-
-		// LONG TESZTEL
-		//addTrain("EGBRB", -1, 1, 0, 1);
-		// LONG TESZTEL
+		animManager=new AnimManager();
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		// BaseDraw
-
-		// RANDOM FIX
-		if (FrameFix < 2) {
-			changeMap[0][0] = true;
-			FrameFix++;
-		}
-
+		
 		for (int x = 0; x < BOARDWIDTH; x++) {
 			for (int y = 0; y < BOARDHEIGHT; y++) {
 				if (baseTileMap[x][y] != null && changeMap[x][y]) {
@@ -123,6 +117,9 @@ public class GUI extends JPanel {
 		for (TrainView train : trainContainer) {
 			train.draw(g);
 		}
+		
+		
+		animManager.draw(g);
 
 		for (int x = 0; x < BOARDWIDTH; x++) {
 			for (int y = 0; y < BOARDHEIGHT; y++) {
@@ -248,10 +245,21 @@ public class GUI extends JPanel {
 		}
 	}
 
+	public void setCabStates(String states){
+		if (states.length() < 1)
+			return;		
+		String[] trainStates = states.split(",");
+		for (int idx = 0; idx < trainStates.length; idx ++) {
+			trainContainer.get(idx).setCabsState(trainStates[idx]);
+		}
+	}
+	
 	private static void readAllChangeLog() {	
 		for (TrainView train : trainContainer) {
 			readChangeLog(train.getChangeLog());
 		}
+		
+		if(anim!=null)anim.setUpdatedTiles(changeMap);
 	}
 	
 	private static void readChangeLog(String log) {
@@ -264,7 +272,25 @@ public class GUI extends JPanel {
 		}
 	}
 
+	//Animation
 	
+	public void addAnimation(int x, int y, String type){
+		switch(type){
+		case "4":
+			animManager.addAnimation(x, y, "Passengers");
+			break;
+		case "5":
+			animManager.addAnimation(x, y, "Passengers");
+			break;
+		case "6":
+			animManager.addAnimation(x, y, "Passengers");
+			break;
+			}
+	}
+
+	public static void removeAnimation(int x, int y, String type){
+		animManager.removeAnimation(x, y, type);
+	}
 	// Render
 	public Tunnel getFirstTunnelPart(TunnelEntrance e){
 		int x = e.getX();
@@ -323,10 +349,13 @@ public class GUI extends JPanel {
 	private static class mainRenderThread extends Thread {
 		@Override
 		public void run() {
+			
 			while (true) {
 				try {
 					if (gui != null) {
 						readAllChangeLog();
+						animManager.setUpdatedTiles(changeMap);
+						animManager.updateAnimations();
 						gui.repaint();
 					}
 

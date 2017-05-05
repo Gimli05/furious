@@ -31,6 +31,15 @@ public class TrainCollection {
 	//	System.out.println("Class: TrainCollection\t Object: "+this+"\t Method: moveAllTrains\t  Minden vonat lép."); /* Kiíratás a Szkeleton vezérlésének */
 		for(Train train: trains){ /* Minden vonatot a neki következõ sínre léptetünk */
 			Rail rail=train.getNextRail(); /* lekérjük a következõ sínt */
+			
+			if(rail!=null && rail.getNextRail(train.getPreviousRail()) == null){
+				GameController.failIntent();
+			}
+			else if(rail==null){
+				 /*Lefutottunk a sinekröl*/
+				return;
+			}
+			
 			rail.accept(train); /* A visitor minta szerint elfogadtatjuk a sínnel a vonatot. */
 		}
 	}
@@ -86,5 +95,13 @@ public class TrainCollection {
 			}
 		}
 		return coords;
+	}
+
+	public String getCabStates(){
+		String ch="";
+		for(Train train:trains){
+			ch+=train.getCabStates()+",";
+		}
+		return ch;
 	}
 }

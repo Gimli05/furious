@@ -13,23 +13,22 @@ import javax.swing.ImageIcon;
 public class Tile {
 	private Image img;
 	private String type;
-	private boolean interactive;
 	private boolean state;
 	private boolean active;
 	private int variant;
 
 	public Tile(String t) {
+		if(t.equals("4"))t="1";
+		if(t.equals("5"))t="2";
+		if(t.equals("6"))t="3";
 		type = t.toString().trim().substring(0, 1);
 		variant = 1;
 		active = false;
 		state = false;
-		interactive = false;
 
 		if (type.contains("S")) {
-			interactive = true;
 			img = loadImage(type + "0").getImage();
 		} else if (type.contains("U")) {
-			interactive = true;
 			img = loadImage(type + variant + "0" + "0").getImage();
 		} else
 			img = loadImage(type).getImage();
@@ -78,12 +77,15 @@ public class Tile {
 	}
 
 	public void switchState(Tile[][] baseTileMap, int x, int y) {
-		if (interactive && type.equals("U") && active) {
+		if(type.equals("1") ||type.equals("2")|| type.equals("3")){
+			
+			
+		}else if (type.equals("U") && active) {
 			state = !state;
 			img = loadImage(type + variant + (active == false ? 0 : 1) + (state == false ? 0 : 1)).getImage();
 			setTileAngle(baseTileMap, x, y);
 
-		} else if (interactive && type.equals("S")) {
+		} else if (type.equals("S")) {
 			state = !state;
 			img = loadImage(type + (state == false ? 0 : 1)).getImage();
 			setTileAngle(baseTileMap, x, y);
@@ -174,6 +176,7 @@ public class Tile {
 					baseTileMap[x][y].rotation(90);
 			}
 			break;
+		
 		case "1":
 			if (y > 0) {
 				if (!baseTileMap[x][y - 1].getType().equals("x"))

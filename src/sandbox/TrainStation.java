@@ -1,7 +1,6 @@
 package sandbox;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
 /**
  * Speciális sín. Van színe. Amennyiben egy vagon halad el rajta megegyezõ színnel, a vagonról az utasok leszállnak.
@@ -67,5 +66,9 @@ public class TrainStation extends Rail{
 	/**Ha valaki felszáll akkor eltüntetjük a pályaudvarról**/
 	public void boardPassengers(){
 		passengersColor=Color.BLACK;
+	}
+	
+	public void addPassengers(){
+		passengersColor=getColor();
 	}
 }

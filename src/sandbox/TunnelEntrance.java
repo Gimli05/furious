@@ -1,6 +1,5 @@
 package sandbox;
 
-import java.util.ArrayList;
 
 /**
  * Speciális váltó. Egyszerre csak kettõ lehet aktív. A felhasználó határozza meg, hogy a pályán melyik két alagútszáj legyen aktív. 

@@ -62,10 +62,19 @@ public class TrainView {
 	}
 
 	public void draw(Graphics g){
-		for(TrainBlock block:train){
-			if(block.getVisibility()==1)block.draw(g);
+		for(int i = train.size()-1;i>=0;i--){
+			if(train.get(i).getVisibility()==1)train.get(i).draw(g);
+		}
+	}
+
+	public void setCabsState(String states){
+		if(states.length()<1)return;
+		
+		String[] state = states.split("");
+		for(int i=1;i<state.length;i++){
+			
+			if(state[i].equals("E"))train.get(i).emptyCab();
+			else train.get(i).fillCab();
 		}
 	}
 }
-
-// Threads

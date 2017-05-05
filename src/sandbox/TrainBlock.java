@@ -71,6 +71,9 @@ class TrainBlock {
 		case "B":
 			img = new ImageIcon(GUI.imageURL + "BCab.png").getImage();
 			break;
+		case "C":
+			img = new ImageIcon(GUI.imageURL + "CCab.png").getImage();
+			break;
 		}
 	}
 	
@@ -297,6 +300,46 @@ class TrainBlock {
 		String log = changeLog;
 		changeLog="";
 		return log;
+	}
+
+	public void emptyCab(){
+		switch (type) {
+		case "E":
+			img = new ImageIcon(GUI.imageURL + "Engine.png").getImage();
+			break;
+		case "R":
+			img = new ImageIcon(GUI.imageURL + "RCabE.png").getImage();
+			break;
+		case "G":
+			img = new ImageIcon(GUI.imageURL + "GCabE.png").getImage();
+			break;
+		case "B":
+			img = new ImageIcon(GUI.imageURL + "BCabE.png").getImage();
+			break;
+		case "C":
+			img = new ImageIcon(GUI.imageURL + "CCab.png").getImage();
+			break;
+		}
+	}
+	
+	public void fillCab(){
+		switch (type) {
+		case "E":
+			img = new ImageIcon(GUI.imageURL + "Engine.png").getImage();
+			break;
+		case "R":
+			img = new ImageIcon(GUI.imageURL + "RCab.png").getImage();
+			break;
+		case "G":
+			img = new ImageIcon(GUI.imageURL + "GCab.png").getImage();
+			break;
+		case "B":
+			img = new ImageIcon(GUI.imageURL + "BCab.png").getImage();
+			break;
+		case "C":
+			img = new ImageIcon(GUI.imageURL + "CCab.png").getImage();
+			break;
+		}
 	}
 }
 

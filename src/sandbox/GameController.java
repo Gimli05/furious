@@ -51,6 +51,7 @@ public class GameController {
 	private static GUI gui;
 	private static Thread mainThread;
 	private static int STEPTIME = 1000;
+	private static boolean fail=false;
 	// LOOOOOOOOOOOOONG
 
 	/**
@@ -250,7 +251,6 @@ public class GameController {
 		BufferedReader brMap = new BufferedReader(
 				new FileReader(new File(filename))); /* Térkép File olvasó */
 
-		String tunnelFilename = filename.substring(0, filename.length() - 4) + "tunnelmap.txt";
 		line = brMap.readLine().split(";"); /* Kiolvassuk a pálya méretét */
 
 		int width = Integer.parseInt(line[0]); /* Pálya szélessége */
@@ -278,6 +278,7 @@ public class GameController {
 				}
 
 				gui.setBaseTileMap(x, y, s);
+				gui.addAnimation(x,y,s);
 				tempView[x][y] = s; /* Mentjük a vázlatát */
 				x++;
 			}
@@ -425,9 +426,38 @@ public class GameController {
 									 * Létrehozunk egy új TrainStation-t, mely
 									 * kék színû lesz.
 									 */
+		
+		case "4":
+			System.out.println("Beolvasott elem: Red TrainStation Passengers");
+			TrainStation station0 = new TrainStation(
+					Color.RED);
+			station0.addPassengers();
+			return station0; /*
+								 * Létrehozunk egy új TrainStation-t, mely piros
+								 * színû lesz utasokkal.
+								 */
 
+		case "5":
+			System.out.println("Beolvasott elem: Green TrainStation Passengers");
+			TrainStation station1 = new TrainStation(
+					Color.GREEN);
+			station1.addPassengers();
+			return station1;/*
+									 * Létrehozunk egy új TrainStation-t, mely
+									 * zöld színû lesz utasokkal.
+									 */
+
+		case "6":
+			System.out.println("Beolvasott elem: Blue TrainStation Passengers");
+			TrainStation station2 = new TrainStation(
+					Color.BLUE);
+			station2.addPassengers();
+			return station2; /*
+									 * Létrehozunk egy új TrainStation-t, mely
+									 * kék színû leszutasokkal.
+									 */
 		default:
-			System.out.println("Beolvasott elem: ures");
+			System.out.println("Beolvasott elem: ures ");
 			return null; /*
 							 * Ez a lehetõség akkor fut le ha nem ismert betü
 							 * van a szövegünben, mely ilyenkor egy üres mezö
@@ -442,14 +472,10 @@ public class GameController {
 	 * @return Ha mindegyik vonat kiürült, akkor igazzal térünk vissza,
 	 *         egyébként hamissal.
 	 */
-	private boolean hasTheGameEnded() {
+	private static boolean hasTheGameEnded() {
 		System.out.println(
-				"Class: GameController\t Object: GameController@STATIC\t Method: hasTheGameEnded\t Vonatok uressegenek ellenorzese"); /*
-																																		 * Kiíratás
-																																		 * a
-																																		 * Szkeleton
-																																		 * vezérlésének
-																																		 */
+				"Class: GameController\t Object: GameController@STATIC\t Method: hasTheGameEnded\t Vonatok uressegenek ellenorzese");
+		
 		Boolean isAllEmpty = trainCollection
 				.isAllEmpty(); /*
 								 * Ha mindegyik vonat kiürült, akkor igazzal
@@ -723,42 +749,40 @@ public class GameController {
 																												 * vezérlésének
 																												 */
 
-			Boolean railCollectionIsFreeOfTunnels = false; 
+			Boolean railCollectionIsFreeOfTunnels = false;
 
-			while (!railCollectionIsFreeOfTunnels) { 
-				railCollectionIsFreeOfTunnels = true; 
-				Rail railToGetDeleted = null; 
+			while (!railCollectionIsFreeOfTunnels) {
+				railCollectionIsFreeOfTunnels = true;
+				Rail railToGetDeleted = null;
 
-				for (Rail rail : railCollection) { 
-					if (rail.getClass() == Tunnel.class) { 
+				for (Rail rail : railCollection) {
+					if (rail.getClass() == Tunnel.class) {
 						railToGetDeleted = rail;
 						railCollectionIsFreeOfTunnels = false;
 					}
 				}
 
-				if (!railCollectionIsFreeOfTunnels) { 
-					railCollection.remove(railToGetDeleted); 
+				if (!railCollectionIsFreeOfTunnels) {
+					railCollection.remove(railToGetDeleted);
 				}
 			}
 
 		}
 
-		activeEntranceCounter--; 
+		activeEntranceCounter--;
 		System.out.println("Class: GameController\t Object: GameController@STATIC\t Aktív alagútszájak száma: "
-				+ activeEntranceCounter); 
+				+ activeEntranceCounter);
 	}
 
-	
 	public void skeletonTesterSwitchASwitch() {
 		Boolean switchFound = false;
-		while (!switchFound) { 
+		while (!switchFound) {
 			for (Rail oneRail : railCollection) {
-				if (oneRail.getClass() == Switch.class) { 
-					Switch oneSwitch = (Switch) oneRail; 
-					oneSwitch
-							.switchRail(); 
+				if (oneRail.getClass() == Switch.class) {
+					Switch oneSwitch = (Switch) oneRail;
+					oneSwitch.switchRail();
 					switchFound = true;
-					break; 
+					break;
 
 				}
 			}
@@ -789,23 +813,20 @@ public class GameController {
 			if (rail.getX() == X
 					&& rail.getY() == Y) { /* Megkeressük a kattintott elemet */
 				try {
-					System.out.println("---------------"+activeEntranceCounter);
-					
+
 					TunnelEntrance thisEntrance = (TunnelEntrance) rail;
-					
+
 					if (thisEntrance.checkIfActivated() && btn == 1) {
 						gui.deactivateTunnel(X, Y);
 						thisEntrance.deActivate();
 						activeEntranceCounter--;
-						if (activeEntranceCounter == 1) { 
+						if (activeEntranceCounter == 1) {
 							for (Rail rail2 : railCollection) {
 								try {
 									TunnelEntrance otherEntrance = (TunnelEntrance) rail2;
 									if (otherEntrance.checkIfActivated() == false) {
 										continue;
 									}
-
-									
 
 									System.out.println(
 											"\nClass: GameController\t Object: GameController@STATIC\t Alagút lerombolása");
@@ -824,7 +845,7 @@ public class GameController {
 										}
 
 										if (!railCollectionIsFreeOfTunnels) {
-											railCollection.remove(railToGetDeleted); 
+											railCollection.remove(railToGetDeleted);
 										}
 									}
 									break;
@@ -844,24 +865,24 @@ public class GameController {
 						gui.activateTunnel(X, Y);
 						thisEntrance.activate();
 						activeEntranceCounter++;
-						if (activeEntranceCounter == 2) { 
-							for (Rail rail2 : railCollection) { 
+						if (activeEntranceCounter == 2) {
+							for (Rail rail2 : railCollection) {
 								try {
 									TunnelEntrance otherEntrance = (TunnelEntrance) rail2;
 									if (thisEntrance.equals(otherEntrance)
 											|| otherEntrance.checkIfActivated() == false) {
-										continue; 
+										continue;
 									}
 
-									
-									Tunnel first = gui.getFirstTunnelPart(thisEntrance);;
+									Tunnel first = gui.getFirstTunnelPart(thisEntrance);
+									;
 									Tunnel last = gui.getFirstTunnelPart(otherEntrance);
-									
+
 									System.out.println("Thist:" + thisEntrance.getX() + "," + thisEntrance.getY());
 									System.out.println("First:" + first.getX() + "," + first.getY());
 									System.out.println("Last:" + last.getX() + "," + last.getY());
 									System.out.println("Other:" + otherEntrance.getX() + "," + otherEntrance.getY());
-									
+
 									int e1X = first.getX();
 									int e1Y = first.getY();
 									int e2X = last.getX();
@@ -870,83 +891,70 @@ public class GameController {
 									ArrayList<Rail> newTunnels = new ArrayList<Rail>();
 									Tunnel tmp;
 
-									
 									newTunnels.add(thisEntrance);
 									newTunnels.add(first);
 
 									if (e1X > e2X) {
-										while (e1X > e2X) { 
-											if (e1X - 1 == e2X
-													&& e1Y == e2Y) { 
-												newTunnels.add(
-														last); 
+										while (e1X > e2X) {
+											if (e1X - 1 == e2X && e1Y == e2Y) {
+												newTunnels.add(last);
 												e1X--;
-											} else { 
-												e1X--; 
-												tmp = new Tunnel(); 
+											} else {
+												e1X--;
+												tmp = new Tunnel();
 												tmp.setX(e1X);
 												tmp.setY(e1Y);
-												newTunnels.add(tmp); 
-											}
-										}
-									}
-									
-									else if (e1X < e2X) {
-										while (e1X < e2X) { 
-											if (e1X + 1 == e2X
-													&& e1Y == e2Y) { 
-												newTunnels.add(
-														last); 
-												e1X++;
-											} else { 
-												e1X++; 
-												tmp = new Tunnel(); 
-												tmp.setX(e1X);
-												tmp.setY(e1Y);
-												newTunnels.add(tmp); 
+												newTunnels.add(tmp);
 											}
 										}
 									}
 
-									
-									
-									if (e1Y > e2Y) {
-										while (e1Y > e2Y) { 
-											if (e1Y - 1 == e2Y
-													&& e1X == e2X) { 
-												newTunnels.add(
-														last); 
-												e1Y--;
-											} else { 
-												e1Y--; 
-												tmp = new Tunnel(); 
+									else if (e1X < e2X) {
+										while (e1X < e2X) {
+											if (e1X + 1 == e2X && e1Y == e2Y) {
+												newTunnels.add(last);
+												e1X++;
+											} else {
+												e1X++;
+												tmp = new Tunnel();
 												tmp.setX(e1X);
 												tmp.setY(e1Y);
-												newTunnels.add(tmp); 
+												newTunnels.add(tmp);
 											}
 										}
 									}
-									
-									else if (e1Y < e2Y) {
-										while (e1Y < e2Y) { 
-											if (e1Y + 1 == e2Y
-													&& e1X == e2X) { 
-												newTunnels.add(
-														last); 
-												e1Y++;
-											} else { 
-												e1Y++; 
-												tmp = new Tunnel(); 
+
+									if (e1Y > e2Y) {
+										while (e1Y > e2Y) {
+											if (e1Y - 1 == e2Y && e1X == e2X) {
+												newTunnels.add(last);
+												e1Y--;
+											} else {
+												e1Y--;
+												tmp = new Tunnel();
 												tmp.setX(e1X);
 												tmp.setY(e1Y);
-												newTunnels.add(tmp); 
+												newTunnels.add(tmp);
+											}
+										}
+									}
+
+									else if (e1Y < e2Y) {
+										while (e1Y < e2Y) {
+											if (e1Y + 1 == e2Y && e1X == e2X) {
+												newTunnels.add(last);
+												e1Y++;
+											} else {
+												e1Y++;
+												tmp = new Tunnel();
+												tmp.setX(e1X);
+												tmp.setY(e1Y);
+												newTunnels.add(tmp);
 											}
 										}
 									}
 									newTunnels.add(otherEntrance);
 
-									
-									
 									for (int i = 0; i < newTunnels.size(); i++) {
 										if (i - 1 >= 0)
 											newTunnels.get(i).addNeighbourRail(newTunnels.get(i - 1));
@@ -962,32 +970,29 @@ public class GameController {
 								}
 							}
 						}
-					}else if (thisEntrance.checkIfActivated() && btn == 0) {
+					} else if (thisEntrance.checkIfActivated() && btn == 0) {
 						thisEntrance.switchRail();
 						gui.switchState(X, Y);
 					}
-					
-					System.out.println(((TunnelEntrance)rail).state);
-					
+
 					rail = thisEntrance;
 					break;
 				} catch (Exception e) {
 					System.out.println("A kattintott elem nem tunnelEntrance");
 				}
-				
-				try {					
-					Switch sw = (Switch) rail; 
+
+				try {
+					Switch sw = (Switch) rail;
 					sw.switchRail();
 					gui.switchState(X, Y);
-					
+
 					rail = sw;
 				} catch (Exception e) {
 					System.out.println("A kattintott elem nem switch");
 				}
-				
+
 				break;
-				
-				
+
 			}
 		}
 	}
@@ -1178,9 +1183,7 @@ public class GameController {
 	 * 
 	 */
 	public void runThreadTest() {
-		Thread testThread = new Thread() { /*
-											 * Új Thread hgoy a háttérben fusson
-											 */
+		Thread testThread = new Thread() {
 			ArrayList<Color> testColors; /* Vonat kocsiszíneit tárolja */
 			Train testTrain; /* Egy teszt vonat */
 			EnterPoint enterPoint; /* Egy véletlenül talált belépési pont */
@@ -1191,7 +1194,7 @@ public class GameController {
 															 * Inicializáljuk a
 															 * listát
 															 */
-					testColors.add(Color.BLUE); /* Színt adunk hozzá */
+					testColors.add(Color.BLUE);/* Színt adunk hozzá */
 					testTrain = new Train(
 							testColors); /*
 											 * A szinekkel inicializálunk egy
@@ -1220,12 +1223,8 @@ public class GameController {
 					testTrain.setNextRail(enterPoint);
 					trainCollection.addNewTrain(testTrain);
 
-					// GUI Init..
-					gui.addTrain("EB", enterPoint.getX(), enterPoint.getY(), enterPoint.getNextRail(null).getX(),
-							enterPoint.getNextRail(null).getY());
-
 					/* 16 léptetést hajtunk végre */
-					for (int i = 0; i < 500; i++) {
+					for (int i = 0; i < 16; i++) {
 						for (Rail oneRail : railCollection) { /*
 																 * Minden eggyes
 																 * sínnek
@@ -1241,15 +1240,8 @@ public class GameController {
 							oneRail.lowerTrainLenghtCounter();
 						}
 						trainCollection.moveAllTrains();
-						gui.moveAllTrain(trainCollection.getNextCoords());
-						// drawToConsole(); /*Közben frissítjuk a nézetet*/
-
-						int stepParts = 20;
-						int speed = 2;
-						for (int j = 0; j < stepParts; j++) {
-							gui.updateTime(j * STEPTIME / stepParts);
-							Thread.sleep(STEPTIME / stepParts / speed);
-						}
+						drawToConsole(); /* Közben frissítjuk a nézetet */
+						Thread.sleep(1000);
 					}
 
 				} catch (InterruptedException e) {
@@ -1258,29 +1250,105 @@ public class GameController {
 				}
 			}
 		};
-
 		testThread.start(); /* Indítuk a szálat */
 	}
-
+	
 	// Long
 	private static void startMainThread() {
 		mainThread = new Thread() {
+			ArrayList<Color> testColors; /* Vonat kocsiszíneit tárolja */
+			Train testTrain; /* Egy teszt vonat */
+			EnterPoint enterPoint; /* Egy véletlenül talált belépési pont */
+			int stepParts = 20;
+			int speed = 2;
+
 			public void run() {
-				while (isTheGameRunning) {
-					try {
+				testColors = new ArrayList<Color>(); /*
+														 * Inicializáljuk a
+														 * listát
+														 */
+				testColors.add(Color.BLUE);
+				testColors.add(Color.BLACK);
+				testColors.add(Color.RED);
+				testColors.add(Color.GREEN);
+				/* Színt adunk hozzá */
+				testTrain = new Train(
+						testColors); /*
+										 * A szinekkel inicializálunk egy
+										 * vonatot
+										 */
 
-						doGuiClickLogAction(gui.getClickLog());
-						// gui.moveAllTrain();
-						Thread.sleep(100);
-
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+				for (Rail oneRail : railCollection) { /*
+														 * Kikeresünk egy
+														 * belépésíi pontot
+														 */
+					if (oneRail.getClass() == EnterPoint.class) {
+						enterPoint = (EnterPoint) oneRail;
 					}
 				}
-			};
+
+				if (enterPoint == null) { /*
+											 * Amennyiben null az objektumunk,
+											 * nem volt belépési pont a pályán
+											 */
+					System.out.println("Nincs belépési pont a pályán");
+					return; /* Ilyenkor vége a futásnak */
+				}
+
+				/* A belépési pontra rakjuk a vonatunk */
+				testTrain.setNextRail(enterPoint);
+				trainCollection.addNewTrain(testTrain);
+
+				// GUI Init..
+				gui.addTrain("EBCRG", enterPoint.getX(), enterPoint.getY(), enterPoint.getNextRail(null).getX(),
+						enterPoint.getNextRail(null).getY());
+
+				/* 16 léptetést hajtunk végre */
+				for (int i = 0; i < 500; i++) {
+					for (Rail oneRail : railCollection) { /*
+															 * Sineknek
+															 * csökkentjük a
+															 * vagonszámát
+															 */
+						oneRail.lowerTrainLenghtCounter();
+					}	
+					
+					trainCollection.moveAllTrains();
+							
+					gui.moveAllTrain(trainCollection.getNextCoords());
+					gui.setCabStates(trainCollection.getCabStates());
+										
+					if(fail){
+						trainCollection.moveAllTrains();
+						if (hasTheGameEnded()){
+							ultimateWinEvent();
+							return;
+						}
+						loseEvent();
+						return;
+					}
+					if (hasTheGameEnded()){
+						winEvent();
+						return;
+					}
+					
+					for (int j = 0; j < stepParts; j++) {
+						doGuiClickLogAction(gui.getClickLog());
+						gui.updateTime(j * STEPTIME / stepParts);
+						try {
+							Thread.sleep(STEPTIME / stepParts / speed);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+							// Nem itt lesz baj
+						}
+					}	
+					
+				}
+			}
 		};
 		gui.startRender();
 		mainThread.start();
+
 	}
 
 	private static void doGuiClickLogAction(String log) {
@@ -1302,11 +1370,19 @@ public class GameController {
 
 	}
 
-	// Tunnel Building
-
+	public static void failIntent(){
+		fail=true;
+	}
+	
+	
+	private static void ultimateWinEvent(){
+		System.out.println("GG KINYÍRTÁL MINDENKIT!");
+	}
+	
 	/**
 	 * kirajzolja a pályát a konzolra
 	 */
+	
 	public void drawToConsole() {
 
 		int maxX = 0; /* mi a legnagyobb x index ( = pályaszélesség - 1) */
@@ -1426,5 +1502,7 @@ public class GameController {
 			System.out.println();
 		}
 	}
+
+
 
 }

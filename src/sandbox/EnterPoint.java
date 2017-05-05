@@ -1,6 +1,5 @@
 package sandbox;
 
-import java.util.ArrayList;
 
 /**
  * peciális sín. A GameController ezen keresztül ad új vonatokat a játékhoz. 

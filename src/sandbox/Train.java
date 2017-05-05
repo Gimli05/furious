@@ -46,7 +46,8 @@ public class Train implements Visitor{
 		engine=new Engine(); /* Létrehozunk egy új mozdonyt. */
 		cabins=new ArrayList<Cab>(); /* Létrehozunk egy új ArrayListet. */
 		for(Color color:cabColors){
-			cabins.add(new Cab(color)); /* A lista végére szúrjuk be az új kabint. */
+			if(color.equals(Color.BLACK))cabins.add(new CoalCarriage());
+			else cabins.add(new Cab(color)); /* A lista végére szúrjuk be az új kabint. */
 		}
 	}
 	
@@ -99,6 +100,10 @@ public class Train implements Visitor{
 		return nextRail;
 	}
 	
+	//Long
+	public Rail getPreviousRail(){
+		return previousRail;
+	}
 	
 	/**
 	 * Ezzel lehet beállítani egy adott lépés végével, hogy hova kell legközelebb lépnie a vonatnak.
@@ -209,6 +214,7 @@ public class Train implements Visitor{
 					if(cab.addPassenger(passengersColor)){ 		/*Ha sikerült felültetni öket*/
 						rail.boardPassengers(); 				/*Eltüntetjük a megálló utasait*/
 						cab.addPassenger(passengersColor);		/*Megtöltjük a vagont*/
+						GUI.removeAnimation(rail.getX(), rail.getY(), "Passengers");
 						break;									/*Megállitjuk a keresést*/
 					}
 				}
@@ -221,5 +227,13 @@ public class Train implements Visitor{
 		}
 	}
 	
-	
+	public String getCabStates(){
+		String states="E";
+		for(Cab cab:cabins){
+			if(cab.isFull())states+="F";
+			else states+="E";
+		}
+		
+		return states;
+	}
 }
