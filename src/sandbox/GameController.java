@@ -138,7 +138,9 @@ public class GameController {
 	 * Értesíti a játékost, hogy nyert, és leállítja a játékot.
 	 */
 	public static void winEvent() {
-
+		SoundManager.stopTrainSound();
+		gui.addAnimation(GUI.BOARDWIDTH / 2, GUI.BOARDHEIGHT / 2, "Win");
+		SoundManager.playSound("Win");
 		isTheGameRunning = false; /*
 									 * Leállítjuk a játékot. Ez majd a GUI-t
 									 * futtató threadnél lesz fontos
@@ -183,6 +185,9 @@ public class GameController {
 	 * Értesíti a játékost, hogy vesztett, és leállítja a játékot.
 	 */
 	public static void loseEvent() {
+		SoundManager.stopTrainSound();
+		SoundManager.playSound("Lose");
+		gui.addAnimation(GUI.BOARDWIDTH / 2, GUI.BOARDHEIGHT / 2, "Lose");
 		isTheGameRunning = false; /* Leállítjuk a játékot */
 		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: loseEvent\t Vereseg"); /*
 																													 * Kiíratás
@@ -1303,6 +1308,8 @@ public class GameController {
 
 				sleepTime(1400);
 				gui.paintTrain();
+				SoundManager.playSound("Start");
+				SoundManager.playTrainSound();
 				while (isTheGameRunning) {
 					for (Rail oneRail : railCollection) { /*
 															 * Sineknek
@@ -1320,14 +1327,11 @@ public class GameController {
 					if (fail) {
 						trainCollection.moveAllTrains();
 						if (hasTheGameEnded()) {
-							gui.addAnimation(GUI.BOARDWIDTH / 2, GUI.BOARDHEIGHT / 2, "Epic");
 							ultimateWinEvent();
-						} else {
-							gui.addAnimation(GUI.BOARDWIDTH / 2, GUI.BOARDHEIGHT / 2, "Lose");
+						} else {							
 							loseEvent();
 						}
 					} else if (hasTheGameEnded()) {
-						gui.addAnimation(GUI.BOARDWIDTH / 2, GUI.BOARDHEIGHT / 2, "Win");
 						winEvent();
 					}
 
@@ -1340,6 +1344,7 @@ public class GameController {
 		};
 		gui.startRender();
 		mainThread.start();
+		SoundManager.playBackgroundMusic();
 
 	}
 
@@ -1406,6 +1411,9 @@ public class GameController {
 	}
 
 	private static void ultimateWinEvent() {
+		SoundManager.stopTrainSound();
+		SoundManager.playSound("Epic");
+		gui.addAnimation(GUI.BOARDWIDTH / 2, GUI.BOARDHEIGHT / 2, "Epic");
 		isTheGameRunning = false;
 	}
 
@@ -1426,6 +1434,7 @@ public class GameController {
 	
 		gui.endAllAnimation();
 		gui.stoptRender();
+		SoundManager.stopBackgroundMusic();
 		closeWindow = true;
 		isTheGameRunning = false;
 	}

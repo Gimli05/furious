@@ -204,6 +204,7 @@ public class Train implements Visitor{
 				System.out.println("Class: Train\t\t Object: "+this+"\t\t\t Az állomás és a vonat színe egyezik!");
 				this.emptyTheFirstNotEmptyCab(); /* kiürítjük az elsõ nem üres kabint. */
 				GUI.addAnimation(rail.getX(), rail.getY(), "Arrive");
+				SoundManager.playSound("Arrive");
 			} else {
 				System.out.println("Class: Train\t\t Object: "+this+"\t\t\t Az állomás és a vonat színe nem egyezik!");
 			}

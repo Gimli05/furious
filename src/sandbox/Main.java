@@ -105,7 +105,12 @@ public class Main {
 						/* Ez a programrész akkor fut le, ha a felhasználó a 72. pályát választja. Létrejön egy GameController. */
 						GameController gc172 = new GameController();
 						gc172.startNewGame(10);  /* elindítjuk a gameControllert az 1-es pályával-  */
-						//gc171.runThreadTest();
+						break;
+						
+						case 73: System.out.println("\nThread Teszt...");
+						/* Ez a programrész akkor fut le, ha a felhasználó a 73. pályát választja. Létrejön egy GameController. */
+						GameController gc173 = new GameController();
+						gc173.startNewGame(11);  /* elindítjuk a gameControllert az 1-es pályával-  */
 						break;
 
 /**LONG TESZTEL--------------------------*/						

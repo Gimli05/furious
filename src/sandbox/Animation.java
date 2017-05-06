@@ -71,8 +71,8 @@ public class Animation {
 			posY = (int) (GUI.TILEHEIGHT * 0.5);
 			frameCount = 8;
 			delay = 70;
-			continuous = false;
-			freeze = true;
+			continuous = true;
+			freeze = false;
 			break;
 		case "Lose":
 			try {
