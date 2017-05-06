@@ -71,4 +71,15 @@ public class AnimManager {
 		}
 		
 	}
+
+	public void endAllAnimation(){
+		for(Animation anim:animations){
+			anim.endFreeze();
+			anim.endLoop();
+		}
+		updateAnimations();
+		if(animations.size()>0){
+			animations.clear();
+		}
+	}
 }

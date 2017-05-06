@@ -26,28 +26,113 @@ public class Animation {
 	private Image out;
 
 	boolean continuous = false;
+	boolean freeze = false;
 	boolean started = false;
 	boolean ended = false;
 
-	public Animation(int X, int Y, String t){	
+	public Animation(int X, int Y, String t) {
 		switch (t) {
 		case "Passengers":
 			try {
 				img = ImageIO.read(new File(GUI.imageURL + t + ".png"));
-			} catch (IOException e) {e.printStackTrace();}
-			
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
 			posX = (int) (GUI.TILEWIDTH * 0.8);
 			posY = (int) (GUI.TILEHEIGHT * 0.2);
 			frameCount = 2;
 			delay = 400;
 			continuous = true;
+			freeze = false;
+			break;
+		case "321GO":
+			try {
+				img = ImageIO.read(new File(GUI.imageURL + t + ".png"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			posX = (int) (GUI.TILEWIDTH * 0.5);
+			posY = (int) (GUI.TILEHEIGHT * 0.5);
+			frameCount = 20;
+			delay = 60;
+			continuous = false;
+			freeze = false;
+			break;
+		case "Win":
+			try {
+				img = ImageIO.read(new File(GUI.imageURL + t + ".png"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			posX = (int) (GUI.TILEWIDTH * 0.5);
+			posY = (int) (GUI.TILEHEIGHT * 0.5);
+			frameCount = 8;
+			delay = 70;
+			continuous = false;
+			freeze = true;
+			break;
+		case "Lose":
+			try {
+				img = ImageIO.read(new File(GUI.imageURL + t + ".png"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			posX = (int) (GUI.TILEWIDTH * 0.5);
+			posY = (int) (GUI.TILEHEIGHT * 0.5);
+			frameCount = 14;
+			delay = 70;
+			continuous = false;
+			freeze = true;
+			break;
+		case "Epic":
+			try {
+				img = ImageIO.read(new File(GUI.imageURL + t + ".png"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			posX = (int) (GUI.TILEWIDTH * 0.5);
+			posY = (int) (GUI.TILEHEIGHT * 0.5);
+			frameCount = 14;
+			delay = 70;
+			continuous = false;
+			freeze = true;
+			break;
+
+		case "Arrive":
+			try {
+				img = ImageIO.read(new File(GUI.imageURL + t + ".png"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			posX = (int) (GUI.TILEWIDTH * 0.5);
+			posY = (int) (GUI.TILEHEIGHT * 0.0);
+			frameCount = 6;
+			delay = 50;
+			continuous = false;
+			freeze = false;
 			break;
 		}
 
+		if (img == null) {
+			try {
+				started = true;
+				ended = true;
+				this.finalize();
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
+			return;
+		}
 		// Kép megvan
-		type=t;
-		tileX=X;
-		tileY=Y;
+		type = t;
+		tileX = X;
+		tileY = Y;
 		width = img.getWidth(null) / frameCount;
 		height = img.getHeight(null);
 		posX += X * GUI.TILEWIDTH - width / 2;
@@ -59,17 +144,22 @@ public class Animation {
 			return;
 		out = ((BufferedImage) img).getSubimage(i * width, 0, width, height);
 	}
-	
-	public void setUpdatedTiles(boolean[][] changeMap){
-		int x = (posX - posX%GUI.TILEWIDTH)/GUI.TILEWIDTH;
-		int y = (posY - posY%GUI.TILEHEIGHT)/GUI.TILEHEIGHT;
-		
-		changeMap[x][y]=true;		
-		if(x<GUI.BOARDWIDTH-1)changeMap[x+1][y]=true;
-		if(x<GUI.BOARDHEIGHT-1)changeMap[x][y+1]=true;
-		if(x<GUI.BOARDWIDTH-1 && x<GUI.BOARDWIDTH-1)changeMap[x+1][y+1]=true;
+
+	public void setUpdatedTiles(boolean[][] changeMap) {
+
+		int x0 = ((posX - width) - (posX - width) % GUI.TILEWIDTH) / GUI.TILEWIDTH;
+		int y0 = ((posY - height) - (posY - height) % GUI.TILEHEIGHT) / GUI.TILEHEIGHT;
+		int xn = ((posX + width) - (posX + width) % GUI.TILEWIDTH) / GUI.TILEWIDTH;
+		int yn = ((posY + height) - (posY + height) % GUI.TILEHEIGHT) / GUI.TILEHEIGHT;
+
+		for (int x = x0; x <= xn; x++) {
+			for (int y = y0; y <= yn; y++) {
+				if (x < GUI.BOARDWIDTH && y < GUI.BOARDHEIGHT && x >= 0 && y >= 0)
+					changeMap[x][y] = true;
+			}
+		}
 	}
-	
+
 	public boolean started() {
 		return started;
 	}
@@ -78,29 +168,29 @@ public class Animation {
 		return ended;
 	}
 
-	public void endLoop(){
-		continuous=false;
+	public void endLoop() {
+		continuous = false;
 	}
-	
+
 	public void start() {
 		started = true;
 		new Thread() {
 			@Override
 			public void run() {
-				if (continuous) {
-					for (int i = 0; i < frameCount && continuous; i++) {
-						setCurrentFrame(i);
-						if (i == frameCount - 1 && continuous)
-							i = -1; // Loop
+				for (int i = 0; i < frameCount || continuous; i++) {
+					setCurrentFrame(i);
+					if (i == frameCount - 1 && continuous)
+						i = -1; // Loop
 
-						try {
-							Thread.sleep(delay);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+					try {
+						Thread.sleep(delay);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
 					}
-					ended = true;
 				}
+				while (freeze)
+					setCurrentFrame(frameCount - 1);
+				ended = true;
 			}
 		}.start();
 	}
@@ -109,24 +199,27 @@ public class Animation {
 		this.finalize();
 	}
 
-	public int getX(){
+	public void endFreeze() {
+		freeze = false;
+	}
+
+	public int getX() {
 		return tileX;
 	}
-	
-	public int getY(){
+
+	public int getY() {
 		return tileY;
 	}
-	
-	public String getType(){
+
+	public String getType() {
 		return type;
 	}
-	
-	public void draw(Graphics g) {
-		
-		
-		((Graphics2D)g).setComposite(AlphaComposite.SrcOver.derive(1.0f));
 
-		if (out!= null)
+	public void draw(Graphics g) {
+
+		((Graphics2D) g).setComposite(AlphaComposite.SrcOver.derive(1.0f));
+
+		if (out != null)
 			g.drawImage(out, posX, posY, null);
 	}
 }

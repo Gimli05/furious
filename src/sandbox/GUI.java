@@ -13,7 +13,8 @@ public class GUI extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static JFrame frame;
 	private static GUI gui;
-
+	private static boolean running;
+	
 	protected static String FRAMENAME = "Michael Bay's TRAINZ";
 	protected static int FRAMEWIDTH;
 	protected static int FRAMEHEIGHT;
@@ -32,6 +33,8 @@ public class GUI extends JPanel {
 	private static String clickLog = "";
 	private static Tile baseTileMap[][];
 
+	
+	
 	private static ArrayList<TrainView> trainContainer;
 
 	private static MouseListener MyMouseListener;
@@ -39,7 +42,9 @@ public class GUI extends JPanel {
 	private static Animation anim;
 	private static AnimManager animManager;
 
-	// Test
+	// TFix
+	
+	private static boolean paintTrain=false; 
 
 	public GUI() {
 		baseTileMap = new Tile[BOARDWIDTH][BOARDHEIGHT];
@@ -114,6 +119,8 @@ public class GUI extends JPanel {
 				}
 			}
 		}
+		
+		if(paintTrain)
 		for (TrainView train : trainContainer) {
 			train.draw(g);
 		}
@@ -129,11 +136,17 @@ public class GUI extends JPanel {
 	}
 
 	public void startRender() {
+		running=true;
 		renderThread = new mainRenderThread();
 		buildBaseMap();
 		renderThread.start();
 	}
+	
+	public void stoptRender() {
+		running=false;		
+	}
 
+	
 	public void setBaseTileMap(int x, int y, String object) {
 		baseTileMap[x][y] = new Tile(object);
 		changeMap[x][y] = true;
@@ -189,8 +202,6 @@ public class GUI extends JPanel {
 	// Train
 	
 	public void updateTime(int time) {
-		//time = (time + hopTime) % TILEINTERVAL;
-
 		for (TrainView train : trainContainer) {
 			train.updateTime(time);
 		}
@@ -272,26 +283,25 @@ public class GUI extends JPanel {
 		}
 	}
 
+	public void paintTrain(){
+		paintTrain=true;
+	}
 	//Animation
 	
-	public void addAnimation(int x, int y, String type){
-		switch(type){
-		case "4":
-			animManager.addAnimation(x, y, "Passengers");
-			break;
-		case "5":
-			animManager.addAnimation(x, y, "Passengers");
-			break;
-		case "6":
-			animManager.addAnimation(x, y, "Passengers");
-			break;
-			}
+	public static void addAnimation(int x, int y, String type){
+		if(type.equals("4") || type.equals("5") ||type.equals("6")) type="Passengers";
+		animManager.addAnimation(x, y, type);
 	}
 
 	public static void removeAnimation(int x, int y, String type){
 		animManager.removeAnimation(x, y, type);
 	}
 	// Render
+	
+	public static void endAllAnimation(){
+		animManager.endAllAnimation();
+	}
+	
 	public Tunnel getFirstTunnelPart(TunnelEntrance e){
 		int x = e.getX();
 		int y = e.getY();
@@ -310,8 +320,8 @@ public class GUI extends JPanel {
 					cx=1;
 				}
 				if (!baseTileMap[x - 1][y].getType().equals("x") && !baseTileMap[x + 1][y].getType().equals("x")) {
-					cy=0;
-					cx=-1;
+					cy=-1;
+					cx=0;
 				}
 				// Jobb
 
@@ -349,8 +359,7 @@ public class GUI extends JPanel {
 	private static class mainRenderThread extends Thread {
 		@Override
 		public void run() {
-			
-			while (true) {
+			while (running) {
 				try {
 					if (gui != null) {
 						readAllChangeLog();
@@ -367,5 +376,6 @@ public class GUI extends JPanel {
 		}
 	}
 
+	
 
 }

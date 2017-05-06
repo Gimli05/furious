@@ -203,6 +203,7 @@ public class Train implements Visitor{
 			if(trainColor == trainStationColor){ /* Ha az állomás és az elsõ nem üres kabin színe egyezik */
 				System.out.println("Class: Train\t\t Object: "+this+"\t\t\t Az állomás és a vonat színe egyezik!");
 				this.emptyTheFirstNotEmptyCab(); /* kiürítjük az elsõ nem üres kabint. */
+				GUI.addAnimation(rail.getX(), rail.getY(), "Arrive");
 			} else {
 				System.out.println("Class: Train\t\t Object: "+this+"\t\t\t Az állomás és a vonat színe nem egyezik!");
 			}
