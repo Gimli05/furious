@@ -123,45 +123,45 @@ public class Tile {
 	private ImageIcon loadImage(String object) {
 		switch (object) {
 		case ("x"):
-			return new ImageIcon(GUI.imageURL + "Grass.png");
+			return new ImageIcon(GameGUI.imageURL + "Grass.png");
 		case ("R"):
-			return new ImageIcon(GUI.imageURL + "Rail.png");
+			return new ImageIcon(GameGUI.imageURL + "Rail.png");
 		case ("X"):
-			return new ImageIcon(GUI.imageURL + "Xrail.png");
+			return new ImageIcon(GameGUI.imageURL + "Xrail.png");
 		case ("B"):
-			return new ImageIcon(GUI.imageURL + "BRail.png");
+			return new ImageIcon(GameGUI.imageURL + "BRail.png");
 		case ("S0"):
-			return new ImageIcon(GUI.imageURL + "Switch0.png");
+			return new ImageIcon(GameGUI.imageURL + "Switch0.png");
 		case ("S1"):
-			return new ImageIcon(GUI.imageURL + "Switch1.png");
+			return new ImageIcon(GameGUI.imageURL + "Switch1.png");
 		case ("U000"):
-			return new ImageIcon(GUI.imageURL + "Tunnel000.png");
+			return new ImageIcon(GameGUI.imageURL + "Tunnel000.png");
 		case ("U010"):
-			return new ImageIcon(GUI.imageURL + "Tunnel010.png");
+			return new ImageIcon(GameGUI.imageURL + "Tunnel010.png");
 		case ("U011"):
-			return new ImageIcon(GUI.imageURL + "Tunnel011.png");
+			return new ImageIcon(GameGUI.imageURL + "Tunnel011.png");
 		case ("U100"):
-			return new ImageIcon(GUI.imageURL + "Tunnel100.png");
+			return new ImageIcon(GameGUI.imageURL + "Tunnel100.png");
 		case ("U110"):
-			return new ImageIcon(GUI.imageURL + "Tunnel110.png");
+			return new ImageIcon(GameGUI.imageURL + "Tunnel110.png");
 		case ("U111"):
-			return new ImageIcon(GUI.imageURL + "Tunnel111.png");
+			return new ImageIcon(GameGUI.imageURL + "Tunnel111.png");
 		case ("U200"):
-			return new ImageIcon(GUI.imageURL + "Tunnel200.png");
+			return new ImageIcon(GameGUI.imageURL + "Tunnel200.png");
 		case ("U210"):
-			return new ImageIcon(GUI.imageURL + "Tunnel210.png");
+			return new ImageIcon(GameGUI.imageURL + "Tunnel210.png");
 		case ("U211"):
-			return new ImageIcon(GUI.imageURL + "Tunnel211.png");
+			return new ImageIcon(GameGUI.imageURL + "Tunnel211.png");
 		case ("E"):
-			return new ImageIcon(GUI.imageURL + "EnterPoint.png");
+			return new ImageIcon(GameGUI.imageURL + "EnterPoint.png");
 		case ("1"):
-			return new ImageIcon(GUI.imageURL + "Station1.png");
+			return new ImageIcon(GameGUI.imageURL + "Station1.png");
 		case ("2"):
-			return new ImageIcon(GUI.imageURL + "Station2.png");
+			return new ImageIcon(GameGUI.imageURL + "Station2.png");
 		case ("3"):
-			return new ImageIcon(GUI.imageURL + "Station3.png");
+			return new ImageIcon(GameGUI.imageURL + "Station3.png");
 		default:
-			return new ImageIcon(GUI.imageURL + "Grass.png");
+			return new ImageIcon(GameGUI.imageURL + "Grass.png");
 		}
 	}
 
@@ -210,12 +210,12 @@ public class Tile {
 		case "S":
 			if (x == 0) {
 				baseTileMap[x][y].rotation(90);
-			} else if (x == GUI.BOARDWIDTH - 1) {
+			} else if (x == GameGUI.BOARDWIDTH - 1) {
 				baseTileMap[x][y].rotation(-90);
 			} else {
 				if (y == 0) {
 					baseTileMap[x][y].rotation(180);
-				} else if (y == GUI.BOARDHEIGHT - 1) {
+				} else if (y == GameGUI.BOARDHEIGHT - 1) {
 					baseTileMap[x][y].rotation(0);
 				} else {
 					if (baseTileMap[x][y - 1].getType().equals("x"))
@@ -288,10 +288,10 @@ public class Tile {
 	public void markIfCorner(Tile[][] baseTileMap, int x, int y) {
 		if (!baseTileMap[x][y].getType().equals("R"))
 			return;
-		if (x == 0 || x == GUI.BOARDWIDTH - 1) {
+		if (x == 0 || x == GameGUI.BOARDWIDTH - 1) {
 			if (y == 0) {
 				baseTileMap[x][y].setType("B");
-			} else if (y == GUI.BOARDHEIGHT - 1) {
+			} else if (y == GameGUI.BOARDHEIGHT - 1) {
 				baseTileMap[x][y].setType("B");
 			} else {
 				if ((baseTileMap[x][y - 1].getType().equals("x") && !baseTileMap[x][y + 1].getType().equals("x"))
@@ -308,7 +308,7 @@ public class Tile {
 								&& !baseTileMap[x + 1][y].getType().equals("x"))) {
 					baseTileMap[x][y].setType("B");
 				}
-			} else if (y == GUI.BOARDHEIGHT - 1) {
+			} else if (y == GameGUI.BOARDHEIGHT - 1) {
 				if (!baseTileMap[x][y - 1].getType().equals("x")
 						|| (baseTileMap[x + 1][y].getType().equals("x") && !baseTileMap[x - 1][y].getType().equals("x"))
 						|| (baseTileMap[x - 1][y].getType().equals("x")
@@ -330,12 +330,12 @@ public class Tile {
 	public void setTunnelVariantAndAngle(Tile[][] baseTileMap, int x, int y) {
 		if (x == 0) {
 			baseTileMap[x][y].rotation(-90);
-		} else if (x == GUI.BOARDWIDTH - 1) {
+		} else if (x == GameGUI.BOARDWIDTH - 1) {
 			baseTileMap[x][y].rotation(90);
 		} else {
 			if (y == 0) {
 				baseTileMap[x][y].rotation(180);
-			} else if (y == GUI.BOARDHEIGHT - 1) {
+			} else if (y == GameGUI.BOARDHEIGHT - 1) {
 				baseTileMap[x][y].rotation(0);
 			} else {
 				
