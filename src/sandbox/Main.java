@@ -6,602 +6,602 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * A szkeleton vezérléséért felelõs osztály, mely kezeli a felhasználóval való kommunikációt és az alapján vezérli a programot.
- * A szkeleton tesztelésére 2 teljes és 6 további egyszerûsített teszt pályát hoztunk létre. A hat rövid pálya teljes játék indítására nem alkalmas.
+ * A szkeleton vezÃ©rlÃ©sÃ©Ã©rt felelÃ¶s osztÃ¡ly, mely kezeli a felhasznÃ¡lÃ³val valÃ³ kommunikÃ¡ciÃ³t Ã©s az alapjÃ¡n vezÃ©rli a programot.
+ * A szkeleton tesztelÃ©sÃ©re 2 teljes Ã©s 6 tovÃ¡bbi egyszerÃ¼sÃ­tett teszt pÃ¡lyÃ¡t hoztunk lÃ©tre. A hat rÃ¶vid pÃ¡lya teljes jÃ¡tÃ©k indÃ­tÃ¡sÃ¡ra nem alkalmas.
  */
 public class Main {
-	public static void main(String[] args) throws IOException{
+	public static void Amain(String[] args) throws IOException{
 		
 		/**
-		 * Ezzel történik a konzolon felhasználó által bemeneten megadott karakter beolvasása
+		 * Ezzel tÃ¶rtÃ©nik a konzolon felhasznÃ¡lÃ³ Ã¡ltal bemeneten megadott karakter beolvasÃ¡sa
 		 */
 		 Scanner scanner = new Scanner(System.in);
-		 /* Ezzel történik majd a konzolon felhasználó által bemeneten megadott karakter beolvasása */
+		 /* Ezzel tÃ¶rtÃ©nik majd a konzolon felhasznÃ¡lÃ³ Ã¡ltal bemeneten megadott karakter beolvasÃ¡sa */
 		 
 		 
 		 /**
-		  * Ez a boolean változó felel azért, hogy a fõciklus ami a teszteket tartalmazza folyamatosan fusson egészen
-		  * addig amíg az értékét át nem állítják false-ba
+		  * Ez a boolean vÃ¡ltozÃ³ felel azÃ©rt, hogy a fÃ¶ciklus ami a teszteket tartalmazza folyamatosan fusson egÃ©szen
+		  * addig amÃ­g az Ã©rtÃ©kÃ©t Ã¡t nem Ã¡llÃ­tjÃ¡k false-ba
 		  */
 		 boolean run = true;
 		 
-		 /* A skeleton tesztelõ fõciklusa. Folyamatosan fut, amíg a run értékét át nem írják false-ba. Ezt a kilépésre
-		  * szolgáló billentyû lenyomásával lehet parancsba adni.
+		 /* A skeleton tesztelÃ¶ fÃ¶ciklusa. Folyamatosan fut, amÃ­g a run Ã©rtÃ©kÃ©t Ã¡t nem Ã­rjÃ¡k false-ba. Ezt a kilÃ©pÃ©sre
+		  * szolgÃ¡lÃ³ billentyÃ¼ lenyomÃ¡sÃ¡val lehet parancsba adni.
 		  */
 		while(run){
 			
-			/* A program elõször felkínálja a felhasználónak a teszteseteket amiket
-			 * az alább feltüntetett billenytûk lenyomásával lehet elérni. 
-			 * Az alábbi tesztesetek a konzolra íródnak ki de a dokumentációban is megtalálható a részletes leírásuk
-			 * A felhasználó a bemenetet úgyszintén  a konzolon keresztül viheti be.
-			 * Ezek után a program által adott válasz, vagyis a konkrét teszteset lefutásának
-			 * az eredménye a konzolon jelenik meg.
+			/* A program elÃ¶szÃ¶r felkÃ­nÃ¡lja a felhasznÃ¡lÃ³nak a teszteseteket amiket
+			 * az alÃ¡bb feltÃ¼ntetett billenytÃ¼k lenyomÃ¡sÃ¡val lehet elÃ©rni. 
+			 * Az alÃ¡bbi tesztesetek a konzolra Ã­rÃ³dnak ki de a dokumentÃ¡ciÃ³ban is megtalÃ¡lhatÃ³ a rÃ©szletes leÃ­rÃ¡suk
+			 * A felhasznÃ¡lÃ³ a bemenetet ÃºgyszintÃ©n  a konzolon keresztÃ¼l viheti be.
+			 * Ezek utÃ¡n a program Ã¡ltal adott vÃ¡lasz, vagyis a konkrÃ©t teszteset lefutÃ¡sÃ¡nak
+			 * az eredmÃ©nye a konzolon jelenik meg.
 			 */
 			
-			System.out.println("\n Válassz az alábbi lehetõségek közül:"
-					+ "\n 1: Új játék indítása"
-					+ "\n 2: Alagútszáj aktiválása"
-					+ "\n 3: Alagútszáj deaktiválása"
-					+ "\n 4: Váltó állítása"
-					+ "\n 5: Vonatok léptetése"
-					+ "\n 6: Új vonat érkezése"
-					+ "\n 7: Gyõzelem"
-					+ "\n 8: kilépés");
+			System.out.println("\n VÃ¡lassz az alÃ¡bbi lehetÃ¶sÃ©gek kÃ¶zÃ¼l:"
+					+ "\n 1: Ãšj jÃ¡tÃ©k indÃ­tÃ¡sa"
+					+ "\n 2: AlagÃºtszÃ¡j aktivÃ¡lÃ¡sa"
+					+ "\n 3: AlagÃºtszÃ¡j deaktivÃ¡lÃ¡sa"
+					+ "\n 4: VÃ¡ltÃ³ Ã¡llÃ­tÃ¡sa"
+					+ "\n 5: Vonatok lÃ©ptetÃ©se"
+					+ "\n 6: Ãšj vonat Ã©rkezÃ©se"
+					+ "\n 7: GyÃ¶zelem"
+					+ "\n 8: kilÃ©pÃ©s");
 			
-			/* Fentebb olvashatóak a tesztesetek. 
-			 * Az egyes billentyû lenyomásának hatására a szkeleton tesztelõ program elindítja az "Új játék indítása" tesztesetet. 
-			 * A kettes billentyû lenyomásának hatására a szkeleton tesztelõ program elindítja az "Alagútszáj aktiválása" tesztesetet. 
-			 * A hármas billentyû lenyomásának hatására a szkeleton tesztelõ program elindítja az "Alagútszáj deaktiválása" tesztesetet. 
-			 * A négyes billentyû lenyomásának hatására a szkeleton tesztelõ program elindítja a "Váltó állítása" tesztesetet. 
-			 * Az ötös billentyû lenyomásának hatására a szkeleton tesztelõ program elindítja a "Vonatok léptetése" tesztesetet. 
-			 * A hatos billentyû lenyomásának hatására a szkeleton tesztelõ program elindítja az "Új vonat érkezése" tesztesetet. 
-			 * A hetes billentyû lenyomásának hatására a szkeleton tesztelõ program elindítja az "Gyõzelem" tesztesetet. 
-			 * A nyolcas billentyû lenyomásának hatására a szkeleton tesztelõ program futása megszakad.
+			/* Fentebb olvashatÃ³ak a tesztesetek. 
+			 * Az egyes billentyÅ± lenyomÃ¡sÃ¡nak hatÃ¡sÃ¡ra a szkeleton tesztelÅ‘ program elindÃ­tja az "Ãšj jÃ¡tÃ©k indÃ­tÃ¡sa" tesztesetet. 
+			 * A kettes billentyÅ± lenyomÃ¡sÃ¡nak hatÃ¡sÃ¡ra a szkeleton tesztelÅ‘ program elindÃ­tja az "AlagÃºtszÃ¡j aktivÃ¡lÃ¡sa" tesztesetet. 
+			 * A hÃ¡rmas billentyÅ± lenyomÃ¡sÃ¡nak hatÃ¡sÃ¡ra a szkeleton tesztelÅ‘ program elindÃ­tja az "AlagÃºtszÃ¡j deaktivÃ¡lÃ¡sa" tesztesetet. 
+			 * A nÃ©gyes billentyÅ± lenyomÃ¡sÃ¡nak hatÃ¡sÃ¡ra a szkeleton tesztelÅ‘ program elindÃ­tja a "VÃ¡ltÃ³ Ã¡llÃ­tÃ¡sa" tesztesetet. 
+			 * Az Ã¶tÃ¶s billentyÅ± lenyomÃ¡sÃ¡nak hatÃ¡sÃ¡ra a szkeleton tesztelÅ‘ program elindÃ­tja a "Vonatok lÃ©ptetÃ©se" tesztesetet. 
+			 * A hatos billentyÅ± lenyomÃ¡sÃ¡nak hatÃ¡sÃ¡ra a szkeleton tesztelÅ‘ program elindÃ­tja az "Ãšj vonat Ã©rkezÃ©se" tesztesetet. 
+			 * A hetes billentyÅ± lenyomÃ¡sÃ¡nak hatÃ¡sÃ¡ra a szkeleton tesztelÅ‘ program elindÃ­tja az "GyÅ‘zelem" tesztesetet. 
+			 * A nyolcas billentyÅ± lenyomÃ¡sÃ¡nak hatÃ¡sÃ¡ra a szkeleton tesztelÅ‘ program futÃ¡sa megszakad.
 			 */
 			
 			switch(Integer.parseInt(scanner.nextLine())){
-			/* Elõször is intté kasztolom a bemenetet.*/
+			/* ElÅ‘szÃ¶r is inttÃ© kasztolom a bemenetet.*/
 			
-				/* --------------------------------------------------------------------------------- 1. MENÜPONT ----------------------------------------------------------------------------- */
+				/* --------------------------------------------------------------------------------- 1. MENÃœPONT ----------------------------------------------------------------------------- */
 			
-				case 1: System.out.println("1: Új játék indítása. Melyik pálya legyen? [1, 2]");
-				/* Ez a teszteset új játékot indít. Bemenetként vár a felhasználótól egy számot, hogy melyik pálya
+				case 1: System.out.println("1: Ãšj jÃ¡tÃ©k indÃ­tÃ¡sa. Melyik pÃ¡lya legyen? [1, 2]");
+				/* Ez a teszteset Ãºj jÃ¡tÃ©kot indÃ­t. BemenetkÃ©nt vÃ¡r a felhasznÃ¡lÃ³tÃ³l egy szÃ¡mot, hogy melyik pÃ¡lya
 				 * induljon el. */
 					switch(Integer.parseInt(scanner.nextLine())){
-						case 1: System.out.println("\n1. pálya indítása...");	
-						/* Ez a programrész akkor fut le, ha a felhasználó az elsõ pályát választja. Létrejön egy GameController. */
-						/* a gc utáni szám azt mutatja, melyik feladat melyik részfeladatához tartozik. */
+						case 1: System.out.println("\n1. pÃ¡lya indÃ­tÃ¡sa...");	
+						/* Ez a programrÃ©sz akkor fut le, ha a felhasznÃ¡lÃ³ az elsÅ‘ pÃ¡lyÃ¡t vÃ¡lasztja. LÃ©trejÃ¶n egy GameController. */
+						/* a gc utÃ¡ni szÃ¡m azt mutatja, melyik feladat melyik rÃ©szfeladatÃ¡hoz tartozik. */
 						GameController gc11 = new GameController();
-						gc11.startNewGame(1); /* elindítjuk a gameControllert az 1-es pályával-  */
+						gc11.startNewGame(1); /* elindÃ­tjuk a gameControllert az 1-es pÃ¡lyÃ¡val-  */
 						break;
 						
-						case 2: System.out.println("\n2. pálya indítása...");
-						/* Ez a programrész akkor fut le, ha a felhasználó a második pályát választja. Létrejön egy GameController. */
+						case 2: System.out.println("\n2. pÃ¡lya indÃ­tÃ¡sa...");
+						/* Ez a programrÃ©sz akkor fut le, ha a felhasznÃ¡lÃ³ a mÃ¡sodik pÃ¡lyÃ¡t vÃ¡lasztja. LÃ©trejÃ¶n egy GameController. */
 						GameController gc12 = new GameController();
-						gc12.startNewGame(2);  /* elindítjuk a gameControllert az 2-es pályával-  */
+						gc12.startNewGame(2);  /* elindÃ­tjuk a gameControllert az 2-es pÃ¡lyÃ¡val-  */
 						break;
 /**LONG TESZTEL--------------------------*/
-						case 7: System.out.println("\nLongMap indítása...");
-						/* Ez a programrész akkor fut le, ha a felhasználó a 7. pályát választja. Létrejön egy GameController. */
+						case 7: System.out.println("\nLongMap indÃ­tÃ¡sa...");
+						/* Ez a programrÃ©sz akkor fut le, ha a felhasznÃ¡lÃ³ a 7. pÃ¡lyÃ¡t vÃ¡lasztja. LÃ©trejÃ¶n egy GameController. */
 						GameController gc17 = new GameController();
-						gc17.startNewGame(7);  /* elindítjuk a gameControllert az 7-es pályával-  */
+						gc17.startNewGame(7);  /* elindÃ­tjuk a gameControllert az 7-es pÃ¡lyÃ¡val-  */
 						break;
 						
 						case 70: System.out.println("\nSaveMap Teszt...");
-						/* Ez a programrész akkor fut le, ha a felhasználó a 70. pályát választja. Létrejön egy GameController. */
+						/* Ez a programrÃ©sz akkor fut le, ha a felhasznÃ¡lÃ³ a 70. pÃ¡lyÃ¡t vÃ¡lasztja. LÃ©trejÃ¶n egy GameController. */
 						GameController gc170 = new GameController();
-						gc170.startNewGame(1);  /* elindítjuk a gameControllert az 1-es pályával-  */
+						gc170.startNewGame(1);  /* elindÃ­tjuk a gameControllert az 1-es pÃ¡lyÃ¡val-  */
 						gc170.createMapTestFile(1, "LongTest1");
 						break;
 						
 						case 71: System.out.println("\nThread Teszt...");
-						/* Ez a programrész akkor fut le, ha a felhasználó a 71. pályát választja. Létrejön egy GameController. */
+						/* Ez a programrÃ©sz akkor fut le, ha a felhasznÃ¡lÃ³ a 71. pÃ¡lyÃ¡t vÃ¡lasztja. LÃ©trejÃ¶n egy GameController. */
 						GameController gc171 = new GameController();
-						gc171.startNewGame(9);  /* elindítjuk a gameControllert az 1-es pályával-  */
+						gc171.startNewGame(9);  /* elindÃ­tjuk a gameControllert az 1-es pÃ¡lyÃ¡val-  */
 						//gc171.runThreadTest();
 						break;
 						
 						case 72: System.out.println("\nThread Teszt...");
-						/* Ez a programrész akkor fut le, ha a felhasználó a 72. pályát választja. Létrejön egy GameController. */
+						/* Ez a programrÃ©sz akkor fut le, ha a felhasznÃ¡lÃ³ a 72. pÃ¡lyÃ¡t vÃ¡lasztja. LÃ©trejÃ¶n egy GameController. */
 						GameController gc172 = new GameController();
-						gc172.startNewGame(10);  /* elindítjuk a gameControllert az 1-es pályával-  */
+						gc172.startNewGame(10);  /* elindÃ­tjuk a gameControllert az 1-es pÃ¡lyÃ¡val-  */
 						break;
 						
 						case 73: System.out.println("\nThread Teszt...");
-						/* Ez a programrész akkor fut le, ha a felhasználó a 73. pályát választja. Létrejön egy GameController. */
+						/* Ez a programrÃ©sz akkor fut le, ha a felhasznÃ¡lÃ³ a 73. pÃ¡lyÃ¡t vÃ¡lasztja. LÃ©trejÃ¶n egy GameController. */
 						GameController gc173 = new GameController();
-						gc173.startNewGame(11);  /* elindítjuk a gameControllert az 1-es pályával-  */
+						gc173.startNewGame(11);  /* elindÃ­tjuk a gameControllert az 1-es pÃ¡lyÃ¡val-  */
 						break;
 
 /**LONG TESZTEL--------------------------*/						
-						/* Ez a programrész akkor fut le, ha a felhasználó nem 1-est vagy kettest adott meg bemenetként. 
-						 * Ilyen pálya ugyanis nincs. Ekkor a program visszatér a fõmenübe. */
-						default: System.out.println("Csak 1. és 2. pálya van. Az elvárt bemenet az '1' vagy a '2'");
+						/* Ez a programrÃ©sz akkor fut le, ha a felhasznÃ¡lÃ³ nem 1-est vagy kettest adott meg bemenetkÃ©nt. 
+						 * Ilyen pÃ¡lya ugyanis nincs. Ekkor a program visszatÃ©r a fÅ‘menÃ¼be. */
+						default: System.out.println("Csak 1. Ã©s 2. pÃ¡lya van. Az elvÃ¡rt bemenet az '1' vagy a '2'");
 					}
 				break;
 					
 				
-				/* --------------------------------------------------------------------------------- 2. MENÜPONT ----------------------------------------------------------------------------- */
+				/* --------------------------------------------------------------------------------- 2. MENÃœPONT ----------------------------------------------------------------------------- */
 				
-				/* Ez a teszteset alagútszáájak lérehozását teszi lehetõvé a felhasználó számára. 
-				 * Elõször megkérdezi, hány alagútszáj van nyitva jelenleg a pályán. Egyszerre csak két  
-				 * alagútszáj lehet nyitva a pályán, így a megengedett bemenetek a 0 és az 1.
+				/* Ez a teszteset alagÃºtszÃ¡Ã¡jak lÃ©rehozÃ¡sÃ¡t teszi lehetÅ‘vÃ© a felhasznÃ¡lÃ³ szÃ¡mÃ¡ra. 
+				 * ElÅ‘szÃ¶r megkÃ©rdezi, hÃ¡ny alagÃºtszÃ¡j van nyitva jelenleg a pÃ¡lyÃ¡n. Egyszerre csak kÃ©t  
+				 * alagÃºtszÃ¡j lehet nyitva a pÃ¡lyÃ¡n, Ã­gy a megengedett bemenetek a 0 Ã©s az 1.
 				 */
-				case 2: System.out.println("Alagútszály aktiválása. Hány alagútszály van jelenleg nyitva? [0, 1]");
+				case 2: System.out.println("AlagÃºtszÃ¡ly aktivÃ¡lÃ¡sa. HÃ¡ny alagÃºtszÃ¡ly van jelenleg nyitva? [0, 1]");
 				switch (Integer.parseInt(scanner.nextLine()))
 				{
-					case 0: System.out.println("Elsõ alagútszáj aktiválása...");
-					/* Ez a kódrészlet fut le akkor, ha  a felhasználó futtatja az alagútszáj aktiválása tesztesetet
-					 * úgy, hogy, a pályán a éppen nincs egyetlen alagútszáj se nyitott állapotban.
+					case 0: System.out.println("ElsÅ‘ alagÃºtszÃ¡j aktivÃ¡lÃ¡sa...");
+					/* Ez a kÃ³drÃ©szlet fut le akkor, ha  a felhasznÃ¡lÃ³ futtatja az alagÃºtszÃ¡j aktivÃ¡lÃ¡sa tesztesetet
+					 * Ãºgy, hogy, a pÃ¡lyÃ¡n a Ã©ppen nincs egyetlen alagÃºtszÃ¡j se nyitott Ã¡llapotban.
 					 */
 					GameController gc21 = new GameController();
-					gc21.startNewGame(1);  /* elindítjuk a gameControllert az 1-es pályával-  */
-					gc21.skeletonTesterActivateTunnelEntrance(1);/* Aktiváljuk az elsõ alagútszájat. */
+					gc21.startNewGame(1);  /* elindÃ­tjuk a gameControllert az 1-es pÃ¡lyÃ¡val-  */
+					gc21.skeletonTesterActivateTunnelEntrance(1);/* AktivÃ¡ljuk az elsÅ‘ alagÃºtszÃ¡jat. */
 					break;
 					
-					case 1: System.out.println("Elsõ és második alagútszáj aktiválása...");
-					/* Ez a kódrészlet fog lefutni abban az esetben, ha a pályán már található egy aktív
-					 * alagútszály és mi még egy alagútszájat szeretnénk létrehozni mellé. Ekkor az alagútszájon
-					 * kívül egy alagút is létrejön a két alagútszáj között.
+					case 1: System.out.println("ElsÅ‘ Ã©s mÃ¡sodik alagÃºtszÃ¡j aktivÃ¡lÃ¡sa...");
+					/* Ez a kÃ³drÃ©szlet fog lefutni abban az esetben, ha a pÃ¡lyÃ¡n mÃ¡r talÃ¡lhatÃ³ egy aktÃ­v
+					 * alagÃºtszÃ¡ly Ã©s mi mÃ©g egy alagÃºtszÃ¡jat szeretnÃ©nk lÃ©trehozni mellÃ©. Ekkor az alagÃºtszÃ¡jon
+					 * kÃ­vÃ¼l egy alagÃºt is lÃ©trejÃ¶n a kÃ©t alagÃºtszÃ¡j kÃ¶zÃ¶tt.
 					 */
 					GameController gc22 = new GameController();
-					gc22.startNewGame(1);  /* elindítjuk a gameControllert az 1-es pályával-  */
-					gc22.skeletonTesterActivateTunnelEntrance(1);/* Aktiváljuk az elsõ alagútszájat. */				
+					gc22.startNewGame(1);  /* elindÃ­tjuk a gameControllert az 1-es pÃ¡lyÃ¡val-  */
+					gc22.skeletonTesterActivateTunnelEntrance(1);/* AktivÃ¡ljuk az elsÅ‘ alagÃºtszÃ¡jat. */				
 					break;
 					
-					/* Amennyiben a felhasználó nem az 1-es vagy a 2-es gombot nyomta meg, egyik fenti teszteset
-					 * sem fog lefutni. A szkeleton tesztelõ visszatér a fõmenübe.
+					/* Amennyiben a felhasznÃ¡lÃ³ nem az 1-es vagy a 2-es gombot nyomta meg, egyik fenti teszteset
+					 * sem fog lefutni. A szkeleton tesztelÅ‘ visszatÃ©r a fÅ‘menÃ¼be.
 					 */
-					default: System.out.println("Nincs ilyen opció. Az elvárt bemenet az '1' vagy a '2'");
+					default: System.out.println("Nincs ilyen opciÃ³. Az elvÃ¡rt bemenet az '1' vagy a '2'");
 				}
 				break;
 				
 				
-				/* --------------------------------------------------------------------------------- 3. MENÜPONT ----------------------------------------------------------------------------- */
+				/* --------------------------------------------------------------------------------- 3. MENÃœPONT ----------------------------------------------------------------------------- */
 				
-				/* Ez a teszteset alagútszáj deaktiválására szolgál.
-				 * Mivel egyszerre csak két alagútszáj lehet aktív a pályán, ezért  a megengedett bemenetek az 1 és a 2.
-				 * Értelemszerûen kettõnél több aktív alagútszáj nem létezhet egy pályán egyszerre, ugyanis
-				 * ez szembemenne a feladat specifikációjával. Ugyanitt, nem lehet 0 aktív alagútszáj, ha éppen deaktiválni
-				 * szeretnénk egy alagútszájat, ebben az esetben ugyanis nem lenne mit deaktiválni.
+				/* Ez a teszteset alagÃºtszÃ¡j deaktivÃ¡lÃ¡sÃ¡ra szolgÃ¡l.
+				 * Mivel egyszerre csak kÃ©t alagÃºtszÃ¡j lehet aktÃ­v a pÃ¡lyÃ¡n, ezÃ©rt  a megengedett bemenetek az 1 Ã©s a 2.
+				 * Ã‰rtelemszerÅ±en kettÅ‘nÃ©l tÃ¶bb aktÃ­v alagÃºtszÃ¡j nem lÃ©tezhet egy pÃ¡lyÃ¡n egyszerre, ugyanis
+				 * ez szembemenne a feladat specifikÃ¡ciÃ³jÃ¡val. Ugyanitt, nem lehet 0 aktÃ­v alagÃºtszÃ¡j, ha Ã©ppen deaktivÃ¡lni
+				 * szeretnÃ©nk egy alagÃºtszÃ¡jat, ebben az esetben ugyanis nem lenne mit deaktivÃ¡lni.
 				 */
-				case 3: System.out.println("Alagútszály deaktiválása. Hány alagútszáj van jelenleg nyitva? [1, 2]");
+				case 3: System.out.println("AlagÃºtszÃ¡ly deaktivÃ¡lÃ¡sa. HÃ¡ny alagÃºtszÃ¡j van jelenleg nyitva? [1, 2]");
 				switch (Integer.parseInt(scanner.nextLine()))
 				{
 					case 1: 	
-					/* Ez a programrész akkor fut le, amikor egy alagútszájat deaktiválunk úgy, hogy ez volt az egyetlen alagútszáj a pályán.
-					 * Ebben az esetben csak egyszerûen deaktiválódik az alagútszáj.
+					/* Ez a programrÃ©sz akkor fut le, amikor egy alagÃºtszÃ¡jat deaktivÃ¡lunk Ãºgy, hogy ez volt az egyetlen alagÃºtszÃ¡j a pÃ¡lyÃ¡n.
+					 * Ebben az esetben csak egyszerÅ±en deaktivÃ¡lÃ³dik az alagÃºtszÃ¡j.
 					 */
 						GameController gc31 = new GameController();
-						gc31.startNewGame(1);  /* elindítjuk a gameControllert az 1-es pályával-  */
-						gc31.skeletonTesterActivateTunnelEntrance(1);/* Aktiváljuk az elsõ alagútszájat. */
+						gc31.startNewGame(1);  /* elindÃ­tjuk a gameControllert az 1-es pÃ¡lyÃ¡val-  */
+						gc31.skeletonTesterActivateTunnelEntrance(1);/* AktivÃ¡ljuk az elsÅ‘ alagÃºtszÃ¡jat. */
 						
-						System.out.println("\nEgyedüli alagútszáj zárása..."); 
-						gc31.skeletonTesterDeActivateATunnelEntrance(); /* deaktiváljuk az alagútszájat */
+						System.out.println("\nEgyedÃ¼li alagÃºtszÃ¡j zÃ¡rÃ¡sa..."); 
+						gc31.skeletonTesterDeActivateATunnelEntrance(); /* deaktivÃ¡ljuk az alagÃºtszÃ¡jat */
 					break;
 					
 					case 2: 
-					/* Ez a programrész akkor fut le, ha a felhasználó úgy deaktivál alagútszájat, hogy a 
-					 * pályán két alagútszáj volt aktív. Ebben az esetben az alagút a két alagútszáj között megszûnik, 
-					 * és eltûnik az alagútszáj.
+					/* Ez a programrÃ©sz akkor fut le, ha a felhasznÃ¡lÃ³ Ãºgy deaktivÃ¡l alagÃºtszÃ¡jat, hogy a 
+					 * pÃ¡lyÃ¡n kÃ©t alagÃºtszÃ¡j volt aktÃ­v. Ebben az esetben az alagÃºt a kÃ©t alagÃºtszÃ¡j kÃ¶zÃ¶tt megszÅ±nik, 
+					 * Ã©s eltÅ±nik az alagÃºtszÃ¡j.
 					 */
 						GameController gc32 = new GameController();
-						gc32.startNewGame(1);  /* elindítjuk a gameControllert az 1-es pályával-  */
-						gc32.skeletonTesterActivateTunnelEntrance(2);/* Aktiválunk két alagútszájat. */
+						gc32.startNewGame(1);  /* elindÃ­tjuk a gameControllert az 1-es pÃ¡lyÃ¡val-  */
+						gc32.skeletonTesterActivateTunnelEntrance(2);/* AktivÃ¡lunk kÃ©t alagÃºtszÃ¡jat. */
 						
-						System.out.println("\nAlagút bontása és az egyik alagútszáj zárása...");
-						gc32.skeletonTesterDeActivateATunnelEntrance(); /* Deaktiváljuk az egyik alagútszájat mely során megszûnik az alagút. */
+						System.out.println("\nAlagÃºt bontÃ¡sa Ã©s az egyik alagÃºtszÃ¡j zÃ¡rÃ¡sa...");
+						gc32.skeletonTesterDeActivateATunnelEntrance(); /* DeaktivÃ¡ljuk az egyik alagÃºtszÃ¡jat mely sorÃ¡n megszÅ±nik az alagÃºt. */
 					break;
 					
-					/* Ha a felhasználó nem 1-et vagy 2-t adott meg bemenetként akkor a fenti 
-					 * tesztesetek közül egyik se fut le. A program visszalép a fõmenübe.
+					/* Ha a felhasznÃ¡lÃ³ nem 1-et vagy 2-t adott meg bemenetkÃ©nt akkor a fenti 
+					 * tesztesetek kÃ¶zÃ¼l egyik se fut le. A program visszalÃ©p a fÅ‘menÃ¼be.
 					 */
-					default: System.out.println("Csak akkor lehet alagútszájat zárni, ha 1 vagy 2 van nyitva");
+					default: System.out.println("Csak akkor lehet alagÃºtszÃ¡jat zÃ¡rni, ha 1 vagy 2 van nyitva");
 				}
 				break;
 				
 				
-				/* --------------------------------------------------------------------------------- 4. MENÜPONT ----------------------------------------------------------------------------- */
+				/* --------------------------------------------------------------------------------- 4. MENÃœPONT ----------------------------------------------------------------------------- */
 				
 				/* 
-				 * Ez a teszteset a pályán található váltók állítását szimulálja. 
-				 * A váltóknak két állása van, egy alaphelyzet, amiben a rajta áthaladó
-				 * vonat haladási iránya nem változik meg. A másik az alternatív helyzetben a 
-				 * vonat irányt vált. 
-				 * A tesztesethez használt map-en csak egy váltó van. (map3.txt)
+				 * Ez a teszteset a pÃ¡lyÃ¡n talÃ¡lhatÃ³ vÃ¡ltÃ³k Ã¡llÃ­tÃ¡sÃ¡t szimulÃ¡lja. 
+				 * A vÃ¡ltÃ³knak kÃ©t Ã¡llÃ¡sa van, egy alaphelyzet, amiben a rajta Ã¡thaladÃ³
+				 * vonat haladÃ¡si irÃ¡nya nem vÃ¡ltozik meg. A mÃ¡sik az alternatÃ­v helyzetben a 
+				 * vonat irÃ¡nyt vÃ¡lt. 
+				 * A tesztesethez hasznÃ¡lt map-en csak egy vÃ¡ltÃ³ van. (map3.txt)
 				 */
-				case 4: System.out.println("Váltó állítás. A váltó eredetileg módosította az irányt? [i/n]");
+				case 4: System.out.println("VÃ¡ltÃ³ Ã¡llÃ­tÃ¡s. A vÃ¡ltÃ³ eredetileg mÃ³dosÃ­totta az irÃ¡nyt? [i/n]");
 				
 				switch (scanner.nextLine().charAt(0))
 				{
 					case 'I': 
 					case 'i': 
-					/* Ez a kódrészlet akkor fut le ha a váltó alternatív helyzetben volt és mi alaphelyzetbe
-					 * szeretnénk állítani. Ez majd GUI-n eventekkel történik majd a jövõben. Mivel a váltó alaphelyzetbõl indul,
-					 * ehhez elõbb ki kell billenteni az alternatív helyzetbe, majd onnan vissza.
+					/* Ez a kÃ³drÃ©szlet akkor fut le ha a vÃ¡ltÃ³ alternatÃ­v helyzetben volt Ã©s mi alaphelyzetbe
+					 * szeretnÃ©nk Ã¡llÃ­tani. Ez majd GUI-n eventekkel tÃ¶rtÃ©nik majd a jÃ¶vÅ‘ben. Mivel a vÃ¡ltÃ³ alaphelyzetbÅ‘l indul,
+					 * ehhez elÅ‘bb ki kell billenteni az alternatÃ­v helyzetbe, majd onnan vissza.
 					 */
 					GameController gc41 = new GameController();
-					gc41.startNewGame(1);  /* elindítjuk a gameControllert az 3-as pályával  */
-					gc41.skeletonTesterSwitchASwitch(); /* Beállítjuk a váltót, hogy a feladat kiírásnak megfelelõ alaphelyzetben álljon. */
+					gc41.startNewGame(1);  /* elindÃ­tjuk a gameControllert az 3-as pÃ¡lyÃ¡val  */
+					gc41.skeletonTesterSwitchASwitch(); /* BeÃ¡llÃ­tjuk a vÃ¡ltÃ³t, hogy a feladat kiÃ­rÃ¡snak megfelelÅ‘ alaphelyzetben Ã¡lljon. */
 					
-					System.out.println("Váltó állítása alaphelyzetbe..."); 
-					gc41.skeletonTesterSwitchASwitch(); /* Állítunk egyet a váltón. */
+					System.out.println("VÃ¡ltÃ³ Ã¡llÃ­tÃ¡sa alaphelyzetbe..."); 
+					gc41.skeletonTesterSwitchASwitch(); /* ÃllÃ­tunk egyet a vÃ¡ltÃ³n. */
 					break;
 					
 					case 'N':
 					case 'n': 
-					/*Ez a kódrészlet akkor fut le ha a váltó alaphelyzetben volt
-					 * és mi szeretnénk a másik állapotába helyezni. Ez majd GUI-n eventekkel történik majd a jövõben.
+					/*Ez a kÃ³drÃ©szlet akkor fut le ha a vÃ¡ltÃ³ alaphelyzetben volt
+					 * Ã©s mi szeretnÃ©nk a mÃ¡sik Ã¡llapotÃ¡ba helyezni. Ez majd GUI-n eventekkel tÃ¶rtÃ©nik majd a jÃ¶vÅ‘ben.
 					 */
 					GameController gc42 = new GameController();
-					gc42.startNewGame(1);  /* elindítjuk a gameControllert az 3-as pályával  */
+					gc42.startNewGame(1);  /* elindÃ­tjuk a gameControllert az 3-as pÃ¡lyÃ¡val  */
 					
 					
-					System.out.println("Váltó állítása alternatív helyzetbe..."); /*A váltó alapból alap helyzetben van, így csak egy váltás szükséges rajta */
-					gc42.skeletonTesterSwitchASwitch(); /* Állítunk egyet a váltón. */
+					System.out.println("VÃ¡ltÃ³ Ã¡llÃ­tÃ¡sa alternatÃ­v helyzetbe..."); /*A vÃ¡ltÃ³ alapbÃ³l alap helyzetben van, Ã­gy csak egy vÃ¡ltÃ¡s szÃ¼ksÃ©ges rajta */
+					gc42.skeletonTesterSwitchASwitch(); /* ÃllÃ­tunk egyet a vÃ¡ltÃ³n. */
 					break;
 					
-					/* Ha a felhasználó nem i vagy n bemenetet adott, akkor a
-					 * fenti tesztesetek közül egyik sem fut le. Ehelyett a program visszalép 
-					 * a fõmenübe.
+					/* Ha a felhasznÃ¡lÃ³ nem i vagy n bemenetet adott, akkor a
+					 * fenti tesztesetek kÃ¶zÃ¼l egyik sem fut le. Ehelyett a program visszalÃ©p 
+					 * a fÅ‘menÃ¼be.
 					 */
-					default: System.out.println("Csak az 'i' és 'n' a támogatott bemenet");
+					default: System.out.println("Csak az 'i' Ã©s 'n' a tÃ¡mogatott bemenet");
 				}
 				break;
 				
 				
-				/* --------------------------------------------------------------------------------- 5. MENÜPONT ----------------------------------------------------------------------------- */
+				/* --------------------------------------------------------------------------------- 5. MENÃœPONT ----------------------------------------------------------------------------- */
 				
-				/*Ez a teszteset a vonat léptetését szimulálja
-				 * A vonat 5 különbözõ sínre léphet. Ezek a következõk:
-				 * Az egyes billentyû lenyomásának hatására a léptetést szimuláló teszteset sínre lépteti a vonatot. 
-				 * A kettes billentyû lenyomásának hatására a léptetést szimuláló teszteset váltóra lépteti a vonatot. 
-				 * A váltó egy sepciális sín
-				 * A hármas billentyû lenyomásának hatására a léptetést szimuláló teszteset alagútszájra lépteti a vonatot. 
-				 * Itt fontos megjegyezni, hogy az alagútszáj is egyfajta váltó, aminek az alternatív állása vezet
-				 * az alagútba. Alapállásában a vonat elkerüli az alagutat.
-				 * A négyes billentyû lenyomásának hatására a léptetést szimuláló teszteset megállóra lépteti a vonatot. 
-				 * A megálló is egyfajta speciális sín ami színnel rendelkezik
-				 * Az ötös billentyû lenyomásának hatására a léptetést szimuláló teszteset belépési pontra lépteti a vonatot.
-				 * A belépési pont egyfajta speciális sín, amin keresztül bejutnak a vonatok a pályára. Ez a teszteset viszont
-				 * azt szimulálja, hogy a vonat ezen  keresztül elhagyja a pályát.
-				 * Az ötös billenytû egy speciális teszteset, ugyanis ez nem sínhez köthetõ, hanem azt szimulálja
-				 * hogy két vonat összeütközik. 
+				/*Ez a teszteset a vonat lÃ©ptetÃ©sÃ©t szimulÃ¡lja
+				 * A vonat 5 kÃ¼lÃ¶nbÃ¶zÅ‘ sÃ­nre lÃ©phet. Ezek a kÃ¶vetkezÅ‘k:
+				 * Az egyes billentyÅ± lenyomÃ¡sÃ¡nak hatÃ¡sÃ¡ra a lÃ©ptetÃ©st szimulÃ¡lÃ³ teszteset sÃ­nre lÃ©pteti a vonatot. 
+				 * A kettes billentyÅ± lenyomÃ¡sÃ¡nak hatÃ¡sÃ¡ra a lÃ©ptetÃ©st szimulÃ¡lÃ³ teszteset vÃ¡ltÃ³ra lÃ©pteti a vonatot. 
+				 * A vÃ¡ltÃ³ egy sepciÃ¡lis sÃ­n
+				 * A hÃ¡rmas billentyÅ± lenyomÃ¡sÃ¡nak hatÃ¡sÃ¡ra a lÃ©ptetÃ©st szimulÃ¡lÃ³ teszteset alagÃºtszÃ¡jra lÃ©pteti a vonatot. 
+				 * Itt fontos megjegyezni, hogy az alagÃºtszÃ¡j is egyfajta vÃ¡ltÃ³, aminek az alternatÃ­v Ã¡llÃ¡sa vezet
+				 * az alagÃºtba. AlapÃ¡llÃ¡sÃ¡ban a vonat elkerÃ¼li az alagutat.
+				 * A nÃ©gyes billentyÅ± lenyomÃ¡sÃ¡nak hatÃ¡sÃ¡ra a lÃ©ptetÃ©st szimulÃ¡lÃ³ teszteset megÃ¡llÃ³ra lÃ©pteti a vonatot. 
+				 * A megÃ¡llÃ³ is egyfajta speciÃ¡lis sÃ­n ami szÃ­nnel rendelkezik
+				 * Az Ã¶tÃ¶s billentyÅ± lenyomÃ¡sÃ¡nak hatÃ¡sÃ¡ra a lÃ©ptetÃ©st szimulÃ¡lÃ³ teszteset belÃ©pÃ©si pontra lÃ©pteti a vonatot.
+				 * A belÃ©pÃ©si pont egyfajta speciÃ¡lis sÃ­n, amin keresztÃ¼l bejutnak a vonatok a pÃ¡lyÃ¡ra. Ez a teszteset viszont
+				 * azt szimulÃ¡lja, hogy a vonat ezen  keresztÃ¼l elhagyja a pÃ¡lyÃ¡t.
+				 * Az Ã¶tÃ¶s billenytÅ± egy speciÃ¡lis teszteset, ugyanis ez nem sÃ­nhez kÃ¶thetÅ‘, hanem azt szimulÃ¡lja
+				 * hogy kÃ©t vonat Ã¶sszeÃ¼tkÃ¶zik. 
 				 */
-				case 5: System.out.println("Vonatok léptetése. Hova lép a vonat?"
-						+ "\n 1: sínre"
-						+ "\n 2: váltóra"
-						+ "\n 3: alagútszájra"
-						+ "\n 4: megállóra"
-						+ "\n 5: Vonat elhagyja a játékteret belépési ponton keresztül"
-						+ "\n 6: Két vonat ütközik");
+				case 5: System.out.println("Vonatok lÃ©ptetÃ©se. Hova lÃ©p a vonat?"
+						+ "\n 1: sÃ­nre"
+						+ "\n 2: vÃ¡ltÃ³ra"
+						+ "\n 3: alagÃºtszÃ¡jra"
+						+ "\n 4: megÃ¡llÃ³ra"
+						+ "\n 5: Vonat elhagyja a jÃ¡tÃ©kteret belÃ©pÃ©si ponton keresztÃ¼l"
+						+ "\n 6: KÃ©t vonat Ã¼tkÃ¶zik");
 				switch (Integer.parseInt(scanner.nextLine()))
 				{
-					case 1: System.out.println("A vonat sínre lép..."); 
-					/*Ez a programrész fut le akkor, ha a vonat egy egyszerû sínre lép. */
+					case 1: System.out.println("A vonat sÃ­nre lÃ©p..."); 
+					/*Ez a programrÃ©sz fut le akkor, ha a vonat egy egyszerÅ± sÃ­nre lÃ©p. */
 					
-						ArrayList<Color>cabinColors = new ArrayList<Color>(); /* Létrehozunk egy színlistát. Ebbõl fog felépülni a vonat. */
-						cabinColors.add(Color.RED); /* A színlistához hozzáadunk egy piros színt. */
-						cabinColors.add(Color.GREEN); /* A színlistához hozzáadunk egy zöld színt. */
-						cabinColors.add(Color.BLUE); /* A színlistához hozzáadunk egy kék színt. */
+						ArrayList<Color>cabinColors = new ArrayList<Color>(); /* LÃ©trehozunk egy szÃ­nlistÃ¡t. EbbÅ‘l fog felÃ©pÃ¼lni a vonat. */
+						cabinColors.add(Color.RED); /* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy piros szÃ­nt. */
+						cabinColors.add(Color.GREEN); /* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy zÃ¶ld szÃ­nt. */
+						cabinColors.add(Color.BLUE); /* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy kÃ©k szÃ­nt. */
 						
-						GameController gc51 = new GameController(); /* létrehozunk egy gameControllert */
-						gc51.startNewGame(51); /* elindítjuk a játékot az 51-es pályán*/
-						gc51.skeletonTesterAddNewTrain(cabinColors); /* hozzáadjuk az újonnan létrehozott vonatot */
-						gc51.skeletonTesterMakeTrainsMove(); /* Léptetjük egyet a vonatokat. */
-						gc51.skeletonTesterMakeTrainsMove(); /* Léptetjük egyet a vonatokat. */
+						GameController gc51 = new GameController(); /* lÃ©trehozunk egy gameControllert */
+						gc51.startNewGame(51); /* elindÃ­tjuk a jÃ¡tÃ©kot az 51-es pÃ¡lyÃ¡n*/
+						gc51.skeletonTesterAddNewTrain(cabinColors); /* hozzÃ¡adjuk az Ãºjonnan lÃ©trehozott vonatot */
+						gc51.skeletonTesterMakeTrainsMove(); /* LÃ©ptetjÃ¼k egyet a vonatokat. */
+						gc51.skeletonTesterMakeTrainsMove(); /* LÃ©ptetjÃ¼k egyet a vonatokat. */
 					break;
 					
-					case 2: System.out.println("A vonat váltóra lép. A váltó alaphelyzetben (i) vagy az elternatív helyzetben (n) van? [i, n]");
+					case 2: System.out.println("A vonat vÃ¡ltÃ³ra lÃ©p. A vÃ¡ltÃ³ alaphelyzetben (i) vagy az elternatÃ­v helyzetben (n) van? [i, n]");
 						switch (scanner.nextLine().charAt(0)){
 							case 'I': 
-							case 'i': System.out.println("A vonat egyenesen halad tovább..."); 
-							/* Ez a programrész akkor fut le, ha a vonat egy váltóra lép és a váltó alapállapotban van */
-							ArrayList<Color>cabinColors21 = new ArrayList<Color>(); /* Létrehozunk egy színlistát. Ebbõl fog felépülni a vonat. */
-							cabinColors21.add(Color.RED);/* A színlistához hozzáadunk egy piros színt. */
-							cabinColors21.add(Color.GREEN);/* A színlistához hozzáadunk egy zöld színt. */
-							cabinColors21.add(Color.BLUE);/* A színlistához hozzáadunk egy kék színt. */
+							case 'i': System.out.println("A vonat egyenesen halad tovÃ¡bb..."); 
+							/* Ez a programrÃ©sz akkor fut le, ha a vonat egy vÃ¡ltÃ³ra lÃ©p Ã©s a vÃ¡ltÃ³ alapÃ¡llapotban van */
+							ArrayList<Color>cabinColors21 = new ArrayList<Color>(); /* LÃ©trehozunk egy szÃ­nlistÃ¡t. EbbÅ‘l fog felÃ©pÃ¼lni a vonat. */
+							cabinColors21.add(Color.RED);/* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy piros szÃ­nt. */
+							cabinColors21.add(Color.GREEN);/* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy zÃ¶ld szÃ­nt. */
+							cabinColors21.add(Color.BLUE);/* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy kÃ©k szÃ­nt. */
 							
-							GameController gc521 = new GameController(); /* létrehozunk egy gameControllert */
-							gc521.startNewGame(52); /* elindítjuk a játékot az 52-es pályán*/
-							gc521.skeletonTesterAddNewTrain(cabinColors21); /* hozzáadjuk az újonnan létrehozott vonatot */
-							gc521.skeletonTesterMakeTrainsMove(); /* Léptetjük egyet a vonatokat. */
-							gc521.skeletonTesterMakeTrainsMove();/* Léptetjük egyet a vonatokat. */
+							GameController gc521 = new GameController(); /* lÃ©trehozunk egy gameControllert */
+							gc521.startNewGame(52); /* elindÃ­tjuk a jÃ¡tÃ©kot az 52-es pÃ¡lyÃ¡n*/
+							gc521.skeletonTesterAddNewTrain(cabinColors21); /* hozzÃ¡adjuk az Ãºjonnan lÃ©trehozott vonatot */
+							gc521.skeletonTesterMakeTrainsMove(); /* LÃ©ptetjÃ¼k egyet a vonatokat. */
+							gc521.skeletonTesterMakeTrainsMove();/* LÃ©ptetjÃ¼k egyet a vonatokat. */
 							break;
 							
 							case 'N':
 							case 'n': System.out.println("A vonat elkanyarodik...");
-							/* Ez a programrész akkor fut le, ha a vonat egy váltóra lép és a váltó alternatív   van */
-							ArrayList<Color>cabinColors22 = new ArrayList<Color>();/* Létrehozunk egy színlistát. Ebbõl fog felépülni a vonat. */
-							cabinColors22.add(Color.RED);/* A színlistához hozzáadunk egy piros színt. */
-							cabinColors22.add(Color.GREEN); /* A színlistához hozzáadunk egy zöld színt. */
-							cabinColors22.add(Color.BLUE); /* A színlistához hozzáadunk egy kék színt. */
+							/* Ez a programrÃ©sz akkor fut le, ha a vonat egy vÃ¡ltÃ³ra lÃ©p Ã©s a vÃ¡ltÃ³ alternatÃ­v   van */
+							ArrayList<Color>cabinColors22 = new ArrayList<Color>();/* LÃ©trehozunk egy szÃ­nlistÃ¡t. EbbÅ‘l fog felÃ©pÃ¼lni a vonat. */
+							cabinColors22.add(Color.RED);/* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy piros szÃ­nt. */
+							cabinColors22.add(Color.GREEN); /* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy zÃ¶ld szÃ­nt. */
+							cabinColors22.add(Color.BLUE); /* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy kÃ©k szÃ­nt. */
 							
-							GameController gc522 = new GameController(); /* létrehozunk egy gameControllert */
-							gc522.startNewGame(52); /* elindítjuk a játékot az 52-es pályán*/
-							gc522.skeletonTesterSwitchASwitch();  /* Állítunk egyet a váltón. */
-							gc522.skeletonTesterAddNewTrain(cabinColors22); /* hozzáadjuk az újonnan létrehozott vonatot */
-							gc522.skeletonTesterMakeTrainsMove();/* Léptetjük egyet a vonatokat. */
-							gc522.skeletonTesterMakeTrainsMove();/* Léptetjük egyet a vonatokat. */
+							GameController gc522 = new GameController(); /* lÃ©trehozunk egy gameControllert */
+							gc522.startNewGame(52); /* elindÃ­tjuk a jÃ¡tÃ©kot az 52-es pÃ¡lyÃ¡n*/
+							gc522.skeletonTesterSwitchASwitch();  /* ÃllÃ­tunk egyet a vÃ¡ltÃ³n. */
+							gc522.skeletonTesterAddNewTrain(cabinColors22); /* hozzÃ¡adjuk az Ãºjonnan lÃ©trehozott vonatot */
+							gc522.skeletonTesterMakeTrainsMove();/* LÃ©ptetjÃ¼k egyet a vonatokat. */
+							gc522.skeletonTesterMakeTrainsMove();/* LÃ©ptetjÃ¼k egyet a vonatokat. */
 							break;
 							
-							default: System.out.println("Csak az 'i' és 'n' a támogatott bemenet");
+							default: System.out.println("Csak az 'i' Ã©s 'n' a tÃ¡mogatott bemenet");
 						}
 					break;
 					
 					
-					case 3: System.out.println("A vonat alagútszájra lép. A váltó az alagútszáj felé irányítja a vonatot? [i, n]");
+					case 3: System.out.println("A vonat alagÃºtszÃ¡jra lÃ©p. A vÃ¡ltÃ³ az alagÃºtszÃ¡j felÃ© irÃ¡nyÃ­tja a vonatot? [i, n]");
 					switch (scanner.nextLine().charAt(0))
 					{
 						case 'I':
-						case 'i': System.out.println("Hány aktív alagútszáj van a pályán? [1, 2]"); 
+						case 'i': System.out.println("HÃ¡ny aktÃ­v alagÃºtszÃ¡j van a pÃ¡lyÃ¡n? [1, 2]"); 
 							switch (Integer.parseInt(scanner.nextLine()))
 							{
-							case 1: System.out.println("A vonat belép a zsákutca alagútba..."); 
-							/* Ez a teszteset akkor fut le, ha a vonat alagútba lépne, de nincs alagút, mert csak egy aktív alagútszáj 
-							 * található jelenleg a pályán.
+							case 1: System.out.println("A vonat belÃ©p a zsÃ¡kutca alagÃºtba..."); 
+							/* Ez a teszteset akkor fut le, ha a vonat alagÃºtba lÃ©pne, de nincs alagÃºt, mert csak egy aktÃ­v alagÃºtszÃ¡j 
+							 * talÃ¡lhatÃ³ jelenleg a pÃ¡lyÃ¡n.
 							 */
 							
-							ArrayList<Color>cabinColors31 = new ArrayList<Color>();/* Létrehozunk egy színlistát. Ebbõl fog felépülni a vonat. */
-							cabinColors31.add(Color.RED); /* A színlistához hozzáadunk egy piros színt. */
-							cabinColors31.add(Color.GREEN); /* A színlistához hozzáadunk egy zöld színt. */
-							cabinColors31.add(Color.BLUE); /* A színlistához hozzáadunk egy kék színt. */
+							ArrayList<Color>cabinColors31 = new ArrayList<Color>();/* LÃ©trehozunk egy szÃ­nlistÃ¡t. EbbÅ‘l fog felÃ©pÃ¼lni a vonat. */
+							cabinColors31.add(Color.RED); /* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy piros szÃ­nt. */
+							cabinColors31.add(Color.GREEN); /* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy zÃ¶ld szÃ­nt. */
+							cabinColors31.add(Color.BLUE); /* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy kÃ©k szÃ­nt. */
 							
-							GameController gc531 = new GameController(); /* létrehozunk egy gameControllert */
-							gc531.startNewGame(53); /* elindítjuk a játékot az 53-as pályán*/
-							gc531.skeletonTesterActivateTunnelEntrance(1); /* aktiválunk egy alagútszájat */
-							gc531.skeletonTesterSwitchATunnelEntrance(); /* váltunk egyet az alagútszájon lévõ váltón. */ 
+							GameController gc531 = new GameController(); /* lÃ©trehozunk egy gameControllert */
+							gc531.startNewGame(53); /* elindÃ­tjuk a jÃ¡tÃ©kot az 53-as pÃ¡lyÃ¡n*/
+							gc531.skeletonTesterActivateTunnelEntrance(1); /* aktivÃ¡lunk egy alagÃºtszÃ¡jat */
+							gc531.skeletonTesterSwitchATunnelEntrance(); /* vÃ¡ltunk egyet az alagÃºtszÃ¡jon lÃ©vÅ‘ vÃ¡ltÃ³n. */ 
 							
-							gc531.skeletonTesterAddNewTrain(cabinColors31); /* hozzáadjuk az újonnan létrehozott vonatot */
-							gc531.skeletonTesterMakeTrainsMove(); /* Léptetjük egyet a vonatokat. */
-							gc531.skeletonTesterMakeTrainsMove();/* Léptetjük egyet a vonatokat. */
+							gc531.skeletonTesterAddNewTrain(cabinColors31); /* hozzÃ¡adjuk az Ãºjonnan lÃ©trehozott vonatot */
+							gc531.skeletonTesterMakeTrainsMove(); /* LÃ©ptetjÃ¼k egyet a vonatokat. */
+							gc531.skeletonTesterMakeTrainsMove();/* LÃ©ptetjÃ¼k egyet a vonatokat. */
 							break;
 							
-							case 2: System.out.println("A vonat belép az alagútba...");
-							/* Ez a teszteset akkor fut le, ha a vonat alagútba lép és van is alagút, vagyis a 
-							 * pályán két aktív alagútszáj található.
+							case 2: System.out.println("A vonat belÃ©p az alagÃºtba...");
+							/* Ez a teszteset akkor fut le, ha a vonat alagÃºtba lÃ©p Ã©s van is alagÃºt, vagyis a 
+							 * pÃ¡lyÃ¡n kÃ©t aktÃ­v alagÃºtszÃ¡j talÃ¡lhatÃ³.
 							 */
-							ArrayList<Color>cabinColors32 = new ArrayList<Color>();/* Létrehozunk egy színlistát. Ebbõl fog felépülni a vonat. */
-							cabinColors32.add(Color.RED); /* A színlistához hozzáadunk egy piros színt. */
-							cabinColors32.add(Color.GREEN);/* A színlistához hozzáadunk egy zöld színt. */
-							cabinColors32.add(Color.BLUE);/* A színlistához hozzáadunk egy kék színt. */
+							ArrayList<Color>cabinColors32 = new ArrayList<Color>();/* LÃ©trehozunk egy szÃ­nlistÃ¡t. EbbÅ‘l fog felÃ©pÃ¼lni a vonat. */
+							cabinColors32.add(Color.RED); /* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy piros szÃ­nt. */
+							cabinColors32.add(Color.GREEN);/* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy zÃ¶ld szÃ­nt. */
+							cabinColors32.add(Color.BLUE);/* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy kÃ©k szÃ­nt. */
 							
-							GameController gc532 = new GameController();/* létrehozunk egy gameControllert */
-							gc532.startNewGame(53);/* elindítjuk a játékot az 53-as pályán*/
-							gc532.skeletonTesterActivateTunnelEntrance(2);/* Két alagútszájat aktiválunk */
-							gc532.skeletonTesterSwitchATunnelEntrance(); /* az egyiken váltunk egyet. */
+							GameController gc532 = new GameController();/* lÃ©trehozunk egy gameControllert */
+							gc532.startNewGame(53);/* elindÃ­tjuk a jÃ¡tÃ©kot az 53-as pÃ¡lyÃ¡n*/
+							gc532.skeletonTesterActivateTunnelEntrance(2);/* KÃ©t alagÃºtszÃ¡jat aktivÃ¡lunk */
+							gc532.skeletonTesterSwitchATunnelEntrance(); /* az egyiken vÃ¡ltunk egyet. */
 							
-							gc532.skeletonTesterAddNewTrain(cabinColors32); /* hozzáadjuk az újonnan létrehozott vonatot */
-							gc532.skeletonTesterMakeTrainsMove();/* Léptetjük egyet a vonatokat. */
-							gc532.skeletonTesterMakeTrainsMove();/* Léptetjük egyet a vonatokat. */
+							gc532.skeletonTesterAddNewTrain(cabinColors32); /* hozzÃ¡adjuk az Ãºjonnan lÃ©trehozott vonatot */
+							gc532.skeletonTesterMakeTrainsMove();/* LÃ©ptetjÃ¼k egyet a vonatokat. */
+							gc532.skeletonTesterMakeTrainsMove();/* LÃ©ptetjÃ¼k egyet a vonatokat. */
 							break;
 							
-							default: System.out.println("Csak akkor léphet a vonat alagútba, ha, ha 1 vagy 2 nyitott alagútszáj van.");
+							default: System.out.println("Csak akkor lÃ©phet a vonat alagÃºtba, ha, ha 1 vagy 2 nyitott alagÃºtszÃ¡j van.");
 						}
 						break;
 						case 'N':
-						case 'n': System.out.println("A vonat elkerüli az alagutat...");
-						/* Ha az alagútszájnál álló váltó alaphelyzetben van akkor a vonat nem megy be az alagútba*/
-						ArrayList<Color>cabinColors33 = new ArrayList<Color>();/* Létrehozunk egy színlistát. Ebbõl fog felépülni a vonat. */
-						cabinColors33.add(Color.RED);/* A színlistához hozzáadunk egy piros színt. */
-						cabinColors33.add(Color.GREEN);/* A színlistához hozzáadunk egy zöld színt. */
-						cabinColors33.add(Color.BLUE);/* A színlistához hozzáadunk egy kék színt. */
+						case 'n': System.out.println("A vonat elkerÃ¼li az alagutat...");
+						/* Ha az alagÃºtszÃ¡jnÃ¡l Ã¡llÃ³ vÃ¡ltÃ³ alaphelyzetben van akkor a vonat nem megy be az alagÃºtba*/
+						ArrayList<Color>cabinColors33 = new ArrayList<Color>();/* LÃ©trehozunk egy szÃ­nlistÃ¡t. EbbÅ‘l fog felÃ©pÃ¼lni a vonat. */
+						cabinColors33.add(Color.RED);/* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy piros szÃ­nt. */
+						cabinColors33.add(Color.GREEN);/* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy zÃ¶ld szÃ­nt. */
+						cabinColors33.add(Color.BLUE);/* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy kÃ©k szÃ­nt. */
 						
-						GameController gc533 = new GameController();/* létrehozunk egy gameControllert */
-						gc533.startNewGame(53);/* elindítjuk a játékot az 53-as pályán*/
+						GameController gc533 = new GameController();/* lÃ©trehozunk egy gameControllert */
+						gc533.startNewGame(53);/* elindÃ­tjuk a jÃ¡tÃ©kot az 53-as pÃ¡lyÃ¡n*/
 						
-						gc533.skeletonTesterAddNewTrain(cabinColors33);/* hozzáadjuk az újonnan létrehozott vonatot */
-						gc533.skeletonTesterMakeTrainsMove();/* Léptetjük egyet a vonatokat. */
-						gc533.skeletonTesterMakeTrainsMove();/* Léptetjük egyet a vonatokat. */
+						gc533.skeletonTesterAddNewTrain(cabinColors33);/* hozzÃ¡adjuk az Ãºjonnan lÃ©trehozott vonatot */
+						gc533.skeletonTesterMakeTrainsMove();/* LÃ©ptetjÃ¼k egyet a vonatokat. */
+						gc533.skeletonTesterMakeTrainsMove();/* LÃ©ptetjÃ¼k egyet a vonatokat. */
 						break;
 						
-						default: System.out.println("Csak az 'i' és 'n' a támogatott bemenet");
+						default: System.out.println("Csak az 'i' Ã©s 'n' a tÃ¡mogatott bemenet");
 					}
 					break;
-					case 4: System.out.println("A vonat ZÖLD megállóra lép. Van nem üres kabin a vonatban? [i, n]");
-					/* Ha a vonat megállóra lép, az elsõ kérdés, hogy utaznak-e a vonatban. Ha nem, akkor a vonat
-					 * egyszerûen áthalad a megállón. Ha van olyan kabin ami nem üres akkor ha az elsõ 
-					 * nem üres vagon színe megegyezik a megállóéval, leszállnak az utasok arról a vagonról.
+					case 4: System.out.println("A vonat ZÃ–LD megÃ¡llÃ³ra lÃ©p. Van nem Ã¼res kabin a vonatban? [i, n]");
+					/* Ha a vonat megÃ¡llÃ³ra lÃ©p, az elsÅ‘ kÃ©rdÃ©s, hogy utaznak-e a vonatban. Ha nem, akkor a vonat
+					 * egyszerÅ±en Ã¡thalad a megÃ¡llÃ³n. Ha van olyan kabin ami nem Ã¼res akkor ha az elsÅ‘ 
+					 * nem Ã¼res vagon szÃ­ne megegyezik a megÃ¡llÃ³Ã©val, leszÃ¡llnak az utasok arrÃ³l a vagonrÃ³l.
 					 */
 						switch (scanner.nextLine().charAt(0))
 						{
 							case 'I':
-							case 'i': System.out.println("Milyen színû az elsõ nem üres vagon? Piros, zöld vagy kék lehet. [r, g, b]"); 
-							//* Ebben tároljuk a vagon színét amit a felhasználó megad. */
+							case 'i': System.out.println("Milyen szÃ­nÅ± az elsÅ‘ nem Ã¼res vagon? Piros, zÃ¶ld vagy kÃ©k lehet. [r, g, b]"); 
+							//* Ebben tÃ¡roljuk a vagon szÃ­nÃ©t amit a felhasznÃ¡lÃ³ megad. */
 							char vagonSzin = scanner.nextLine().charAt(0);		
-							Color cabColor = null; /* Ilyen színû lesz majd a vagon. */
+							Color cabColor = null; /* Ilyen szÃ­nÅ± lesz majd a vagon. */
 														
-							if(vagonSzin == 'r' || vagonSzin == 'R'){ /* ellenõrizzük a színeket. Ha piros, akkor nem fognak leszállni utasok, és megadjuk a cabColort pirosnak. */
-								System.out.println("Nem szállnak le az utasok...");
+							if(vagonSzin == 'r' || vagonSzin == 'R'){ /* ellenÅ‘rizzÃ¼k a szÃ­neket. Ha piros, akkor nem fognak leszÃ¡llni utasok, Ã©s megadjuk a cabColort pirosnak. */
+								System.out.println("Nem szÃ¡llnak le az utasok...");
 								cabColor = Color.RED;
-							} else if(vagonSzin == 'g' || vagonSzin == 'G'){ /* Ha a vagon zöld, akkor le kell majd száljanak az utasok. megadjuk a cabColort zöldnek. */
-								System.out.println("Leszállnak az utasok...");
+							} else if(vagonSzin == 'g' || vagonSzin == 'G'){ /* Ha a vagon zÃ¶ld, akkor le kell majd szÃ¡ljanak az utasok. megadjuk a cabColort zÃ¶ldnek. */
+								System.out.println("LeszÃ¡llnak az utasok...");
 								cabColor = Color.GREEN;
-							} else if(vagonSzin == 'b' || vagonSzin == 'B'){ /* Ha kék, akkor szintén nem fognak leszállni az utaasok. Megadjuk a cabColort kéknek. */
-								System.out.println("Nem szállnak le az utasok...");
+							} else if(vagonSzin == 'b' || vagonSzin == 'B'){ /* Ha kÃ©k, akkor szintÃ©n nem fognak leszÃ¡llni az utaasok. Megadjuk a cabColort kÃ©knek. */
+								System.out.println("Nem szÃ¡llnak le az utasok...");
 								cabColor = Color.BLUE;
 							} else {						
-								System.out.println("A vagonok és a megállók csak 'r', 'g' vagy 'b' színûek lehetnek");
+								System.out.println("A vagonok Ã©s a megÃ¡llÃ³k csak 'r', 'g' vagy 'b' szÃ­nÅ±ek lehetnek");
 								break;
 							}
 							
 							
-							ArrayList<Color>cabinColors41 = new ArrayList<Color>();/* Létrehozunk egy színlistát. Ebbõl fog felépülni a vonat. */
-							cabinColors41.add(cabColor);/* A színlistához hozzáadjuk a kiválasztott színt. */
+							ArrayList<Color>cabinColors41 = new ArrayList<Color>();/* LÃ©trehozunk egy szÃ­nlistÃ¡t. EbbÅ‘l fog felÃ©pÃ¼lni a vonat. */
+							cabinColors41.add(cabColor);/* A szÃ­nlistÃ¡hoz hozzÃ¡adjuk a kivÃ¡lasztott szÃ­nt. */
 							
-							GameController gc541 = new GameController();/* létrehozunk egy gameControllert */
-							gc541.startNewGame(54);/* elindítjuk a játékot az 54-es pályán*/
+							GameController gc541 = new GameController();/* lÃ©trehozunk egy gameControllert */
+							gc541.startNewGame(54);/* elindÃ­tjuk a jÃ¡tÃ©kot az 54-es pÃ¡lyÃ¡n*/
 							
-							gc541.skeletonTesterAddNewTrain(cabinColors41);/* hozzáadjuk az újonnan létrehozott vonatot */
-							gc541.skeletonTesterMakeTrainsMove();/* Léptetjük egyet a vonatokat. */
-							gc541.skeletonTesterMakeTrainsMove();/* Léptetjük egyet a vonatokat. */
+							gc541.skeletonTesterAddNewTrain(cabinColors41);/* hozzÃ¡adjuk az Ãºjonnan lÃ©trehozott vonatot */
+							gc541.skeletonTesterMakeTrainsMove();/* LÃ©ptetjÃ¼k egyet a vonatokat. */
+							gc541.skeletonTesterMakeTrainsMove();/* LÃ©ptetjÃ¼k egyet a vonatokat. */
 						break;
 						
 						case 'N':
-						case 'n': System.out.println("A vonat áthalad a megállón és semmi más nem történik...");
-						/* Ez a programrész akkor fut le, ha senki nem utazott a vonaton mikor az a megállóra lépett. 
-						 * Ekkor ugyanis nincs kinek leszállnia a vonatról. */
-						ArrayList<Color>cabinColors42 = new ArrayList<Color>();/* Létrehozunk egy színlistát. Ebbõl fog felépülni a vonat. */
-						cabinColors42.add(Color.BLACK); /* Hozzáadjuk a színlistához a fekete színt, így olyan, mint ha üres lenne a vagon */
+						case 'n': System.out.println("A vonat Ã¡thalad a megÃ¡llÃ³n Ã©s semmi mÃ¡s nem tÃ¶rtÃ©nik...");
+						/* Ez a programrÃ©sz akkor fut le, ha senki nem utazott a vonaton mikor az a megÃ¡llÃ³ra lÃ©pett. 
+						 * Ekkor ugyanis nincs kinek leszÃ¡llnia a vonatrÃ³l. */
+						ArrayList<Color>cabinColors42 = new ArrayList<Color>();/* LÃ©trehozunk egy szÃ­nlistÃ¡t. EbbÅ‘l fog felÃ©pÃ¼lni a vonat. */
+						cabinColors42.add(Color.BLACK); /* HozzÃ¡adjuk a szÃ­nlistÃ¡hoz a fekete szÃ­nt, Ã­gy olyan, mint ha Ã¼res lenne a vagon */
 						
-						GameController gc542 = new GameController(); /* létrehozunk egy gameControllert */
-						gc542.startNewGame(54);/* elindítjuk a játékot az 54-es pályán*/
+						GameController gc542 = new GameController(); /* lÃ©trehozunk egy gameControllert */
+						gc542.startNewGame(54);/* elindÃ­tjuk a jÃ¡tÃ©kot az 54-es pÃ¡lyÃ¡n*/
 						
-						gc542.skeletonTesterAddNewTrain(cabinColors42);/* hozzáadjuk az újonnan létrehozott vonatot */
-						gc542.skeletonTesterMakeTrainsMove();/* Léptetjük egyet a vonatokat. */
-						gc542.skeletonTesterMakeTrainsMove();/* Léptetjük egyet a vonatokat. */
+						gc542.skeletonTesterAddNewTrain(cabinColors42);/* hozzÃ¡adjuk az Ãºjonnan lÃ©trehozott vonatot */
+						gc542.skeletonTesterMakeTrainsMove();/* LÃ©ptetjÃ¼k egyet a vonatokat. */
+						gc542.skeletonTesterMakeTrainsMove();/* LÃ©ptetjÃ¼k egyet a vonatokat. */
 						break;
 						
-						/* a program visszalép a fõmenübe, ha nem kap érvényes bemenetet arra a kérdésre
+						/* a program visszalÃ©p a fÅ‘menÃ¼be, ha nem kap Ã©rvÃ©nyes bemenetet arra a kÃ©rdÃ©sre
 						 * hogy utanak-e a vonaton
 						 */
-						default: System.out.println("Csak az 'i' és 'n' a támogatott bemenet");
+						default: System.out.println("Csak az 'i' Ã©s 'n' a tÃ¡mogatott bemenet");
 					}
 					break;
 					
-					case 5: System.out.println("A vonat elhagyja a pályát...");
-					/* Ez a teszteset szimulálja, hogy a vonat egy bemeneti ponton keresztül kifelé 
-					 * haladva elhagyja a pályát.
+					case 5: System.out.println("A vonat elhagyja a pÃ¡lyÃ¡t...");
+					/* Ez a teszteset szimulÃ¡lja, hogy a vonat egy bemeneti ponton keresztÃ¼l kifelÃ© 
+					 * haladva elhagyja a pÃ¡lyÃ¡t.
 					 */
-					ArrayList<Color>cabinColors5 = new ArrayList<Color>(); /* Létrehozunk egy színlistát. Ebbõl fog felépülni a vonat. */
-					cabinColors5.add(Color.RED); /* A színlistához hozzáadunk egy piros színt. */
-					cabinColors5.add(Color.GREEN);/* A színlistához hozzáadunk egy zöld színt. */
-					cabinColors5.add(Color.BLUE);/* A színlistához hozzáadunk egy kék színt. */
+					ArrayList<Color>cabinColors5 = new ArrayList<Color>(); /* LÃ©trehozunk egy szÃ­nlistÃ¡t. EbbÅ‘l fog felÃ©pÃ¼lni a vonat. */
+					cabinColors5.add(Color.RED); /* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy piros szÃ­nt. */
+					cabinColors5.add(Color.GREEN);/* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy zÃ¶ld szÃ­nt. */
+					cabinColors5.add(Color.BLUE);/* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy kÃ©k szÃ­nt. */
 					
-					GameController gc55 = new GameController();/* létrehozunk egy gameControllert */
-					gc55.startNewGame(55);/* elindítjuk a játékot az 55-ös pályán*/
+					GameController gc55 = new GameController();/* lÃ©trehozunk egy gameControllert */
+					gc55.startNewGame(55);/* elindÃ­tjuk a jÃ¡tÃ©kot az 55-Ã¶s pÃ¡lyÃ¡n*/
 									
-					gc55.skeletonTesterAddNewTrain(cabinColors5);/* hozzáadjuk az újonnan létrehozott vonatot */
-					gc55.skeletonTesterMakeTrainsMove();/* Léptetjük egyet a vonatokat. */
-					gc55.skeletonTesterMakeTrainsMove();/* Léptetjük egyet a vonatokat. */
+					gc55.skeletonTesterAddNewTrain(cabinColors5);/* hozzÃ¡adjuk az Ãºjonnan lÃ©trehozott vonatot */
+					gc55.skeletonTesterMakeTrainsMove();/* LÃ©ptetjÃ¼k egyet a vonatokat. */
+					gc55.skeletonTesterMakeTrainsMove();/* LÃ©ptetjÃ¼k egyet a vonatokat. */
 					break;
 					
-					case 6: System.out.println("A vonat összeütközik egy másikkal...");
-					/*Ez a teszteset szimulálja, hogy a vonat összeütközik egy másik vonattal. */
-					ArrayList<Color>cabinColors6 = new ArrayList<Color>();/* Létrehozunk egy színlistát. Ebbõl fog felépülni a vonat. */
-					cabinColors6.add(Color.RED);/* A színlistához hozzáadunk egy piros színt. */
-					cabinColors6.add(Color.GREEN);/* A színlistához hozzáadunk egy zöld színt. */
-					cabinColors6.add(Color.BLUE);/* A színlistához hozzáadunk egy kék színt. */
+					case 6: System.out.println("A vonat Ã¶sszeÃ¼tkÃ¶zik egy mÃ¡sikkal...");
+					/*Ez a teszteset szimulÃ¡lja, hogy a vonat Ã¶sszeÃ¼tkÃ¶zik egy mÃ¡sik vonattal. */
+					ArrayList<Color>cabinColors6 = new ArrayList<Color>();/* LÃ©trehozunk egy szÃ­nlistÃ¡t. EbbÅ‘l fog felÃ©pÃ¼lni a vonat. */
+					cabinColors6.add(Color.RED);/* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy piros szÃ­nt. */
+					cabinColors6.add(Color.GREEN);/* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy zÃ¶ld szÃ­nt. */
+					cabinColors6.add(Color.BLUE);/* A szÃ­nlistÃ¡hoz hozzÃ¡adunk egy kÃ©k szÃ­nt. */
 					
-					GameController gc56 = new GameController();/* létrehozunk egy gameControllert */
-					gc56.startNewGame(56);/* elindítjuk a játékot az 56-os pályán*/
+					GameController gc56 = new GameController();/* lÃ©trehozunk egy gameControllert */
+					gc56.startNewGame(56);/* elindÃ­tjuk a jÃ¡tÃ©kot az 56-os pÃ¡lyÃ¡n*/
 									
-					gc56.skeletonTesterAddNewTrain(cabinColors6);/* hozzáadunk egy vonatot a megadott színekkel */
-					gc56.skeletonTesterMakeTrainsMove();/* léptetjük egyet */
+					gc56.skeletonTesterAddNewTrain(cabinColors6);/* hozzÃ¡adunk egy vonatot a megadott szÃ­nekkel */
+					gc56.skeletonTesterMakeTrainsMove();/* lÃ©ptetjÃ¼k egyet */
 					
-					gc56.skeletonTesterAddNewTrain(cabinColors6); /* Hozzáadunk mégegy vonatot */
-					gc56.skeletonTesterMakeTrainsMove(); /* léptetjük, melynek hatására belép a játéktérbe és ütközik az elõbb hozzáadott vonattal. */
+					gc56.skeletonTesterAddNewTrain(cabinColors6); /* HozzÃ¡adunk mÃ©gegy vonatot */
+					gc56.skeletonTesterMakeTrainsMove(); /* lÃ©ptetjÃ¼k, melynek hatÃ¡sÃ¡ra belÃ©p a jÃ¡tÃ©ktÃ©rbe Ã©s Ã¼tkÃ¶zik az elÅ‘bb hozzÃ¡adott vonattal. */
 					break;	
 					
-					/* Ha a felhasználó nem a várt kimenetet adja (vagyis nem 1, 2, 3,4 , 5, 6 számok valamelyikét
-					 * akkor a tesztelõ program kilép a fõmenübe.
+					/* Ha a felhasznÃ¡lÃ³ nem a vÃ¡rt kimenetet adja (vagyis nem 1, 2, 3,4 , 5, 6 szÃ¡mok valamelyikÃ©t
+					 * akkor a tesztelÅ‘ program kilÃ©p a fÅ‘menÃ¼be.
 					 */
-					default: System.out.println("A vonat csak a fent jelzett 6 dologra léphet, az elvárt bemenet 1, 2, 3, 4, 5 vagy 6");
+					default: System.out.println("A vonat csak a fent jelzett 6 dologra lÃ©phet, az elvÃ¡rt bemenet 1, 2, 3, 4, 5 vagy 6");
 				}
 				break;
 			
 				
-				/* --------------------------------------------------------------------------------- 6. MENÜPONT ----------------------------------------------------------------------------- */
+				/* --------------------------------------------------------------------------------- 6. MENÃœPONT ----------------------------------------------------------------------------- */
 			
-				/* Ez a teszteset felel azért, ha egy új vonat érkezik a pályára.
-				 * Elõször lekérdezi a felhasználótól a program, hogy hány vagon legyen a vonatban.
+				/* Ez a teszteset felel azÃ©rt, ha egy Ãºj vonat Ã©rkezik a pÃ¡lyÃ¡ra.
+				 * ElÅ‘szÃ¶r lekÃ©rdezi a felhasznÃ¡lÃ³tÃ³l a program, hogy hÃ¡ny vagon legyen a vonatban.
 				 */
-				case 6: System.out.println("Új vonat érkezik. Hány vagon legyen? [pozitív egész szám]");
+				case 6: System.out.println("Ãšj vonat Ã©rkezik. HÃ¡ny vagon legyen? [pozitÃ­v egÃ©sz szÃ¡m]");
 				int vagonSzam = Integer.parseInt(scanner.nextLine());
-				/* Megvizsgáljuk, hogy a felhasználó érvényes vagon számot írt-e be. */
+				/* MegvizsgÃ¡ljuk, hogy a felhasznÃ¡lÃ³ Ã©rvÃ©nyes vagon szÃ¡mot Ã­rt-e be. */
 				if(vagonSzam <= 0) {
-					System.out.println("Csak pozitív egész szám lehet!");
+					System.out.println("Csak pozitÃ­v egÃ©sz szÃ¡m lehet!");
 					break;
 				}
 				
 				System.out.println("A vonatnak " + vagonSzam + " vagonja lesz");
 				
 				/*
-				 * Ezek a booleanok azért kellenek, mert ha már elkezdõdik a vonat vagonjainak felkonfigurálása,
-				 * akkor ha a felhasználó nem létezõ színt írna be vagy arra a kérdésre, hogy a vagonban
-				 * vannak-e érvénytelen választ adna, akkor a vagon érvénytelen paraméterekkel lenne inicializálva.
-				 * Ezt elkerülendõ, két while ciklus addig nem engedi tovább a program futását, amíg a 
-				 * felhasználó érvényes bemenetet nem ad az adott vagonra, biztosítva ezzel,
-				 * hogy nem lesznek vagonok érvénytelen paraméterekkel felkonfigurálva.
+				 * Ezek a booleanok azÃ©rt kellenek, mert ha mÃ¡r elkezdÅ‘dik a vonat vagonjainak felkonfigurÃ¡lÃ¡sa,
+				 * akkor ha a felhasznÃ¡lÃ³ nem lÃ©tezÅ‘ szÃ­nt Ã­rna be vagy arra a kÃ©rdÃ©sre, hogy a vagonban
+				 * vannak-e Ã©rvÃ©nytelen vÃ¡laszt adna, akkor a vagon Ã©rvÃ©nytelen paramÃ©terekkel lenne inicializÃ¡lva.
+				 * Ezt elkerÃ¼lendÅ‘, kÃ©t while ciklus addig nem engedi tovÃ¡bb a program futÃ¡sÃ¡t, amÃ­g a 
+				 * felhasznÃ¡lÃ³ Ã©rvÃ©nyes bemenetet nem ad az adott vagonra, biztosÃ­tva ezzel,
+				 * hogy nem lesznek vagonok Ã©rvÃ©nytelen paramÃ©terekkel felkonfigurÃ¡lva.
 				 */
 				boolean ervenyesBemenetSzin = false;		
-				/*Ebben tároljuk a vagonok színét amit a felhasználó ad meg*/
+				/*Ebben tÃ¡roljuk a vagonok szÃ­nÃ©t amit a felhasznÃ¡lÃ³ ad meg*/
 				ArrayList<Color> cabinColors = new ArrayList<Color>();
-				/* Ez a ciklus végrehajtja a vagon inicializálást minden vagonra. */
+				/* Ez a ciklus vÃ©grehajtja a vagon inicializÃ¡lÃ¡st minden vagonra. */
 				for(int i = 0; i < vagonSzam; i++)
 				{
 					ervenyesBemenetSzin = false;
 					while(!ervenyesBemenetSzin)
 					{
-						System.out.println("Milyen színû legyen a " + (i+1) + ". vagon? [r, g, b]");
+						System.out.println("Milyen szÃ­nÅ± legyen a " + (i+1) + ". vagon? [r, g, b]");
 						switch (scanner.nextLine().charAt(0))
 						{
 							case 'R':
 							case 'r': System.out.println("Piros a(z) " + (i+1) + ". vagon"); 
-							/* Ha egy érvényes színt ad meg a felhasználó, akkor kilép ebbõl a while
-							 * ciklusból Ellenkezõ esetben, megint azt kérdezi tõle a program, milyen színû legyen
+							/* Ha egy Ã©rvÃ©nyes szÃ­nt ad meg a felhasznÃ¡lÃ³, akkor kilÃ©p ebbÅ‘l a while
+							 * ciklusbÃ³l EllenkezÅ‘ esetben, megint azt kÃ©rdezi tÅ‘le a program, milyen szÃ­nÅ± legyen
 							 * ez a vagon.
 							 */
 							ervenyesBemenetSzin = true;
-							/* beállítjuk az ideiglenes tömbünkben, hogy a felhasználó azt mondta, legyen az i.-edik elem piros */
+							/* beÃ¡llÃ­tjuk az ideiglenes tÃ¶mbÃ¼nkben, hogy a felhasznÃ¡lÃ³ azt mondta, legyen az i.-edik elem piros */
 							cabinColors.add(Color.RED);
 							break;
 							
 							case 'G':
-							case 'g': System.out.println("Zöld a(z) " + (i+1) + ". vagon");
+							case 'g': System.out.println("ZÃ¶ld a(z) " + (i+1) + ". vagon");
 							ervenyesBemenetSzin = true;
 							cabinColors.add(Color.GREEN);
 							break;
 							
 							case 'B':
-							case 'b': System.out.println("Kék a(z) " + (i+1) + ". vagon");
+							case 'b': System.out.println("KÃ©k a(z) " + (i+1) + ". vagon");
 							ervenyesBemenetSzin = true;
 							cabinColors.add(Color.BLUE);
 							break;
 							
-							default: System.out.println("Csak az 'r', 'g' és 'b' a támogatott bemenet.");
+							default: System.out.println("Csak az 'r', 'g' Ã©s 'b' a tÃ¡mogatott bemenet.");
 						}
 					}
 				}
 				
-				GameController gc6 = new GameController(); /* létrehozunk egy gameControllert */
-				gc6.startNewGame(1);/* elindítjuk a játékot az 1-es pályán*/
-				gc6.skeletonTesterAddNewTrain(cabinColors);/* hozzáadjuk az újonnan létrehozott vonatot */
+				GameController gc6 = new GameController(); /* lÃ©trehozunk egy gameControllert */
+				gc6.startNewGame(1);/* elindÃ­tjuk a jÃ¡tÃ©kot az 1-es pÃ¡lyÃ¡n*/
+				gc6.skeletonTesterAddNewTrain(cabinColors);/* hozzÃ¡adjuk az Ãºjonnan lÃ©trehozott vonatot */
 				
 				break;
 				
 				
-				/* --------------------------------------------------------------------------------- 7. MENÜPONT ----------------------------------------------------------------------------- */
+				/* --------------------------------------------------------------------------------- 7. MENÃœPONT ----------------------------------------------------------------------------- */
 				
-				/* Ez a teszteset azt szimulálja, ha a játékos nyer.
-				 * Ebben az esetben megkérdezi, melyik pályát nyerte meg.
+				/* Ez a teszteset azt szimulÃ¡lja, ha a jÃ¡tÃ©kos nyer.
+				 * Ebben az esetben megkÃ©rdezi, melyik pÃ¡lyÃ¡t nyerte meg.
 				 */
-				case 7: System.out.println("Gyõzelem. Melyik pályán volt? [1, 2]");
+				case 7: System.out.println("GyÅ‘zelem. Melyik pÃ¡lyÃ¡n volt? [1, 2]");
 				switch (Integer.parseInt(scanner.nextLine())){
-					case 1: System.out.println("Gyõzelem az elsõ pályán...");
-					/* Ha a játékos az elsõ pályát nyeri meg akkor a játék a második pályát elkezdi. */
-					GameController gc71 = new GameController(); /* létrehozunk egy gameControllert */
-					gc71.startNewGame(1); /* elindítjuk a játékot az 1-es pályán */
-					gc71.winEvent(); /* Meghívjuk a létrehozott gameController winEventjét. A játék a 2. pályán folytatódik.*/
+					case 1: System.out.println("GyÅ‘zelem az elsÅ‘ pÃ¡lyÃ¡n...");
+					/* Ha a jÃ¡tÃ©kos az elsÅ‘ pÃ¡lyÃ¡t nyeri meg akkor a jÃ¡tÃ©k a mÃ¡sodik pÃ¡lyÃ¡t elkezdi. */
+					GameController gc71 = new GameController(); /* lÃ©trehozunk egy gameControllert */
+					gc71.startNewGame(1); /* elindÃ­tjuk a jÃ¡tÃ©kot az 1-es pÃ¡lyÃ¡n */
+					gc71.winEvent(); /* MeghÃ­vjuk a lÃ©trehozott gameController winEventjÃ©t. A jÃ¡tÃ©k a 2. pÃ¡lyÃ¡n folytatÃ³dik.*/
 					
 					break;
-					case 2: System.out.println("Gyõzelem a második pályán");
-					GameController gc72 = new GameController(); /* létrehozunk egy gameControllert */
-					gc72.startNewGame(2); /* elindítjuk a játékot a 2-es pályán*/
-					gc72.winEvent(); /* Meghívjuk a létrehozott gameController winEventjét. További pályák hiányában a játék leáll.*/
+					case 2: System.out.println("GyÅ‘zelem a mÃ¡sodik pÃ¡lyÃ¡n");
+					GameController gc72 = new GameController(); /* lÃ©trehozunk egy gameControllert */
+					gc72.startNewGame(2); /* elindÃ­tjuk a jÃ¡tÃ©kot a 2-es pÃ¡lyÃ¡n*/
+					gc72.winEvent(); /* MeghÃ­vjuk a lÃ©trehozott gameController winEventjÃ©t. TovÃ¡bbi pÃ¡lyÃ¡k hiÃ¡nyÃ¡ban a jÃ¡tÃ©k leÃ¡ll.*/
 					break;
 					
-					default: System.out.println("Csak az 1 és a 2 a megengedett bemenet.");
+					default: System.out.println("Csak az 1 Ã©s a 2 a megengedett bemenet.");
 				}
 				break;
 				
 				
-				/* --------------------------------------------------------------------------------- 8. MENÜPONT ----------------------------------------------------------------------------- */
+				/* --------------------------------------------------------------------------------- 8. MENÃœPONT ----------------------------------------------------------------------------- */
 				
-				/*Ha a felhsználó a nyolcas gombot nyomja meg, a a tesztprogram véget ér.*/
+				/*Ha a felhsznÃ¡lÃ³ a nyolcas gombot nyomja meg, a a tesztprogram vÃ©get Ã©r.*/
 				case 8: run = false; break;
 				
-			/*Ha olyan tesztesetet indítana  a játékos ami nem is létezik, akkor a fõmenüben marad. */
+			/*Ha olyan tesztesetet indÃ­tana  a jÃ¡tÃ©kos ami nem is lÃ©tezik, akkor a fÅ‘menÃ¼ben marad. */
 			default: System.out.println("Nincs ilyen teszteset");
 			}
 		}

@@ -21,7 +21,7 @@ public class SoundManager {
 			backgroundMusic = AudioSystem.getClip();
 
 			if (backgroundMusic != null) {
-				ais = AudioSystem.getAudioInputStream(new File(GUI.imageURL + "Music/Background.wav"));
+				ais = AudioSystem.getAudioInputStream(new File(GameGUI.imageURL + "Music/Background.wav"));
 			}
 			if (ais != null) {
 				backgroundMusic.open(ais);
@@ -40,17 +40,16 @@ public class SoundManager {
 			trainSound = AudioSystem.getClip();
 
 			if (trainSound != null) {
-				ais = AudioSystem.getAudioInputStream(new File(GUI.imageURL + "Music/Train.wav"));
+				ais = AudioSystem.getAudioInputStream(new File(GameGUI.imageURL + "Music/Train.wav"));
 			}
 			if (ais != null) {
 				trainSound.open(ais);
 			}
 			FloatControl gainControl = 
 				    (FloatControl) trainSound.getControl(FloatControl.Type.MASTER_GAIN);
-				gainControl.setValue(-10.0f);
+				gainControl.setValue(-15.0f);
 			trainSound.loop(Clip.LOOP_CONTINUOUSLY);
 			trainSound.start();
-
 		} catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
 			System.out.println(e.getClass());
 		}
@@ -82,7 +81,7 @@ public class SoundManager {
 					clip = AudioSystem.getClip();
 
 					if (clip != null) {
-						ais = AudioSystem.getAudioInputStream(new File(GUI.imageURL + "Music/" + name + ".wav"));
+						ais = AudioSystem.getAudioInputStream(new File(GameGUI.imageURL + "Music/" + name + ".wav"));
 					}
 					if (ais != null) {
 						clip.open(ais);

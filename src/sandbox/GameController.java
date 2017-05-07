@@ -1,6 +1,7 @@
 package sandbox;
 
 import java.awt.Color;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -53,8 +54,8 @@ public class GameController {
 	private static Thread controllThread;
 	private static int STEPTIME = 1000;
 	private static boolean fail = false;
-	private static boolean closeWindow = false;
-	private static int speed=2;
+	private static boolean stopControll = false;
+	private static int speed = 2;
 	private static int stepParts = 20;
 	// LOOOOOOOOOOOOONG
 
@@ -69,7 +70,7 @@ public class GameController {
 																												 * vezérlésének
 																												 */
 		isTheGameRunning = false; /* Alapból nem fut a játék */
-		railCollection = new ArrayList<Rail>(); /* Új listát hozunk létre */
+		railCollection = new ArrayList<Rail>(); /* � j listát hozunk létre */
 		trainCollection = new TrainCollection(); /*
 													 * új kollekciót hozunk
 													 * létre.
@@ -79,7 +80,7 @@ public class GameController {
 	}
 
 	/**
-	 * Új játék indítására szolgáló függvény. Megjeleníti a játékosnak a
+	 * � j játék indítására szolgáló függvény. Megjeleníti a játékosnak a
 	 * választható pályák listáját. Miután a játékos kiválasztotta melyik pályán
 	 * akar játszani, betölti a pályához tartozó sínhálózatot és vonat
 	 * ütemezést. Ezután elindítja a vonatok léptetéséért felelõs szálat.
@@ -117,29 +118,29 @@ public class GameController {
 												 */
 		} catch (IOException e) {
 			System.err.println(
-					"\nClass: GameController\t Object: GameController@STATIC\t HIBA A PÁLYA BETÖLTÉSE KÖZBEN\n"); /*
-																													 * Ha
-																													 * véletlen
-																													 * nem
-																													 * lehet
-																													 * betölteni
-																													 * a
-																													 * pályát,
-																													 * akkor
-																													 * küldünk
-																													 * egy
-																													 * értesítst
-																													 * errõl
-																													 */
+					"\nClass: GameController\t Object: GameController@STATIC\t HIBA A P� LYA BET� LT� SE K� ZBEN\n"); /*
+																														 * Ha
+																														 * véletlen
+																														 * nem
+																														 * lehet
+																														 * betölteni
+																														 * a
+																														 * pályát,
+																														 * akkor
+																														 * küldünk
+																														 * egy
+																														 * értesítst
+																														 * errõl
+																														 */
 		}
 	}
 
 	/**
-	 * Értesíti a játékost, hogy nyert, és leállítja a játékot.
+	 * � rtesíti a játékost, hogy nyert, és leállítja a játékot.
 	 */
 	public static void winEvent() {
 		SoundManager.stopTrainSound();
-		gui.addAnimation(GUI.BOARDWIDTH / 2, GUI.BOARDHEIGHT / 2, "Win");
+		gui.getGameView().addAnimation(GameGUI.BOARDWIDTH / 2, GameGUI.BOARDHEIGHT / 2, "Win");
 		SoundManager.playSound("Win");
 		isTheGameRunning = false; /*
 									 * Leállítjuk a játékot. Ez majd a GUI-t
@@ -165,10 +166,10 @@ public class GameController {
 																														 * vezérlésének
 																														 */
 			System.out.println(
-					"\n\nÚJ JÁTÉK KEZDÕDIK \n\n"); /*
-													 * Kiíratás a Szkeleton
-													 * vezérlésének
-													 */
+					"\n\n� J J� T� K KEZD� DIK \n\n"); /*
+														 * Kiíratás a Szkeleton
+														 * vezérlésének
+														 */
 			startNewGame(2); /* Elindul az új játék */
 		} else {
 			System.out.println(
@@ -182,12 +183,12 @@ public class GameController {
 	}
 
 	/**
-	 * Értesíti a játékost, hogy vesztett, és leállítja a játékot.
+	 * � rtesíti a játékost, hogy vesztett, és leállítja a játékot.
 	 */
 	public static void loseEvent() {
 		SoundManager.stopTrainSound();
 		SoundManager.playSound("Lose");
-		gui.addAnimation(GUI.BOARDWIDTH / 2, GUI.BOARDHEIGHT / 2, "Lose");
+		gui.getGameView().addAnimation(GameGUI.BOARDWIDTH / 2, GameGUI.BOARDHEIGHT / 2, "Lose");
 		isTheGameRunning = false; /* Leállítjuk a játékot */
 		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: loseEvent\t Vereseg"); /*
 																													 * Kiíratás
@@ -227,7 +228,7 @@ public class GameController {
 	 * * Ezután sorban végigjárjuk a tempView mezöit és ha Rail, akkor megnézzük
 	 * hogy a 8 szomszédjából melyik létezö Rail * Ha a 8 szomszédos mezön van
 	 * Rail akkor azt felvesszük az aktuális mezö szomszédai közé * Végül
-	 * hozzáadjuk a szomszédokat a tempMap megfelelö Rail-jéhez * Ügyelünk arra
+	 * hozzáadjuk a szomszédokat a tempMap megfelelö Rail-jéhez * � gyelünk arra
 	 * hogy az ellenörzött 8 mezö ne lógjon le a pályáról
 	 * 
 	 * * Végül bejárjuk a tempMap-t és az összes létezö Railt hozzáaduk a
@@ -275,12 +276,12 @@ public class GameController {
 															 * mátrix
 															 */
 
-		gui.init(width, height, STEPTIME);
+		gui.setGameView(width, height, STEPTIME);
 
 		int x = 0; /* Segédváltozó szélességhez */
 		int y = 0; /* Segédváltpzó magassághoz */
 		while ((in = brMap
-				.readLine()) != null) { /* Összes maradék sort kiolvassuk */
+				.readLine()) != null) { /* � sszes maradék sort kiolvassuk */
 			line = in.split("");
 			for (String s : line) { /* Minden karaktert megnézünk */
 				tempMap[x][y] = elementReader(s); /* Létrehozzuk a típust */
@@ -289,8 +290,8 @@ public class GameController {
 					tempMap[x][y].setY(y);
 				}
 
-				gui.setBaseTileMap(x, y, s);
-				gui.addAnimation(x, y, s);
+				gui.getGameView().setBaseTileMap(x, y, s);
+				gui.getGameView().addAnimation(x, y, s);
 				tempView[x][y] = s; /* Mentjük a vázlatát */
 				x++;
 			}
@@ -698,7 +699,7 @@ public class GameController {
 			}
 
 			/* Minden alagutelemet felvettünk */
-			/* Összekötjük öket */
+			/* � sszekötjük öket */
 			for (int i = 0; i < newTunnels.size(); i++) {
 				if (i - 1 >= 0)
 					newTunnels.get(i).addNeighbourRail(newTunnels.get(i - 1));
@@ -818,8 +819,8 @@ public class GameController {
 	 * @param Y
 	 *            Kattintás Y koordinátája
 	 */
-	public static void clickHandler(int X, int Y, int btn) {
-		if (isTheGameRunning) {
+	public static void ClickHandler(int X, int Y, int btn) {
+		if (isTheGameRunning && !gui.isGameClosed()) {
 			for (Rail rail : railCollection) {
 				if (rail.getX() == X && rail
 						.getY() == Y) { /* Megkeressük a kattintott elemet */
@@ -828,7 +829,7 @@ public class GameController {
 						TunnelEntrance thisEntrance = (TunnelEntrance) rail;
 
 						if (thisEntrance.checkIfActivated() && btn == 1) {
-							gui.deactivateTunnel(X, Y);
+							gui.getGameView().deactivateTunnel(X, Y);
 							thisEntrance.deActivate();
 							activeEntranceCounter--;
 
@@ -877,7 +878,7 @@ public class GameController {
 							if (activeEntranceCounter == 2)
 								return;
 
-							gui.activateTunnel(X, Y);
+							gui.getGameView().activateTunnel(X, Y);
 							thisEntrance.activate();
 							activeEntranceCounter++;
 							if (activeEntranceCounter == 2) {
@@ -889,8 +890,8 @@ public class GameController {
 											continue;
 										}
 
-										Tunnel first = gui.getFirstTunnelPart(thisEntrance);
-										Tunnel last = gui.getFirstTunnelPart(otherEntrance);
+										Tunnel first = gui.getGameView().getFirstTunnelPart(thisEntrance);
+										Tunnel last = gui.getGameView().getFirstTunnelPart(otherEntrance);
 
 										int e1X = first.getX();
 										int e1Y = first.getY();
@@ -980,7 +981,7 @@ public class GameController {
 							}
 						} else if (thisEntrance.checkIfActivated() && btn == 0) {
 							thisEntrance.switchRail();
-							gui.switchState(X, Y);
+							gui.getGameView().switchState(X, Y);
 						}
 
 						rail = thisEntrance;
@@ -992,7 +993,7 @@ public class GameController {
 					try {
 						Switch sw = (Switch) rail;
 						sw.switchRail();
-						gui.switchState(X, Y);
+						gui.getGameView().switchState(X, Y);
 
 						rail = sw;
 					} catch (Exception e) {
@@ -1003,8 +1004,34 @@ public class GameController {
 
 				}
 			}
-		} else {
-			endSession();
+		} else if (!isTheGameRunning && !gui.isGameClosed()) {
+			// Véget ért, de még nem kattintottuk el..
+			endGameSession();
+			// Betöltünk vagy nemtom
+			gui.getGameView().stopRender();
+			gui.remove(gui.getGameView());
+			gui.setMenuView();
+			gui.getMenuView().startRender();
+		} else if (!gui.isMenuClosed() && gui.isGameClosed()) {
+			// Menübenválaszttunk
+			switch (gui.getMenuView().getClickedItem(X, Y)) {
+			case 0:
+				return;
+			case 1:
+				System.out.println("NewGame");
+				gui.getMenuView().stopRender();
+				gui.remove(gui.getMenuView());
+				startNewGame(11);
+				break;
+			case 2:
+				System.out.println("Select");
+				// SelectMenu
+				break;
+			case 3:
+				System.out.println("Exit");
+				gui.setVisible(fail);
+				gui.dispatchEvent(new WindowEvent(gui, WindowEvent.WINDOW_CLOSING));
+			}
 		}
 	}
 
@@ -1047,12 +1074,12 @@ public class GameController {
 	 */
 	public void skeletonTesterAddNewTrain(ArrayList<Color> cabinColors) {
 
-		System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Új vonat hozzáadása");/*
-																											 * Kiíratás
-																											 * a
-																											 * Szkeleton
-																											 * vezérlésének
-																											 */
+		System.out.println("\nClass: GameController\t Object: GameController@STATIC\t � j vonat hozzáadása");/*
+																												 * Kiíratás
+																												 * a
+																												 * Szkeleton
+																												 * vezérlésének
+																												 */
 		Train testTrain = new Train(
 				cabinColors); /*
 								 * A megadott paraméterekkel létrehozunk egy új
@@ -1088,12 +1115,12 @@ public class GameController {
 	 */
 	public void skeletonTesterMakeTrainsMove() {
 		System.out.println(
-				"\nClass: GameController\t Object: GameController@STATIC\t Ütközéshez szükséges vonat hossz számlálók csökkentése");/*
-																																	 * Kiíratás
-																																	 * a
-																																	 * Szkeleton
-																																	 * vezérlésének
-																																	 */
+				"\nClass: GameController\t Object: GameController@STATIC\t � tközéshez szükséges vonat hossz számlálók csökkentése");/*
+																																		 * Kiíratás
+																																		 * a
+																																		 * Szkeleton
+																																		 * vezérlésének
+																																		 */
 		for (Rail oneRail : railCollection) { /*
 												 * Minden eggyes sínnek
 												 * csökkentjük eggyel a rajta
@@ -1301,13 +1328,13 @@ public class GameController {
 				trainCollection.addNewTrain(testTrain);
 
 				// GUI Init..
-				gui.addTrain("EBCRG", enterPoint.getX(), enterPoint.getY(), enterPoint.getNextRail(null).getX(),
-						enterPoint.getNextRail(null).getY());
+				gui.getGameView().addTrain("EBCRG", enterPoint.getX(), enterPoint.getY(),
+						enterPoint.getNextRail(null).getX(), enterPoint.getNextRail(null).getY());
 
-				gui.addAnimation(GUI.BOARDWIDTH / 2, GUI.BOARDHEIGHT / 2, "321GO");
+				gui.getGameView().addAnimation(GameGUI.BOARDWIDTH / 2, GameGUI.BOARDHEIGHT / 2, "321GO");
 
 				sleepTime(1400);
-				gui.paintTrain();
+				gui.getGameView().paintTrain();
 				SoundManager.playSound("Start");
 				SoundManager.playTrainSound();
 				while (isTheGameRunning) {
@@ -1321,14 +1348,14 @@ public class GameController {
 
 					trainCollection.moveAllTrains();
 
-					gui.moveAllTrain(trainCollection.getNextCoords());
-					gui.setCabStates(trainCollection.getCabStates());
+					gui.getGameView().moveAllTrain(trainCollection.getNextCoords());
+					gui.getGameView().setCabStates(trainCollection.getCabStates());
 
 					if (fail) {
 						trainCollection.moveAllTrains();
 						if (hasTheGameEnded()) {
 							ultimateWinEvent();
-						} else {							
+						} else {
 							loseEvent();
 						}
 					} else if (hasTheGameEnded()) {
@@ -1336,14 +1363,14 @@ public class GameController {
 					}
 
 					for (int j = 0; j < stepParts; j++) {
-						gui.updateTime(j * STEPTIME / stepParts);
+						gui.getGameView().updateTime(j * STEPTIME / stepParts);
 						sleepTime(STEPTIME / stepParts / speed);
 					}
 				}
 			}
-		};
-		gui.startRender();
+		};		
 		mainThread.start();
+		gui.getGameView().startRender();
 		SoundManager.playBackgroundMusic();
 
 	}
@@ -1351,9 +1378,15 @@ public class GameController {
 	private static void startControllThread() {
 		controllThread = new Thread() {
 			public void run() {
-				while (!closeWindow) {
-					doGuiClickLogAction(gui.getClickLog());
+				while (!stopControll) {					
+					if (!gui.isGameClosed()) {
+						doGuiClickLogAction(gui.getGameView().getClickLog());
+					}
+					if (!gui.isMenuClosed()){
+						doGuiClickLogAction(gui.getMenuView().getClickLog());
+					}						
 					sleepTime(50);
+					
 				}
 			}
 		};
@@ -1374,7 +1407,7 @@ public class GameController {
 
 		for (String change : changedTiles) {
 			String coords[] = change.split(",");
-			clickHandler(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]), Integer.parseInt(coords[2]));
+			ClickHandler(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]), Integer.parseInt(coords[2]));
 		}
 
 	}
@@ -1413,7 +1446,7 @@ public class GameController {
 	private static void ultimateWinEvent() {
 		SoundManager.stopTrainSound();
 		SoundManager.playSound("Epic");
-		gui.addAnimation(GUI.BOARDWIDTH / 2, GUI.BOARDHEIGHT / 2, "Epic");
+		gui.getGameView().addAnimation(GameGUI.BOARDWIDTH / 2, GameGUI.BOARDHEIGHT / 2, "Epic");
 		isTheGameRunning = false;
 	}
 
@@ -1426,24 +1459,21 @@ public class GameController {
 		}
 	}
 
-	public static boolean sessionEnded(){
+	public static boolean sessionEnded() {
 		return sessionEnded();
 	}
-	
-	private static void endSession() {
-	
-		gui.endAllAnimation();
-		gui.stoptRender();
-		SoundManager.stopBackgroundMusic();
-		closeWindow = true;
+
+	private static void endGameSession() {
+		gui.getGameView().stopRender();
 		isTheGameRunning = false;
 	}
 
-	/**
-	 * kirajzolja a pályát a konzolra
-	 * 
-	 * @return
-	 */
+	public static void showMenu() {
+		gui.setMenuView();
+		startControllThread();
+	}
+
+	// Long
 
 	public void drawToConsole() {
 

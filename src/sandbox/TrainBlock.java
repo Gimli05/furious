@@ -60,19 +60,19 @@ class TrainBlock {
 		// Raw Data
 		switch (type) {
 		case "E":
-			img = new ImageIcon(GUI.imageURL + "Engine.png").getImage();
+			img = new ImageIcon(GameGUI.imageURL + "Engine.png").getImage();
 			break;
 		case "R":
-			img = new ImageIcon(GUI.imageURL + "RCab.png").getImage();
+			img = new ImageIcon(GameGUI.imageURL + "RCab.png").getImage();
 			break;
 		case "G":
-			img = new ImageIcon(GUI.imageURL + "GCab.png").getImage();
+			img = new ImageIcon(GameGUI.imageURL + "GCab.png").getImage();
 			break;
 		case "B":
-			img = new ImageIcon(GUI.imageURL + "BCab.png").getImage();
+			img = new ImageIcon(GameGUI.imageURL + "BCab.png").getImage();
 			break;
 		case "C":
-			img = new ImageIcon(GUI.imageURL + "CCab.png").getImage();
+			img = new ImageIcon(GameGUI.imageURL + "CCab.png").getImage();
 			break;
 		}
 	}
@@ -215,7 +215,7 @@ class TrainBlock {
 	}
 	
 	public void updateTime(int currentTime){
-		double percent = ((double) currentTime / GUI.TILEINTERVAL);
+		double percent = ((double) currentTime / GameGUI.TILEINTERVAL);
 		// Idöfüggö számítás
 		if (!isTurning) {
 			int direction = (angle== 180 || angle == 270) ? -1 : 1;
@@ -223,19 +223,19 @@ class TrainBlock {
 			// Az irány nem változik
 			if (angle == 90) {
 				// Függölegesen halad
-				posX = (int) Math.floor((currentMapX) * GUI.TILEWIDTH + GUI.TILEWIDTH / 2);
-				posY = (int) Math.floor((currentMapY) * GUI.TILEHEIGHT + direction * GUI.TILEHEIGHT * percent);
+				posX = (int) Math.floor((currentMapX) * GameGUI.TILEWIDTH + GameGUI.TILEWIDTH / 2);
+				posY = (int) Math.floor((currentMapY) * GameGUI.TILEHEIGHT + direction * GameGUI.TILEHEIGHT * percent);
 			} else if (angle == 270) {
 				// Függölegesen halad
-				posX = (int) Math.floor((currentMapX) * GUI.TILEWIDTH + GUI.TILEWIDTH / 2);
-				posY = (int) Math.floor((currentMapY + 1) * GUI.TILEHEIGHT + direction * GUI.TILEHEIGHT * percent);
+				posX = (int) Math.floor((currentMapX) * GameGUI.TILEWIDTH + GameGUI.TILEWIDTH / 2);
+				posY = (int) Math.floor((currentMapY + 1) * GameGUI.TILEHEIGHT + direction * GameGUI.TILEHEIGHT * percent);
 			} else if (angle == 180) {
 				// Vizszintesen halad
-				posX = (int) Math.floor((currentMapX + 1) * GUI.TILEWIDTH + direction * percent * GUI.TILEWIDTH);
-				posY = (int) Math.floor((currentMapY) * GUI.TILEHEIGHT + GUI.TILEHEIGHT / 2);
+				posX = (int) Math.floor((currentMapX + 1) * GameGUI.TILEWIDTH + direction * percent * GameGUI.TILEWIDTH);
+				posY = (int) Math.floor((currentMapY) * GameGUI.TILEHEIGHT + GameGUI.TILEHEIGHT / 2);
 			} else if (angle == 0) {
-				posX = (int) Math.floor((currentMapX) * GUI.TILEWIDTH + direction * percent * GUI.TILEWIDTH);
-				posY = (int) Math.floor((currentMapY) * GUI.TILEHEIGHT + GUI.TILEHEIGHT / 2);
+				posX = (int) Math.floor((currentMapX) * GameGUI.TILEWIDTH + direction * percent * GameGUI.TILEWIDTH);
+				posY = (int) Math.floor((currentMapY) * GameGUI.TILEHEIGHT + GameGUI.TILEHEIGHT / 2);
 			}
 		} else {
 			// Fordulunk
@@ -255,12 +255,12 @@ class TrainBlock {
 			// Pozicio számitás
 			// Blokkonbelüli forgatás utáni pozicio
 			// Origo középpontu kör + eltolás;
-			double range = GUI.TILEWIDTH / 2;
+			double range = GameGUI.TILEWIDTH / 2;
 			int circleX = (int) (range * Math.cos(Math.toRadians(circleStartAngle + delta)));
 			int circleY = (int) (range * Math.sin(Math.toRadians(circleStartAngle + delta)));
 
-			posX = (int) Math.floor((currentMapX + correctedX) * GUI.TILEWIDTH + circleX);
-			posY = (int) Math.floor((currentMapY + correctedY) * GUI.TILEHEIGHT + circleY);
+			posX = (int) Math.floor((currentMapX + correctedX) * GameGUI.TILEWIDTH + circleX);
+			posY = (int) Math.floor((currentMapY + correctedY) * GameGUI.TILEHEIGHT + circleY);
 
 		}
 
@@ -305,19 +305,19 @@ class TrainBlock {
 	public void emptyCab(){
 		switch (type) {
 		case "E":
-			img = new ImageIcon(GUI.imageURL + "Engine.png").getImage();
+			img = new ImageIcon(GameGUI.imageURL + "Engine.png").getImage();
 			break;
 		case "R":
-			img = new ImageIcon(GUI.imageURL + "RCabE.png").getImage();
+			img = new ImageIcon(GameGUI.imageURL + "RCabE.png").getImage();
 			break;
 		case "G":
-			img = new ImageIcon(GUI.imageURL + "GCabE.png").getImage();
+			img = new ImageIcon(GameGUI.imageURL + "GCabE.png").getImage();
 			break;
 		case "B":
-			img = new ImageIcon(GUI.imageURL + "BCabE.png").getImage();
+			img = new ImageIcon(GameGUI.imageURL + "BCabE.png").getImage();
 			break;
 		case "C":
-			img = new ImageIcon(GUI.imageURL + "CCab.png").getImage();
+			img = new ImageIcon(GameGUI.imageURL + "CCab.png").getImage();
 			break;
 		}
 	}
@@ -325,19 +325,19 @@ class TrainBlock {
 	public void fillCab(){
 		switch (type) {
 		case "E":
-			img = new ImageIcon(GUI.imageURL + "Engine.png").getImage();
+			img = new ImageIcon(GameGUI.imageURL + "Engine.png").getImage();
 			break;
 		case "R":
-			img = new ImageIcon(GUI.imageURL + "RCab.png").getImage();
+			img = new ImageIcon(GameGUI.imageURL + "RCab.png").getImage();
 			break;
 		case "G":
-			img = new ImageIcon(GUI.imageURL + "GCab.png").getImage();
+			img = new ImageIcon(GameGUI.imageURL + "GCab.png").getImage();
 			break;
 		case "B":
-			img = new ImageIcon(GUI.imageURL + "BCab.png").getImage();
+			img = new ImageIcon(GameGUI.imageURL + "BCab.png").getImage();
 			break;
 		case "C":
-			img = new ImageIcon(GUI.imageURL + "CCab.png").getImage();
+			img = new ImageIcon(GameGUI.imageURL + "CCab.png").getImage();
 			break;
 		}
 	}

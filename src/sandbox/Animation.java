@@ -34,13 +34,13 @@ public class Animation {
 		switch (t) {
 		case "Passengers":
 			try {
-				img = ImageIO.read(new File(GUI.imageURL + t + ".png"));
+				img = ImageIO.read(new File(GameGUI.imageURL + t + ".png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
-			posX = (int) (GUI.TILEWIDTH * 0.8);
-			posY = (int) (GUI.TILEHEIGHT * 0.2);
+			posX = (int) (GameGUI.TILEWIDTH * 0.8);
+			posY = (int) (GameGUI.TILEHEIGHT * 0.2);
 			frameCount = 2;
 			delay = 400;
 			continuous = true;
@@ -48,13 +48,13 @@ public class Animation {
 			break;
 		case "321GO":
 			try {
-				img = ImageIO.read(new File(GUI.imageURL + t + ".png"));
+				img = ImageIO.read(new File(GameGUI.imageURL + t + ".png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
-			posX = (int) (GUI.TILEWIDTH * 0.5);
-			posY = (int) (GUI.TILEHEIGHT * 0.5);
+			posX = (int) (GameGUI.TILEWIDTH * 0.5);
+			posY = (int) (GameGUI.TILEHEIGHT * 0.5);
 			frameCount = 20;
 			delay = 60;
 			continuous = false;
@@ -62,13 +62,13 @@ public class Animation {
 			break;
 		case "Win":
 			try {
-				img = ImageIO.read(new File(GUI.imageURL + t + ".png"));
+				img = ImageIO.read(new File(GameGUI.imageURL + t + ".png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
-			posX = (int) (GUI.TILEWIDTH * 0.5);
-			posY = (int) (GUI.TILEHEIGHT * 0.5);
+			posX = (int) (GameGUI.TILEWIDTH * 0.5);
+			posY = (int) (GameGUI.TILEHEIGHT * 0.5);
 			frameCount = 8;
 			delay = 70;
 			continuous = true;
@@ -76,13 +76,13 @@ public class Animation {
 			break;
 		case "Lose":
 			try {
-				img = ImageIO.read(new File(GUI.imageURL + t + ".png"));
+				img = ImageIO.read(new File(GameGUI.imageURL + t + ".png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
-			posX = (int) (GUI.TILEWIDTH * 0.5);
-			posY = (int) (GUI.TILEHEIGHT * 0.5);
+			posX = (int) (GameGUI.TILEWIDTH * 0.5);
+			posY = (int) (GameGUI.TILEHEIGHT * 0.5);
 			frameCount = 14;
 			delay = 70;
 			continuous = false;
@@ -90,13 +90,13 @@ public class Animation {
 			break;
 		case "Epic":
 			try {
-				img = ImageIO.read(new File(GUI.imageURL + t + ".png"));
+				img = ImageIO.read(new File(GameGUI.imageURL + t + ".png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
-			posX = (int) (GUI.TILEWIDTH * 0.5);
-			posY = (int) (GUI.TILEHEIGHT * 0.5);
+			posX = (int) (GameGUI.TILEWIDTH * 0.5);
+			posY = (int) (GameGUI.TILEHEIGHT * 0.5);
 			frameCount = 14;
 			delay = 70;
 			continuous = false;
@@ -105,13 +105,13 @@ public class Animation {
 
 		case "Arrive":
 			try {
-				img = ImageIO.read(new File(GUI.imageURL + t + ".png"));
+				img = ImageIO.read(new File(GameGUI.imageURL + t + ".png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
-			posX = (int) (GUI.TILEWIDTH * 0.5);
-			posY = (int) (GUI.TILEHEIGHT * 0.0);
+			posX = (int) (GameGUI.TILEWIDTH * 0.5);
+			posY = (int) (GameGUI.TILEHEIGHT * 0.0);
 			frameCount = 6;
 			delay = 50;
 			continuous = false;
@@ -135,8 +135,8 @@ public class Animation {
 		tileY = Y;
 		width = img.getWidth(null) / frameCount;
 		height = img.getHeight(null);
-		posX += X * GUI.TILEWIDTH - width / 2;
-		posY += Y * GUI.TILEHEIGHT - height / 2;
+		posX += X * GameGUI.TILEWIDTH - width / 2;
+		posY += Y * GameGUI.TILEHEIGHT - height / 2;
 	}
 
 	private void setCurrentFrame(int i) {
@@ -147,14 +147,14 @@ public class Animation {
 
 	public void setUpdatedTiles(boolean[][] changeMap) {
 
-		int x0 = ((posX - width) - (posX - width) % GUI.TILEWIDTH) / GUI.TILEWIDTH;
-		int y0 = ((posY - height) - (posY - height) % GUI.TILEHEIGHT) / GUI.TILEHEIGHT;
-		int xn = ((posX + width) - (posX + width) % GUI.TILEWIDTH) / GUI.TILEWIDTH;
-		int yn = ((posY + height) - (posY + height) % GUI.TILEHEIGHT) / GUI.TILEHEIGHT;
+		int x0 = ((posX - width) - (posX - width) % GameGUI.TILEWIDTH) / GameGUI.TILEWIDTH;
+		int y0 = ((posY - height) - (posY - height) % GameGUI.TILEHEIGHT) / GameGUI.TILEHEIGHT;
+		int xn = ((posX + width) - (posX + width) % GameGUI.TILEWIDTH) / GameGUI.TILEWIDTH;
+		int yn = ((posY + height) - (posY + height) % GameGUI.TILEHEIGHT) / GameGUI.TILEHEIGHT;
 
 		for (int x = x0; x <= xn; x++) {
 			for (int y = y0; y <= yn; y++) {
-				if (x < GUI.BOARDWIDTH && y < GUI.BOARDHEIGHT && x >= 0 && y >= 0)
+				if (x < GameGUI.BOARDWIDTH && y < GameGUI.BOARDHEIGHT && x >= 0 && y >= 0)
 					changeMap[x][y] = true;
 			}
 		}
