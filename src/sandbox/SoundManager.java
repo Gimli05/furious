@@ -14,7 +14,27 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class SoundManager {
 	private static Clip backgroundMusic;
 	private static Clip trainSound;
+	private static Clip menuSound;
 
+	public static void playMenuMusic() {
+		AudioInputStream ais = null;
+		try {
+			menuSound = AudioSystem.getClip();
+
+			if (menuSound != null) {
+				ais = AudioSystem.getAudioInputStream(new File(GameGUI.imageURL + "Music/Menu.wav"));
+			}
+			if (ais != null) {
+				menuSound.open(ais);
+			}
+			menuSound.loop(Clip.LOOP_CONTINUOUSLY);
+			menuSound.start();
+
+		} catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+			System.out.println(e.getClass());
+		}
+	}
+	
 	public static void playBackgroundMusic() {
 		AudioInputStream ais = null;
 		try {
@@ -63,6 +83,11 @@ public class SoundManager {
 	public static void stopTrainSound() {
 		trainSound.stop();
 		trainSound.close();
+	}
+	
+	public static void stopMenuMusic() {
+		menuSound.stop();
+		menuSound.close();
 	}
 	
 	public static double durationInSeconds(AudioInputStream audioInputStream) {

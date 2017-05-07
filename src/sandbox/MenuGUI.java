@@ -73,6 +73,7 @@ public class MenuGUI extends JPanel {
 	}
 	
 	public void stopRender() {
+		SoundManager.stopMenuMusic();
 		running = false;
 	}
 	
@@ -80,6 +81,7 @@ public class MenuGUI extends JPanel {
 		running = true;
 		renderThread = new mainMenuRenderThread();
 		renderThread.start();
+		SoundManager.playMenuMusic();
 	}
 	
 	private static void writeClickLog(int x, int y, boolean btn) {

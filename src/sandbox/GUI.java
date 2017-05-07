@@ -82,6 +82,7 @@ public class GUI extends JFrame {
 	public static void main(String[] args) {
 		GameController myGui= new GameController();
 		myGui.showMenu();
+		menuGui.startRender();
 		return;
 	}
 }
