@@ -1,0 +1,9 @@
+14;7
+xxxxxxxxxxxxxx
+ERRRSRRSRRRxxx
+xxxxRxx1xxRxxx
+xxxxSR4X3RSxxx
+xxxxRxx2xxRxxx
+xxxxRRRSRRSRRE
+xxxxxxxxxxxxxx
+1,0,EB;2,0,ER;1,10,EGB
