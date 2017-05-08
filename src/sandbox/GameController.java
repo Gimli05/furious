@@ -98,6 +98,7 @@ public class GameController {
 		fail = false;
 		scheduledTrains="";
 		trainScheduleTimer = 0;
+		activeEntranceCounter=0;
 		System.out.println(
 				"Class: GameController\t Object: Object: GameController@STATIC\t Method: startNewGame\t Param: "
 						+ mapNumber); /* Kiíratás a Szkeleton vezérlésének */
@@ -960,7 +961,7 @@ public class GameController {
 							}
 						} else if (thisEntrance.checkIfActivated() && btn == 0) {
 							thisEntrance.switchRail();
-							gui.getGameView().switchState(X, Y);
+							gui.getGameView().switchState(X, Y, thisEntrance.getState());
 						}
 
 						rail = thisEntrance;
@@ -972,7 +973,7 @@ public class GameController {
 					try {
 						Switch sw = (Switch) rail;
 						sw.switchRail();
-						gui.getGameView().switchState(X, Y);
+						gui.getGameView().switchState(X, Y, sw.getState());
 
 						rail = sw;
 					} catch (Exception e) {
@@ -1314,6 +1315,7 @@ public class GameController {
 					
 					/*Hozzáadjuk ha van uj vonat*/
 					if(!scheduledTrains.equals("")){
+						System.out.println("TIMESCHEDULE");
 						scheduleTrains();
 						trainScheduleTimer++;
 					}
@@ -1454,7 +1456,8 @@ public class GameController {
 				if (Integer.parseInt(data[1]) == trainScheduleTimer) {
 					addTrain(train);
 				} else {
-					leftOver += train;
+					leftOver += train+";";
+					System.out.println("L"+leftOver);
 				}
 			} catch (Exception e) {
 			}

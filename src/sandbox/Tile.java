@@ -92,6 +92,10 @@ public class Tile {
 		}
 	}
 
+	public void setState(boolean s){
+		state=s;
+	}
+	
 	public void updateImage() {
 		if (type.equals("U"))
 			img = loadImage(type + variant + (active == false ? 0 : 1) + (state == false ? 0 : 1)).getImage();

@@ -192,6 +192,13 @@ public class GameGUI extends JPanel {
 		changeMap[x][y]=true;
 	}
 	
+	public void switchState(int x, int y, boolean s){
+		/*Váltani fogunk rajta ezért negáljuk*/
+		baseTileMap[x][y].setState(!s);
+		baseTileMap[x][y].switchState(baseTileMap, x, y);
+		changeMap[x][y]=true;
+	}
+	
 	// Train
 	
 	public void updateTime(int time) {
@@ -212,13 +219,13 @@ public class GameGUI extends JPanel {
 		if (cX == nX) {
 			pX = nX;
 			if (cY > nY) {
-				// fentrï¿½l le
+				// fentröl le
 				pY = cY + 1;
-				rot = 90;
-			} else {
-				// lentrï¿½l fel
-				pY = cY - 1;
 				rot = 270;
+			} else {
+				// lentröl fel
+				pY = cY - 1;
+				rot = 90;
 			}
 		} else if (cY == nY) {
 			pY = nY;

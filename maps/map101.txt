@@ -6,4 +6,4 @@ xxxxSR4X3RSxxx
 xxxxRxx2xxRxxx
 xxxxRRRSRRSRRE
 xxxxxxxxxxxxxx
-1,0,EB;2,0,ER;1,10,EGB
+1,0,EBRG;2,6,EGGR

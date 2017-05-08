@@ -177,7 +177,7 @@ public class Switch extends Rail {
 		return null;
 	}
 
-	public boolean getGUIState() {
+	public boolean getState() {
 		return state;
 	}
 	// LONG EDDIG MOKOLTA
