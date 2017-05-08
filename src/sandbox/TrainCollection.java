@@ -33,10 +33,13 @@ public class TrainCollection {
 			Rail rail=train.getNextRail(); /* lekérjük a következõ sínt */
 			
 			if(rail!=null && rail.getNextRail(train.getPreviousRail()) == null){
+				/*Következö utáni már lefutás*/
 				GameController.failIntent();
+				GameGUI.addAnimation(rail.getX(), rail.getY(), "Michael");
 			}
 			else if(rail==null){
 				 /*Lefutottunk a sinekröl*/
+				GameGUI.addAnimation(train.getPreviousRail().getNextRail(train.getPreviousRail()).getX(), train.getPreviousRail().getNextRail(train.getPreviousRail()).getY(), "Michael");
 				return;
 			}
 			

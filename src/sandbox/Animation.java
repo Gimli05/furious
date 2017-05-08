@@ -117,9 +117,25 @@ public class Animation {
 			continuous = false;
 			freeze = false;
 			break;
-		}
 
-		if (img == null) {
+		case "Michael":
+			try {
+				img = ImageIO.read(new File(GameGUI.imageURL + t + ".png"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			posX = (int) (GameGUI.TILEWIDTH * 0.5);
+			posY = (int) (GameGUI.TILEHEIGHT * 0.0);
+			frameCount = 8;
+			delay = 50;
+			continuous = false;
+			freeze = false;
+			break;
+		}
+		if (img == null)
+
+		{
 			try {
 				started = true;
 				ended = true;

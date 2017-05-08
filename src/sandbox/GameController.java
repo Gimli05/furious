@@ -57,6 +57,11 @@ public class GameController {
 	private static boolean stopControll = false;
 	private static int speed = 2;
 	private static int stepParts = 20;
+	private static boolean continueLevels = false;
+	private static int levelCounter = 1;
+
+	private static String scheduledTrains;
+	private static int trainScheduleTimer;
 	// LOOOOOOOOOOOOONG
 
 	/**
@@ -77,10 +82,11 @@ public class GameController {
 													 */
 
 		gui = new GUI();
+		;
 	}
 
 	/**
-	 * � j játék indítására szolgáló függvény. Megjeleníti a játékosnak a
+	 * Új játék indítására szolgáló függvény. Megjeleníti a játékosnak a
 	 * választható pályák listáját. Miután a játékos kiválasztotta melyik pályán
 	 * akar játszani, betölti a pályához tartozó sínhálózatot és vonat
 	 * ütemezést. Ezután elindítja a vonatok léptetéséért felelõs szálat.
@@ -89,15 +95,16 @@ public class GameController {
 	 *            a betöltendõ pálya sorszáma
 	 */
 	public static void startNewGame(int mapNumber) {
+		fail = false;
+		scheduledTrains="";
+		trainScheduleTimer = 0;
 		System.out.println(
 				"Class: GameController\t Object: Object: GameController@STATIC\t Method: startNewGame\t Param: "
 						+ mapNumber); /* Kiíratás a Szkeleton vezérlésének */
 
-		String mapName = new String("maps/map" + mapNumber
-				+ ".txt"); /*
-							 * mivel több pálya is lehet, ezért dinamikusan
-							 * állítjuk össze a betöltendõ nevet.
-							 */
+		String mapName = new String("maps/map" + mapNumber+ ".txt");
+		
+		/*mivel több pálya is lehet, ezért dinamikusan állítjuk össze a betöltendõ nevet.*/
 		try {
 			buildFromFile(
 					mapName); /* Megpróbáljuk a fájlból felépíteni a pályát */
@@ -136,7 +143,7 @@ public class GameController {
 	}
 
 	/**
-	 * � rtesíti a játékost, hogy nyert, és leállítja a játékot.
+	 * Értesíti a játékost, hogy nyert, és leállítja a játékot.
 	 */
 	public static void winEvent() {
 		SoundManager.stopTrainSound();
@@ -152,44 +159,17 @@ public class GameController {
 																													 * Szkeleton
 																													 * vezérlésének
 																													 */
-
-		if (lastPlayedMapNumber == 1) { /*
-										 * Ha az elsõ pálya volt az amit elõbb
-										 * játszottunk, akkor betöltjük a
-										 * másodikat.
-										 */
-			System.out.println(
-					"Class: GameController\t Object: GameController@STATIC\t Van még új pálya, így az következik."); /*
-																														 * Kiíratás
-																														 * a
-																														 * Szkeleton
-																														 * vezérlésének
-																														 */
-			System.out.println(
-					"\n\n� J J� T� K KEZD� DIK \n\n"); /*
-														 * Kiíratás a Szkeleton
-														 * vezérlésének
-														 */
-			startNewGame(2); /* Elindul az új játék */
-		} else {
-			System.out.println(
-					"Class: GameController\t Object: GameController@STATIC\t Nincs tobb palya, jatek vege."); /*
-																												 * Kiíratás
-																												 * a
-																												 * Szkeleton
-																												 * vezérlésének
-																												 */
-		}
 	}
 
 	/**
-	 * � rtesíti a játékost, hogy vesztett, és leállítja a játékot.
+	 * Értesíti a játékost, hogy vesztett, és leállítja a játékot.
 	 */
 	public static void loseEvent() {
 		SoundManager.stopTrainSound();
 		SoundManager.playSound("Lose");
 		gui.getGameView().addAnimation(GameGUI.BOARDWIDTH / 2, GameGUI.BOARDHEIGHT / 2, "Lose");
 		isTheGameRunning = false; /* Leállítjuk a játékot */
+		continueLevels = false;
 		System.out.println("Class: GameController\t Object: GameController@STATIC\t Method: loseEvent\t Vereseg"); /*
 																													 * Kiíratás
 																													 * a
@@ -258,7 +238,7 @@ public class GameController {
 																													 * vezérlésének
 																													 */
 
-		String in; /* Egy beolvasott sort tárol, ebbe olvasunk */
+		String in = ""; /* Egy beolvasott sort tárol, ebbe olvasunk */
 		String[] line; /* Feltördeljük az elözöleg olvasott sort */
 
 		BufferedReader brMap = new BufferedReader(
@@ -280,7 +260,7 @@ public class GameController {
 
 		int x = 0; /* Segédváltozó szélességhez */
 		int y = 0; /* Segédváltpzó magassághoz */
-		while ((in = brMap
+		while (y < height && (in = brMap
 				.readLine()) != null) { /* � sszes maradék sort kiolvassuk */
 			line = in.split("");
 			for (String s : line) { /* Minden karaktert megnézünk */
@@ -299,13 +279,13 @@ public class GameController {
 			y++;
 		}
 
-		System.out.println(
-				"\nClass: GameController\t Object: GameController@STATIC\t Sínek közötti kapcsolatok létrehozása."); /*
-																														 * Kiíratás
-																														 * a
-																														 * Szkeleton
-																														 * vezérlésének
-																														 */
+		/*Beolvasott vonatokat tároljuk*/
+		scheduledTrains=brMap.readLine();
+		/*Kiiratjuk a vezérlésnek*/
+		
+ 		System.out.println("\nClass: GameController\t Object: GameController@STATIC\t Sínek közötti kapcsolatok létrehozása."); 
+ 		
+
 		for (int i = 0; i < width; i++) { /*
 											 * Végignézzük a pályát
 											 * szélességben...
@@ -352,7 +332,6 @@ public class GameController {
 														 * Hozzáadjuk az újonnan
 														 * felvett szomszédokat
 														 */
-
 				}
 			}
 		}
@@ -1006,29 +985,61 @@ public class GameController {
 			}
 		} else if (!isTheGameRunning && !gui.isGameClosed()) {
 			// Véget ért, de még nem kattintottuk el..
+			if (mainThread.isAlive())
+				mainThread.stop();
 			endGameSession();
 			// Betöltünk vagy nemtom
-			gui.getGameView().stopRender();
-			gui.remove(gui.getGameView());
-			gui.setMenuView();
-			gui.getMenuView().startRender();
+
+			if (continueLevels && levelCounter < 4) {
+				levelCounter++;
+				gui.getGameView().stopRender();
+				gui.remove(gui.getGameView());
+				startNewGame(100 + levelCounter);
+			} else {
+				// Vissza a menübe
+				gui.getGameView().stopRender();
+				gui.remove(gui.getGameView());
+				gui.setMenuView();
+				gui.getMenuView().startRender();
+			}
+
 		} else if (!gui.isMenuClosed() && gui.isGameClosed()) {
 			// Menübenválaszttunk
 			switch (gui.getMenuView().getClickedItem(X, Y)) {
 			case 0:
 				return;
 			case 1:
-				System.out.println("NewGame");
+				levelCounter = 1;
+				continueLevels = true;
 				gui.getMenuView().stopRender();
 				gui.remove(gui.getMenuView());
-				startNewGame(11);
+				startNewGame(101);
 				break;
-			case 2:
-				System.out.println("Select");
-				// SelectMenu
+			case 21:
+				continueLevels = false;
+				gui.getMenuView().stopRender();
+				gui.remove(gui.getMenuView());
+				startNewGame(101);
+				break;
+			case 22:
+				continueLevels = false;
+				gui.getMenuView().stopRender();
+				gui.remove(gui.getMenuView());
+				startNewGame(102);
+				break;
+			case 23:
+				continueLevels = false;
+				gui.getMenuView().stopRender();
+				gui.remove(gui.getMenuView());
+				startNewGame(103);
+				break;
+			case 24:
+				continueLevels = false;
+				gui.getMenuView().stopRender();
+				gui.remove(gui.getMenuView());
+				startNewGame(104);
 				break;
 			case 3:
-				System.out.println("Exit");
 				gui.setVisible(fail);
 				gui.dispatchEvent(new WindowEvent(gui, WindowEvent.WINDOW_CLOSING));
 			}
@@ -1285,65 +1296,26 @@ public class GameController {
 	// Long
 	private static void startMainThread() {
 		mainThread = new Thread() {
-			ArrayList<Color> testColors; /* Vonat kocsiszíneit tárolja */
-			Train testTrain; /* Egy teszt vonat */
-			EnterPoint enterPoint; /* Egy véletlenül talált belépési pont */
-
 			public void run() {
-
-				testColors = new ArrayList<Color>(); /*
-														 * Inicializáljuk a
-														 * listát
-														 */
-				testColors.add(Color.BLUE);
-				testColors.add(Color.BLACK);
-				testColors.add(Color.RED);
-				testColors.add(Color.GREEN);
-				/* Színt adunk hozzá */
-				testTrain = new Train(
-						testColors); /*
-										 * A szinekkel inicializálunk egy
-										 * vonatot
-										 */
-
-				for (Rail oneRail : railCollection) { /*
-														 * Kikeresünk egy
-														 * belépésíi pontot
-														 */
-					if (oneRail.getClass() == EnterPoint.class) {
-						enterPoint = (EnterPoint) oneRail;
-					}
-				}
-
-				if (enterPoint == null) { /*
-											 * Amennyiben null az objektumunk,
-											 * nem volt belépési pont a pályán
-											 */
-					System.out.println("Nincs belépési pont a pályán");
-					return; /* Ilyenkor vége a futásnak */
-				}
-
-				/* A belépési pontra rakjuk a vonatunk */
-				testTrain.setNextRail(enterPoint);
-				trainCollection.addNewTrain(testTrain);
-
-				// GUI Init..
-				gui.getGameView().addTrain("EBCRG", enterPoint.getX(), enterPoint.getY(),
-						enterPoint.getNextRail(null).getX(), enterPoint.getNextRail(null).getY());
-
+				// Start events
 				gui.getGameView().addAnimation(GameGUI.BOARDWIDTH / 2, GameGUI.BOARDHEIGHT / 2, "321GO");
-
 				sleepTime(1400);
 				gui.getGameView().paintTrain();
 				SoundManager.playSound("Start");
 				SoundManager.playTrainSound();
+				/*Fix*/
+				ClickHandler(0,0,0);
+				
 				while (isTheGameRunning) {
-					for (Rail oneRail : railCollection) { /*
-															 * Sineknek
-															 * csökkentjük a
-															 * vagonszámát
-															 */
+					/*Csökkentjük a sinek vagonszámát */
+					for (Rail oneRail : railCollection) { 
 						oneRail.lowerTrainLenghtCounter();
+					}
+					
+					/*Hozzáadjuk ha van uj vonat*/
+					if(!scheduledTrains.equals("")){
+						scheduleTrains();
+						trainScheduleTimer++;
 					}
 
 					trainCollection.moveAllTrains();
@@ -1368,7 +1340,7 @@ public class GameController {
 					}
 				}
 			}
-		};		
+		};
 		mainThread.start();
 		gui.getGameView().startRender();
 		SoundManager.playBackgroundMusic();
@@ -1378,15 +1350,15 @@ public class GameController {
 	private static void startControllThread() {
 		controllThread = new Thread() {
 			public void run() {
-				while (!stopControll) {					
+				while (!stopControll) {
 					if (!gui.isGameClosed()) {
 						doGuiClickLogAction(gui.getGameView().getClickLog());
 					}
-					if (!gui.isMenuClosed()){
+					if (!gui.isMenuClosed()) {
 						doGuiClickLogAction(gui.getMenuView().getClickLog());
-					}						
+					}
 					sleepTime(50);
-					
+
 				}
 			}
 		};
@@ -1473,6 +1445,85 @@ public class GameController {
 		startControllThread();
 	}
 
+	private static void scheduleTrains() {
+		String leftOver = "";
+		String separateTrains[] = scheduledTrains.split(";");
+		for (String train : separateTrains) {
+			String data[] = train.split(",");
+			try {
+				if (Integer.parseInt(data[1]) == trainScheduleTimer) {
+					addTrain(train);
+				} else {
+					leftOver += train;
+				}
+			} catch (Exception e) {
+			}
+		}
+		scheduledTrains = leftOver;
+	}
+
+	private static void addTrain(String trainData) {
+		ArrayList<Color> cabColors = new ArrayList<Color>();
+		Train newTrain = null;
+		EnterPoint enterPoint = null;
+		int enterCounter;
+
+		/* Felbontjuk az adatokat */
+		String datas[] = trainData.split(",");
+
+		/* Megadjuk hogy hányadik pontra raknánk */
+		enterCounter = Integer.parseInt(datas[0]);
+		/*
+		 * Az idöpontot már felhasználtuk, ezért a szineket fogjuk msot
+		 * használni
+		 */
+
+		String colors[] = datas[2].split("");
+		for (String color : colors) {
+			switch (color) {
+			case "R":
+				cabColors.add(Color.RED);
+				break;
+			case "G":
+				cabColors.add(Color.GREEN);
+				break;
+			case "B":
+				cabColors.add(Color.BLUE);
+				break;
+			}
+		}
+
+		newTrain = new Train(
+				cabColors); /* A szinekkel inicializálunk egy vonatot */
+
+		/* Megkeressük a belépési pontját */
+		for (Rail oneRail : railCollection) {
+			if (oneRail.getClass() == EnterPoint.class) {
+				enterCounter--;
+				if (enterCounter == 0){
+					enterPoint = (EnterPoint) oneRail;
+					
+				}
+				
+			}
+		}
+		
+		
+		
+		/* Ha null akkor nem találtuk megefelelö belépési pontot */
+		if (enterPoint == null) {
+			System.out.println("Nincs belépési pont a pályán");
+			return; /* Ilyenkor vége a futásnak */
+		}
+
+		/* A belépési pontra rakjuk a vonatunk */
+		newTrain.setNextRail(enterPoint);
+		trainCollection.addNewTrain(newTrain);
+
+		/* A UI-hoz is hozzá adjuk */
+		gui.getGameView().addTrain(datas[2], enterPoint.getX(), enterPoint.getY(), enterPoint.getNextRail(null).getX(),
+				enterPoint.getNextRail(null).getY());
+	}
 	// Long
 
 	public void drawToConsole() {

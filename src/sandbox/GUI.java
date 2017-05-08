@@ -25,12 +25,14 @@ public class GUI extends JFrame {
 
 		FRAMEWIDTH = GameGUI.BOARDWIDTH * GameGUI.TILEWIDTH;
 		FRAMEHEIGHT = GameGUI.BOARDHEIGHT * GameGUI.TILEHEIGHT;
+		
 		this.setTitle(FRAMENAME);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 
 		this.setVisible(true);
-		this.setPreferredSize(new Dimension(FRAMEWIDTH, FRAMEHEIGHT));
+		this.setSize(new Dimension(0,0));
+		gameGui.setPreferredSize(new Dimension(FRAMEWIDTH, FRAMEHEIGHT));
 		this.add(gameGui);
 		this.pack();
 		this.toFront();
@@ -64,7 +66,7 @@ public class GUI extends JFrame {
 		this.setResizable(false);
 
 		this.setVisible(true);
-		this.setPreferredSize(new Dimension(FRAMEWIDTH, FRAMEHEIGHT));
+		menuGui.setPreferredSize(new Dimension(FRAMEWIDTH, FRAMEHEIGHT));
 		this.add(menuGui);
 		this.pack();
 		this.toFront();

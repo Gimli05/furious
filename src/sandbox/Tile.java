@@ -176,6 +176,17 @@ public class Tile {
 					baseTileMap[x][y].rotation(90);
 			}
 			break;
+		case "E":
+			if (x == 0){
+				baseTileMap[x][y].rotation(0);
+			}else if (x==GameGUI.BOARDWIDTH-1){
+				baseTileMap[x][y].rotation(180);
+			}else if (y == 0){
+				baseTileMap[x][y].rotation(90);
+			}else if (y==GameGUI.BOARDHEIGHT-1){
+				baseTileMap[x][y].rotation(-90);
+			}
+			break;
 		
 		case "1":
 			if (y > 0) {

@@ -119,9 +119,14 @@ public class MenuGUI extends JPanel {
 	
 	public int getClickedItem(int x, int y) {
 		if(!inLevelSelect){
-			if(x>=240 && x<552){
+			if(x>192 && x<610){
 				if(y>40 && y<90)return 1; //Start
-				if(y>125 && y<180)return 2; //Select
+				if(y>125 && y<180){
+					if(x>195 && x<270)return 21;
+					if(x>305 && x<385)return 22;
+					if(x>415 && x<495)return 23;
+					if(x>530 && x<610)return 24;
+				}
 				if(y>215 && y<265)return 3; //Exit
 			}
 		}else{

@@ -74,6 +74,7 @@ public class GameGUI extends JPanel {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
+				System.out.println(e.getX()+"-"+e.getY());
 				writeClickLog((int) Math.floor(e.getX() / TILEWIDTH), (int) Math.floor(e.getY() / TILEHEIGHT),
 						e.getButton() == MouseEvent.BUTTON3);
 				changeMap[(int) Math.floor(e.getX() / TILEWIDTH)][(int) Math.floor(e.getY() / TILEHEIGHT)]=true;
@@ -86,18 +87,23 @@ public class GameGUI extends JPanel {
 
 		this.addMouseListener(MyMouseListener);
 		this.setPreferredSize(new Dimension(GUI.FRAMEWIDTH, GUI.FRAMEHEIGHT));
-
+		
 
 		trainContainer = new ArrayList<TrainView>();
 		animManager=new AnimManager();
 	}
 
 	@Override
-	public void paintComponent(Graphics g) {
-		// BaseDraw
-		if(frameFix>0)changeMap[0][0]=true;
+	public void paintComponent(Graphics g) {	
+		
 		for (int x = 0; x < BOARDWIDTH; x++) {
 			for (int y = 0; y < BOARDHEIGHT; y++) {
+				/*FrameLoadFix*/
+				if(frameFix>0){
+					changeMap[x][y]=true;
+					frameFix++;
+				}
+				
 				if (baseTileMap[x][y] != null && changeMap[x][y]) {
 					g.drawImage(baseTileMap[x][y].getImage(), x * TILEWIDTH, y * TILEHEIGHT, null);
 				}
@@ -264,10 +270,11 @@ public class GameGUI extends JPanel {
 		if (log.length() < 4)
 			return;
 		String[] coords = log.split(",");
-		// Figyel�nk az els� vessz�re
 		for (int i = 1; i < coords.length; i += 2) {
+			try{
 			changeMap[Integer.parseInt(coords[i])][Integer.parseInt(coords[i + 1])] = true;
-		}
+			}catch(IndexOutOfBoundsException e){};
+			}
 	}
 
 	public void paintTrain(){
