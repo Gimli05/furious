@@ -217,6 +217,7 @@ public class Train implements Visitor{
 						rail.boardPassengers(); 				/*Eltüntetjük a megálló utasait*/
 						cab.addPassenger(passengersColor);		/*Megtöltjük a vagont*/
 						GameGUI.removeAnimation(rail.getX(), rail.getY(), "Passengers");
+						SoundManager.playSound("Board");
 						break;									/*Megállitjuk a keresést*/
 					}
 				}
