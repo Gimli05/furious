@@ -8,4 +8,4 @@ xxxxRUxxR6RRURRSxRRRxRx
 xxxxxRxxxxxxxxxRxxxxxRx
 xxxxxURRR1RR4RRSRRR5RRx
 xxxxxxxxxxxxxxxxxxxxxxx
-1,1,EGBBR;2,10,ERRBGR
+1,1,EBGR;2,10,ERRGR
