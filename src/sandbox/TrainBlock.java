@@ -6,22 +6,27 @@ import java.awt.Image;
 import java.awt.geom.AffineTransform;
 
 import javax.swing.ImageIcon;
-
+/**
+ * Egyetlen Vagon kirajzolasaert felelos osztaly
+ * @author Long
+ *
+ */
 
 class TrainBlock {
+	 /*Vagon meretadatokt*/
 	protected static int TRAINBLOCKWIDTH = 40;
 	protected static int TRAINBLOCKHEIGHT = 40;
 	
-	
+	/*Vagon tipus*/
 	private String type;
-	// Elözö indexek
+	/*Elozo es kovetkezo idnexek*/
 	private int currentMapX, currentMapY;
 	private int lastMapX, lastMapY;
 	private int nextMapX, nextMapY;
-	// Konkrét hely
+	/*Konkret pozicio*/
 	private int posX, posY;
 
-	// Forgatási adatok
+	/*Forgatasi adatok*/
 	private boolean isTurning;
 	private double angle;
 	private double startAngle;
@@ -29,19 +34,19 @@ class TrainBlock {
 	private double circleStartAngle;
 	private int correctedX, correctedY;
 	
-	// Raw Data
+	/*Rajzolasi adatok*/
 	private Image img;
 	private double flip;
 	private boolean visible;
 	
-	//Változás könyvelés
-	
+	/*Valtozasokat konyvel*/
 	private String changeLog="";
 	
 	
+	/**Tipusos konstruktor**/
 	public TrainBlock(String t) {
 		type = t;
-		// UI Block & Position Update
+		/*Kezdo adatokat megadjuk*/
 		lastMapX = -1;
 		lastMapY = -1;
 		currentMapX = -1;
@@ -49,7 +54,7 @@ class TrainBlock {
 		nextMapX = -1;
 		nextMapY = -1;
 
-		// Position Calculation
+		/*Ugyaigy a poziciohoz is*/
 		posX = -1;
 		posY = -1;
 		rotateDir = 0;
@@ -57,7 +62,7 @@ class TrainBlock {
 		isTurning = false;
 		visible=true;
 		
-		// Raw Data
+		/*Beolvassuk a kepunket*/
 		switch (type) {
 		case "E":
 			img = new ImageIcon(GameGUI.imageURL + "Engine.png").getImage();
@@ -77,6 +82,7 @@ class TrainBlock {
 		}
 	}
 	
+	/**Beallitjuk az adottblokkokat ertekeknek**/
 	public void setPos(int lastX, int lastY,int currentX, int currentY, int nextX, int nextY){
 		lastMapX=lastX;
 		lastMapY=lastY;
@@ -86,23 +92,26 @@ class TrainBlock {
 		nextMapY=nextY;
 	}
 	
+	/**Beallitjuk a szeget**/
 	public void setAngle(double a){
 		angle=a;
 	}
 	
+	/**Lathatosagot allitunk**/
 	public void setVisibility(int v){
 		if(v==0)visible=false;
 		else visible=true;
 	}
-	
+	/**Megnezzuk a lathatosagot**/
 	public int getVisibility(){
 		return visible?1:0;
 	}
 	
+	/**Kiszamoljuk az uj hely alapjnán a pocziciokat*/
 	public void updatePos(int nextX, int nextY) {
-		// Update ha nem csak idöben van változás
+		/* Update ha nem csak idöben van változás hane mblokkban i*/
 		if (nextMapX != nextX || nextMapY != nextY) {
-			// Blokk poziciok
+			/* Blokk poziciok*/
 			lastMapX = currentMapX;
 			lastMapY = currentMapY;
 			currentMapX = nextMapX;
@@ -110,40 +119,41 @@ class TrainBlock {
 			nextMapX = nextX;
 			nextMapY = nextY;
 			
-			//Forgatás korrekcio
+			/*Forgatás korrekcio*/
 			if(angle>=-45 && angle<45)angle=0;
 			else if(angle>=45 && angle<135)angle=90;			
 			else if(angle>=135 && angle<225)angle=180;		
 			else if(angle>=225 && angle<315)angle=270;		
 			else if(angle>=315 && angle<405)angle=0;
 			
-			// Forgatás adatai
+			/* Forgatás adatai*/
 			rotateDir = 1;
 			circleStartAngle = 0;
 			
+			/*Ha teszunk 180 fokos fordulatot akkor itt*/
 			if(flip>0){
 				angle+=flip;
 				flip=0;
 				if(angle>=360)angle-=360;
 			}
 			
-			// Irányszámítás
+			/* Irányszámítás*/
 
-			// Nem kanyarodik, mert két koordináta egyezik...
+			/* Nem kanyarodik, mert két koordináta egyezik...*/
 			if(lastMapX == nextMapX && lastMapY ==nextMapY){
 				flip+=180;
 				if(flip>360)flip-=360;
 			}
 			
 			if (lastMapX == nextMapX || lastMapY == nextMapY) {
-				// Elfordulási szög nem változik.. csak léptetünk.
+				/* Elfordulási szög nem változik.. csak léptetünk.*/
 				isTurning = false;
-				// Nincs dolgunk..
+				/* Nincs dolgunk..*/
 			} else {
 				isTurning = true;
-				// Itt fordulunk
-				// Esetekre bontjuk egy elöre átbeszelt táblázat alapján,
-				// forgatási iránytol függöen
+				/* Itt fordulunk*/
+				/* Esetekre bontjuk egy elöre átbeszelt táblázat alapján,*/
+				/* forgatási iránytol függöen*/
 
 				if (nextMapX < lastMapX && nextMapY < lastMapY) {
 					// Megnézzük hogy hol van a forgatás középpontja
@@ -209,52 +219,54 @@ class TrainBlock {
 				}
 				startAngle=angle;
 			}
-			// Megvan a forgatási irány és a középpontja, már csak el kell
-			// forgatni az idö függvenyeben
+			/* Megvan a forgatási irány és a középpontja, már csak el kell*/
+			/* forgatni az idö függvenyeben*/
 		}
 	}
 	
 	public void updateTime(int currentTime){
 		double percent = ((double) currentTime / GameGUI.TILEINTERVAL);
-		// Idöfüggö számítás
+		/* Idöfüggö számítás*/
 		if (!isTurning) {
 			int direction = (angle== 180 || angle == 270) ? -1 : 1;
 					
-			// Az irány nem változik
+			/* Az irány nem változik*/
 			if (angle == 90) {
-				// Függölegesen halad
+				/* Függölegesen halad*/
 				posX = (int) Math.floor((currentMapX) * GameGUI.TILEWIDTH + GameGUI.TILEWIDTH / 2);
 				posY = (int) Math.floor((currentMapY) * GameGUI.TILEHEIGHT + direction * GameGUI.TILEHEIGHT * percent);
 			} else if (angle == 270) {
-				// Függölegesen halad
+				/* Függölegesen halad*/
 				posX = (int) Math.floor((currentMapX) * GameGUI.TILEWIDTH + GameGUI.TILEWIDTH / 2);
 				posY = (int) Math.floor((currentMapY + 1) * GameGUI.TILEHEIGHT + direction * GameGUI.TILEHEIGHT * percent);
 			} else if (angle == 180) {
-				// Vizszintesen halad
+				/* Vizszintesen halad*/
 				posX = (int) Math.floor((currentMapX + 1) * GameGUI.TILEWIDTH + direction * percent * GameGUI.TILEWIDTH);
 				posY = (int) Math.floor((currentMapY) * GameGUI.TILEHEIGHT + GameGUI.TILEHEIGHT / 2);
 			} else if (angle == 0) {
+				/* Vizszintesen halad*/
 				posX = (int) Math.floor((currentMapX) * GameGUI.TILEWIDTH + direction * percent * GameGUI.TILEWIDTH);
 				posY = (int) Math.floor((currentMapY) * GameGUI.TILEHEIGHT + GameGUI.TILEHEIGHT / 2);
 			}
 		} else {
-			// Fordulunk
-			// Forgatás közepe és iránya meg van adva, csak forgatunk...
-			// Kép forgatás
-			// Kép uj irányának számolása
+			/* Fordulunk*/
+			/* Forgatás közepe és iránya meg van adva, csak forgatunk...*/
+			
+			/* Kép forgatás*/
+			/* Kép uj irányának számolása*/
 			double delta = rotateDir * 90 * percent;
 			angle = startAngle + delta;
 
-			// Intervalluma foglalás
+			/* Intervalluma foglalás*/
 			if (angle < 0)
 				angle += 360;
 			if (angle > 360)
 				angle -= 360;
 			
 			
-			// Pozicio számitás
-			// Blokkonbelüli forgatás utáni pozicio
-			// Origo középpontu kör + eltolás;
+			/* Pozicio számitás*/
+			/* Blokkonbelüli forgatás utáni pozicio*/
+			/* Origo középpontu kör + eltolás;*/
 			double range = GameGUI.TILEWIDTH / 2;
 			int circleX = (int) (range * Math.cos(Math.toRadians(circleStartAngle + delta)));
 			int circleY = (int) (range * Math.sin(Math.toRadians(circleStartAngle + delta)));
@@ -264,8 +276,8 @@ class TrainBlock {
 
 		}
 
-		// Update
-		//Figyelünk hogy eggyel több vesszö van!!
+		/*Jelezzuk hgy valtoztaok blokkok*/
+		/*Figyelünk hogy eggyel több vesszö van!!*/
 		if (currentMapX >= 0 && currentMapY >= 0) {
 			changeLog=changeLog+","+currentMapX+","+currentMapY;
 			
@@ -276,6 +288,7 @@ class TrainBlock {
 		}
 	}
 	
+	/**Kirajzolja a vaszonra koordinatak es szog szerint**/
 	public void draw(Graphics g) {
 		AffineTransform trans = new AffineTransform();
 		trans.translate(posX - TRAINBLOCKWIDTH / 2, posY - TRAINBLOCKHEIGHT / 2);
@@ -284,24 +297,28 @@ class TrainBlock {
 		g2d.drawImage(img, trans, null);
 	}
 	
+	/**Kovetkezo blokk X koordinatajanak lekerese**/
 	public int getNextPosX(){
 		return nextMapX;
 	}
 	
+	/**Kovetkezo blokk Y koordinatajanak lekerese**/
 	public int getNextPosY(){
 		return nextMapY;
 	}
-	
+	/**Kezdesi szog lekerese**/
 	public double getStartAngle(){
 		return startAngle;
 	}
 	
+	/**Valtozasok lekerese**/
 	public String getChangeLog(){
 		String log = changeLog;
 		changeLog="";
 		return log;
 	}
 
+	/**Ures vagonkep betoltese**/
 	public void emptyCab(){
 		switch (type) {
 		case "E":
@@ -321,7 +338,7 @@ class TrainBlock {
 			break;
 		}
 	}
-	
+	/**Teli vagokep betoltese**/
 	public void fillCab(){
 		switch (type) {
 		case "E":

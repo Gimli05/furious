@@ -11,11 +11,16 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+/**Hangok lejatszasaert felelos osztaly**/
 public class SoundManager {
+	/**Hatterzene**/
 	private static Clip backgroundMusic;
+	/**Zakatolas**/
 	private static Clip trainSound;
+	/**Liftes zene**/
 	private static Clip menuSound;
 
+	/**Elinditja a menu zenet loopolva*/
 	public static void playMenuMusic() {
 		AudioInputStream ais = null;
 		try {
@@ -35,6 +40,7 @@ public class SoundManager {
 		}
 	}
 	
+	/**Elinditja a hatter zenet loopolva*/
 	public static void playBackgroundMusic() {
 		AudioInputStream ais = null;
 		try {
@@ -54,6 +60,7 @@ public class SoundManager {
 		}
 	}
 	
+	/**Elinditja a zakatolast loopolva*/
 	public static void playTrainSound() {
 		AudioInputStream ais = null;
 		try {
@@ -74,28 +81,29 @@ public class SoundManager {
 			System.out.println(e.getClass());
 		}
 	}
-
+	/**Megallitja a hatter zenet loopolva*/
 	public static void stopBackgroundMusic() {
 		backgroundMusic.stop();
 		backgroundMusic.close();
 	}
-
+	/**Megallitja a zakatolast loopolva*/
 	public static void stopTrainSound() {
 		trainSound.stop();
 		trainSound.close();
 	}
-	
+	/**Megallitja a menu zenet loopolva*/
 	public static void stopMenuMusic() {
 		menuSound.stop();
 		menuSound.close();
 	}
-	
+	/**Megadja az adott zene hosszat masodpercben*/
 	public static double durationInSeconds(AudioInputStream audioInputStream) {
 		AudioFormat format = audioInputStream.getFormat();
 		long frames = audioInputStream.getFrameLength();
 		return (frames + 0.0) / format.getFrameRate();
 	}
 
+	/**Elinditja a megadott nevu hangfajlt**/
 	public static void playSound(final String Name) {
 		Thread sound = new Thread() {
 			String name=Name;

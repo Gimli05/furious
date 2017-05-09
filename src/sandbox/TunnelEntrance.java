@@ -106,7 +106,7 @@ public class TunnelEntrance extends Switch{
 						n3 = oneNeighbourRail;
 				}
 			}
-			
+			/*A Valtonal megismert metodus*/
 			//Függöleges tagozodás
 			if (np.getX() == n2.getX()) {
 				if (n3.getX() > n2.getX()) {

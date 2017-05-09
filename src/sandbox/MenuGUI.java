@@ -10,22 +10,35 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+/**
+ * A menu megjeleniteseert felelos Jpanel
+ * @author Long
+ *
+ */
+
 public class MenuGUI extends JPanel {
+	/**Szelesseg  es magassag pixelben**/
 	public static int WIDTH = 800;
 	public static int HEIGHT = 475;
 
+	/**Renderelo szal, ket render kozotti ido es sajat pointer**/
 	private static MenuGUI menuGui;
 	private static long renderTime = 50;
 	private static Thread renderThread;
 
+	/**Fut e meg a menu**/
 	private static boolean running;
 
+	/**Kattintas figyelo es valtoasokat jegyzo szoveg**/
 	private static MouseListener MyMouseListener;
 	private static String clickLog;
 	
+	/**Jelzi hogy ha a manenu meg aktiv**/
 	private static boolean inLevelSelect;
 
+	/**Konstruktor**/
 	public MenuGUI() {
+		/*Ha incializaljuk akkor a menut hasznaéjuk eppen, kezdo adatokat allitunk*/
 		running = false;
 		inLevelSelect=false;
 		menuGui = this;
@@ -56,12 +69,15 @@ public class MenuGUI extends JPanel {
 			}
 		};
 
+		/*Megadjuk a kttintas kezelot es a meretet*/
 		this.addMouseListener(MyMouseListener);
 		this.setPreferredSize(new Dimension(GUI.FRAMEWIDTH, GUI.FRAMEHEIGHT));
 		
 	}
 
+	/**Kirajzoljuk a menut**/
 	public void drawMenu(Graphics g){
+		/*Ha a menuben vagyunk akkor a menu kepet rajzoljk ki*/
 		String filename = "Menu.png";
 		if(inLevelSelect)filename="Levels.png";
 		try {
@@ -72,11 +88,13 @@ public class MenuGUI extends JPanel {
 		}
 	}
 	
+	/**Megallitjuk a kirahzolast*/
 	public void stopRender() {
 		SoundManager.stopMenuMusic();
 		running = false;
 	}
 	
+	/**Elindtijuk a kirahzolast**/
 	public void startRender() {
 		running = true;
 		renderThread = new mainMenuRenderThread();
@@ -84,6 +102,7 @@ public class MenuGUI extends JPanel {
 		SoundManager.playMenuMusic();
 	}
 	
+	/**A kattintasi gelyeket felirjuk**/
 	private static void writeClickLog(int x, int y, boolean btn) {
 		if (clickLog == "") {
 			clickLog += x + "," + y + "," + (btn == false ? 0 : 1);
@@ -93,19 +112,23 @@ public class MenuGUI extends JPanel {
 
 	}
 
+	/**LE lehet kerni a kattintasi helyeket**/
 	public String getClickLog() {
 		String ret = clickLog;
 		clickLog = "";
 		return ret;
 	}
 
+	/**Kirajzolas**/
 	public void paintComponent(Graphics g) {
 		drawMenu(g);
 	}
 
+	/**Fo rajzolo szal inditasa**/
 	private static class mainMenuRenderThread extends Thread {
 		@Override
 		public void run() {
+			/*Amig a menu aktiv csinaljuk*/
 			while (running) {
 				try {
 					menuGui.repaint();
@@ -117,7 +140,10 @@ public class MenuGUI extends JPanel {
 		}
 	}
 	
-	public int getClickedItem(int x, int y) {
+	/**Lekerjuk a kattintott elem indexet**/
+	public int getClickedItem(int x, int y) 
+	{
+		/*A poziciokat fix koordinatakhoz kotottuk*/
 		if(!inLevelSelect){
 			if(x>192 && x<610){
 				if(y>40 && y<90)return 1; //Start
@@ -129,9 +155,8 @@ public class MenuGUI extends JPanel {
 				}
 				if(y>215 && y<265)return 3; //Exit
 			}
-		}else{
-			//LevelSelect
 		}
+
 		return 0;
 	}
 

@@ -62,11 +62,13 @@ public class Switch extends Rail {
 				+ "\t A következö sín."); /*
 											 * Kiíratás a Szkeleton vezérlésének
 											 */
+		
+		/*a szomszedos sineket tarolja*/
 		Rail np = trainPreviousRail;
 		Rail n2 = null;
 		Rail n3 = null;
 		
-		
+		/*Beallitjuk a segedvaltozokat*/
 		for (Rail oneNeighbourRail : neighbourRails) {
 			if (trainPreviousRail != oneNeighbourRail) {
 				if (n2 == null)
@@ -75,8 +77,12 @@ public class Switch extends Rail {
 					n3 = oneNeighbourRail;
 			}
 		}
+		/*A szoszedos sinek allasat 8 esetre tagoltuk*/
+		/*Ezen esetekben figyelembe vesszuk az erkezo sineket és a kapcsolo allasat*/
+		/*A lenyeg hogy determinizaljuk a szomszedoktol fuggoen hogy melyik  kovetkezo sin*/
+		/*Ez itt geometria*/
 		
-		//Függöleges tagozodás
+		/*Függöleges tagozodás*/
 		if (np.getX() == n2.getX()) {
 			if (n3.getX() > n2.getX()) {
 				if (!state) {
@@ -124,7 +130,7 @@ public class Switch extends Rail {
 				}
 			}
 		}
-		//vizszintes tagozodás
+		/*vizszintes tagozodás*/
 		if (np.getY() == n2.getY()) {
 			if (n3.getY() < n2.getY()) {
 				if (!state) {
@@ -176,7 +182,8 @@ public class Switch extends Rail {
 		
 		return null;
 	}
-
+	
+	/**Lekerdezzuk a valto alasat**/
 	public boolean getState() {
 		return state;
 	}

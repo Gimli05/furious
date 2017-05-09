@@ -53,16 +53,26 @@ public class GameController {
 	private static GUI gui; 
 	/**A jatekot vezerli**/
 	private static Thread mainThread;
+	/**Kattintasokat kezel**/
 	private static Thread controllThread;
+	/**A vonat egyik blokkrol a masikra lepteteseig eltelo ido**/
 	private static int STEPTIME = 1000;
+	/**A jatek a kovetkezo leptetesen veget er e**/
 	private static boolean fail = false;
+	/**Szukseg van e meg a kattintasok kezelesere**/
 	private static boolean stopControll = false;
+	/**A jatek futasi sebessege**/
 	private static int speed = 2;
+	/**Hany kepkockaban er at az egyik blokkrol a masikra**/
 	private static int stepParts = 20;
+	/**A palya teljesitese utan lepjunk e a kovetkezore**/
 	private static boolean continueLevels = false;
+	/**hanyadik palya a jelenlegi**/
 	private static int levelCounter = 1;
 
+	/**A menetrendi vonatokat tarolja, ebben keresunk**/
 	private static String scheduledTrains;
+	/**A voantok indulasat kezeli**/
 	private static int trainScheduleTimer;
 	// LOOOOOOOOOOOOONG
 
@@ -1297,10 +1307,11 @@ public class GameController {
 	}
 
 	// Long
+	/**Elinditja fo jatekkezelo szalat***/
 	private static void startMainThread() {
 		mainThread = new Thread() {
 			public void run() {
-				// Start events
+				/*Inicializalja a UI-t es lejatsza a kezdesi hangokat, animaciot*/
 				gui.getGameView().addAnimation(GameGUI.BOARDWIDTH / 2, GameGUI.BOARDHEIGHT / 2, "321GO");
 				sleepTime(1400);
 				gui.getGameView().paintTrain();
@@ -1309,6 +1320,7 @@ public class GameController {
 				/*Fix*/
 				ClickHandler(0,0,0);
 				
+				/*Egy palya fo szala indul*/
 				while (isTheGameRunning) {
 					/*Cs�kkentj�k a sinek vagonsz�m�t */
 					for (Rail oneRail : railCollection) { 
@@ -1321,23 +1333,29 @@ public class GameController {
 						scheduleTrains();
 						trainScheduleTimer++;
 					}
-
+					
+					/*Leptetünk egyet a vonatokon*/
 					trainCollection.moveAllTrains();
 
+					/*Jelezzuk a UInak*/
 					gui.getGameView().moveAllTrain(trainCollection.getNextCoords());
 					gui.getGameView().setCabStates(trainCollection.getCabStates());
 
+					/*Ha lefutottunk a sinrol akkor vége*/
 					if (fail) {
 						trainCollection.moveAllTrains();
+						/*Ha pont akkor futunk le mikor mindenki leszall akkor EPIC*/
 						if (hasTheGameEnded()) {
 							ultimateWinEvent();
 						} else {
+							/*Ha nem akkor vesztünk*/
 							loseEvent();
 						}
 					} else if (hasTheGameEnded()) {
+						/*Ha mindneki leszalt nyertunk*/
 						winEvent();
 					}
-
+					/*a UI-t vegigleptetjük*/
 					for (int j = 0; j < stepParts; j++) {
 						gui.getGameView().updateTime(j * STEPTIME / stepParts);
 						sleepTime(STEPTIME / stepParts / speed);
@@ -1345,6 +1363,7 @@ public class GameController {
 				}
 			}
 		};
+		/*inditjuk a palyat*/
 		mainThread.start();
 		gui.getGameView().startRender();
 		SoundManager.playBackgroundMusic();
@@ -1369,30 +1388,36 @@ public class GameController {
 		controllThread.start();
 	}
 
+	/**A GUI kattintasait elolvassa es evegzi**/
 	private static void doGuiClickLogAction(String log) {
+		/*Ha nem volt kattintas**/
 		if (log == null || log.equals(""))
 			return;
 		String changedTiles[];
+		/*Felbontjuk a kattintasokat**/
 		if (log.contains(";")) {
 			changedTiles = log.split(";");
 
 		} else {
+			/*Ha csak egy kattintas volt kulon kezeljuk*/
 			changedTiles = new String[1];
 			changedTiles[0] = log;
 		}
-
+		/*Ha tobb akkor vegig iteralunk*/
 		for (String change : changedTiles) {
 			String coords[] = change.split(",");
 			ClickHandler(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]), Integer.parseInt(coords[2]));
 		}
 
 	}
-
+	/**Jelzi ha veget fog erni a jatek**/
 	public static void failIntent() {
 		fail = true;
 	}
-
+	
+	/**Megnezi hogy minden allomasrol feszaltak  az utasok**/
 	private static boolean allStationsEmpty() {
+		/*Vegig iteralunk rajtuk es ha valahol vannak meg akkor igazzal terunk vissza*/
 		for (Rail rail : railCollection) {
 			try {
 				TrainStation station = (TrainStation) rail;
@@ -1405,7 +1430,9 @@ public class GameController {
 		return true;
 	}
 
+	/** Volt e vagon aki most meg alagutban tartozkodik*/
 	private static boolean wasTrainInTunnel() {
+		/*Ha barmelyik alagutelem fogalalt akkor volt*/
 		for (Rail rail : railCollection) {
 			try {
 				Tunnel tunnel = (Tunnel) rail;
@@ -1419,13 +1446,16 @@ public class GameController {
 		return false;
 	}
 
+	/**Epic Win eseten hiodik meg**/
 	private static void ultimateWinEvent() {
+		/*LEjatsza ahnagokat es megallitja a jatekot*/
 		SoundManager.stopTrainSound();
 		SoundManager.playSound("Epic");
 		gui.getGameView().addAnimation(GameGUI.BOARDWIDTH / 2, GameGUI.BOARDHEIGHT / 2, "Epic");
 		isTheGameRunning = false;
 	}
 
+	/**Varakoztatja a foszalat**/
 	private static void sleepTime(int time) {
 		try {
 			Thread.sleep(time);
@@ -1435,31 +1465,37 @@ public class GameController {
 		}
 	}
 
+	/**Veget ert e a jatekmenet**/
 	public static boolean sessionEnded() {
 		return sessionEnded();
 	}
 
+	/**Lezarja a jatekmenetet**/
 	private static void endGameSession() {
 		gui.getGameView().stopRender();
 		isTheGameRunning = false;
 	}
 
+	/**Elinditja a maneut**/
 	public static void showMenu() {
 		gui.setMenuView();
 		startControllThread();
 	}
 
+	/**Mesgnezi hoyg az adott idopillanatban a menetrend szerint erkezik e vonat**/
 	private static void scheduleTrains() {
+		/*Vegignezzuk a sztringet es amelyi kvonatjaink az adott pillanatban indulnak azokat belerakjuk amugy tovabb haladunk*/
 		String leftOver = "";
 		String separateTrains[] = scheduledTrains.split(";");
 		for (String train : separateTrains) {
 			String data[] = train.split(",");
 			try {
+				/*Ha most indulna*/
 				if (Integer.parseInt(data[1]) == trainScheduleTimer) {
 					addTrain(train);
 				} else {
+					/*Ha nem msot indul*/
 					leftOver += train+";";
-					System.out.println("L"+leftOver);
 				}
 			} catch (Exception e) {
 			}
@@ -1467,6 +1503,7 @@ public class GameController {
 		scheduledTrains = leftOver;
 	}
 
+	/**Vonatokat tud hozzaadni a palyazhoz**/
 	private static void addTrain(String trainData) {
 		ArrayList<Color> cabColors = new ArrayList<Color>();
 		Train newTrain = null;
